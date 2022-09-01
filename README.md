@@ -61,12 +61,13 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+A personal page where users can easily create diary-like entries arranged in a timeline to visually show their story.
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+* **Login**: Displays two text fields with the expectation of a valid email and password. Register button to enter the Sign-Up page. If login is   successful then the user arrives at the Timeline page.
+* **Sign-Up**: Displayes three text fields with the expectation of a unique email, valid password and repeat of the valid password. If registration is successful then they land in the login page. There is a button to enter the login page. 
+* **Timeline**: Within the Timeline page the user creates new entries by writing texts. They can also attach images or videos onto their entries. They may also edit or delete existing entries.
 
 ### Entity-Relationship (ER) Diagram
 
@@ -74,4 +75,3 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ## Teaser (MS3)
 
-![Teaser](./images/teaser.png)
