@@ -4,11 +4,11 @@ const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
-const userAccountModel = require('./models/userAccountModel');
+
 
 // Variables
-let mongoURI = process.env.MONGODB_URI || 'mongodb+srv://mathias:SxMoEvDZbhR6tuFz@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
-let port = process.env.PORT || 3000;
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
@@ -19,6 +19,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, 
     }
     console.log(`Connected to MongoDB with URI: ${mongoURI}`);
 });
+
 
 // Create Express app
 let app = express();
@@ -33,7 +34,7 @@ app.use(cors());
 
 // Import routes
 app.get('/api', function(req, res) {
-    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
+    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!wooooooo'});
 });
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
@@ -69,6 +70,26 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json(err_res);
 });
+
+
+//To generate a SHA-256 hash in Node.js using crypto:
+const { createHash } = require('crypto');
+
+function hash(string) {
+    return createHash('sha256').update(string).digest('hex');
+}
+
+//To generate a SHA-256 hash in the browser using SubtleCrypto:
+function hash(string) {
+    const utf8 = new TextEncoder().encode(string);
+    return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray
+            .map((bytes) => bytes.toString(16).padStart(2, '0'))
+            .join('');
+        return hashHex;
+    });
+}
 
 app.listen(port, function(err) {
     if (err) throw err;
