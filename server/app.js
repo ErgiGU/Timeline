@@ -74,22 +74,11 @@ app.use(function(err, req, res, next) {
 
 //To generate a SHA-256 hash in Node.js using crypto:
 const { createHash } = require('crypto');
-
-function hash(string) {
-    return createHash('sha256').update(string).digest('hex');
+    function hash(password,salt) {
+    let saltedPassword = password + salt;
+    return createHash('sha256').update(saltedPassword).digest('hex');
 }
 
-//To generate a SHA-256 hash in the browser using SubtleCrypto:
-function hash(string) {
-    const utf8 = new TextEncoder().encode(string);
-    return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray
-            .map((bytes) => bytes.toString(16).padStart(2, '0'))
-            .join('');
-        return hashHex;
-    });
-}
 
 app.listen(port, function(err) {
     if (err) throw err;
