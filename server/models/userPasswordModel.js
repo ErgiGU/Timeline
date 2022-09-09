@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userPasswordSchema = new Schema({
-    email: {
+    _id: {
         type: String,
+        ref: 'userAccount',
         required: true
     },
     salt: {
@@ -16,4 +17,4 @@ const userPasswordSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('userPasswordModel', userPasswordSchema);
+module.exports = mongoose.model('userPassword', userPasswordSchema);

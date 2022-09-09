@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const uuid = require('uuid');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
-
 
 // Variables
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';

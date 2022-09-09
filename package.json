@@ -11,6 +11,7 @@
     "node": "14.x"
   },
   "dependencies": {
-    "mongodb": "^4.9.1"
+    "mongodb": "^4.9.1",
+    "uuid": "^9.0.0"
   }
 }

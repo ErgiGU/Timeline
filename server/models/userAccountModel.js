@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userAccountSchema = new Schema({
-    id: {
-        type: Schema.Types.ObjectId,
-        required: true,
+    _id: {
+        type: String,
+        required: true
     },
     first_name: {
         type: String,
@@ -18,10 +18,10 @@ const userAccountSchema = new Schema({
         type: String,
         required: true
     },
-    dateOfBirth: {
+    date_of_birth: {
         type: Date,
         required: false
     }
 });
 
-module.exports = mongoose.model('userAccountModel', userAccountSchema);
+module.exports = mongoose.model('userAccount', userAccountSchema);
