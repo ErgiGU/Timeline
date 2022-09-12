@@ -5,12 +5,12 @@ const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
+const entryController = require("./controllers/entryController");
 
 // Variables
-//const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
-//const port = process.env.PORT || 3000;
-let mongoURI = process.env.MONGODB_URI || 'mongodb+srv://askan:20U8caKPqSplnCg2@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
-let port = process.env.PORT || 3000;
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+const port = process.env.PORT || 3000;
+
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
@@ -44,30 +44,11 @@ app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
 });
 
-/*app.get('/entry', function(req, res) {
-    const entry = new entryModel({
-        ID: "0",
-        location: "Sweden",
-        text : "Had a fun time in Gothenburg",
-        dates: {
-            edited : new Date().toISOString().slice(0,10),
-            date : new Date().toISOString().slice(0,10),
-            created : new Date().toISOString().slice(0,10),
-        },
-    })
-    res.json({'entry': entry});
-});
-
-app.post("/entry", function(req, res, next){
-    const entry = new entryModel(req.body);
-    if(err){return next(err);}
-    res.status(201).json(entry);
-});*/
 
 app.get('/camel', function (req, res) {
     res.send('Camel 1');
 });
-
+app.use(entryController);
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
 app.use(history());
@@ -92,6 +73,9 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json(err_res);
 });
+
+
+
 
 
 //To generate a SHA-256 hash in Node.js using crypto:

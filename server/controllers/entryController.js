@@ -1,14 +1,15 @@
-var express = require("express");
+const express = require("express");
 const entryModel = require("../models/entryModel");
-var router = express.Router();
+const router = express.Router();
+const uuid = require('uuid');
 
 // SEND BACK ALL ENTRIES
-router.get("/entry", function (req, res, next){
+/*router.get("/entry", function (req, res, next){
     entryModel.find(function(err, entry){
         if(err){return next(err);}
         res.json({"entry": entry});
     })
-});
+});*/
 
 //REGISTERS A FIXED ENTRY(TESTING PURPOSES)
 router.get('/entry', function(req, res) {
@@ -30,11 +31,11 @@ router.get('/entry', function(req, res) {
 });
 
 
-//CREATE A ENTRY
+//CREATE AN ENTRY
 router.post("/entry", function(req, res, next){
     //const entry = new entryModel(req.body);
     const entry = new entryModel({
-        ID: "0",
+        _id: uuid.v4(),
         location: "Sweden",
         text : "Had a fun time in Gothenburg",
         dates: {
@@ -43,7 +44,7 @@ router.post("/entry", function(req, res, next){
             created : new Date().toISOString().slice(0,10),
         }
     })
-    entry.save(function (err){
+    entry.save(function (err,entry){
         if(err){return next(err);}
         res.status(201).json(entry);
     });
