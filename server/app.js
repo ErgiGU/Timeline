@@ -7,8 +7,10 @@ const cors = require('cors');
 const history = require('connect-history-api-fallback');
 
 // Variables
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
-const port = process.env.PORT || 3000;
+//const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+//const port = process.env.PORT || 3000;
+let mongoURI = process.env.MONGODB_URI || 'mongodb+srv://askan:20U8caKPqSplnCg2@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
+let port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
@@ -34,13 +36,33 @@ app.use(cors());
 
 // Import routes
 app.get('/api', function(req, res) {
-    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!wooooooo'});
+    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
 });
+
+/*app.get('/entry', function(req, res) {
+    const entry = new entryModel({
+        ID: "0",
+        location: "Sweden",
+        text : "Had a fun time in Gothenburg",
+        dates: {
+            edited : new Date().toISOString().slice(0,10),
+            date : new Date().toISOString().slice(0,10),
+            created : new Date().toISOString().slice(0,10),
+        },
+    })
+    res.json({'entry': entry});
+});
+
+app.post("/entry", function(req, res, next){
+    const entry = new entryModel(req.body);
+    if(err){return next(err);}
+    res.status(201).json(entry);
+});*/
 
 app.get('/camel', function (req, res) {
     res.send('Camel 1');
