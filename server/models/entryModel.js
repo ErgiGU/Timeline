@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const entrySchema = new Schema({
-    ID: {
+    _id: {
         type: String,
         required: true
     },
