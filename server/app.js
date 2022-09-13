@@ -13,7 +13,8 @@ const userPasswordController = require("./controllers/userPasswordController");
 // Variables
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 const port = process.env.PORT || 3000;
-
+//let mongoURI = process.env.MONGODB_URI || 'mongodb+srv://askan:20U8caKPqSplnCg2@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
+//let port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
@@ -80,10 +81,6 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json(err_res);
 });
-
-
-
-
 
 //To generate a SHA-256 hash in Node.js using crypto:
 const { createHash } = require('crypto');

@@ -6,15 +6,13 @@ const uuid = require('uuid');
 
 //Creates the user account in the DB
 router.post("/userAccounts", function(req, res, next){
+    //const userAccount = new userAccountModel(req.body);
     const userAccount = new userAccountModel({
         _id: uuid.v4(),
-        location: "Sweden",
-        text : "Had a fun time in Gothenburg",
-        dates: {
-            edited : new Date().toISOString().slice(0,10),
-            date : new Date().toISOString().slice(0,10),
-            created : new Date().toISOString().slice(0,10),
-        }
+        first_name: "Greek",
+        surname: "God",
+        email: "ergiman@gmail.com",
+        date_of_birth: new Date().toISOString().slice(0,10)
     })
     userAccount.save(function (err,userAccount){
         if(err){return next(err);}
@@ -38,6 +36,7 @@ router.get('/userAccounts/:id', function(req, res, next) {
         if (userAccount === null) {
             return res.status(404).json({'message': 'User not found!'});
         }
+
         res.json(userAccount);
     });
 });
@@ -46,13 +45,17 @@ router.get('/userAccounts/:id', function(req, res, next) {
 router.put('/userAccounts/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
-    userAccountModel.findById(id, function(err, entry) {
+    userAccountModel.findById(id, function(err, userAccount) {
         if (err) { return next(err); }
-        if (entry == null) {
+        if (userAccount == null) {
             return res.status(404).json({"message": "User not found"});
         }
-        entry.save();
-        res.json(entry);
+        userAccount.first_name = req.body.first_name;
+        userAccount.surname = req.body.surname;
+        userAccount.email = req.body.email;
+        userAccount.date_of_birth = req.body.date_of_birth;
+        userAccount.save();
+        res.json(userAccount);
     });
 });
 
@@ -65,6 +68,10 @@ router.patch('/userAccounts/:id', function(req, res, next) {
             return res.status(404).json(
                 {"message": "User not found"});
         }
+        userAccount.first_name = (req.body.first_name||userAccount.first_name);
+        userAccount.surname = (req.body.surname||userAccount.surname);
+        userAccount.email = (req.body.email||userAccount.email);
+        userAccount.date_of_birth = (req.body.date_of_birth||userAccount.date_of_birth);
         userAccount.save();
         res.json(userAccount);
     });
@@ -89,8 +96,5 @@ router.delete('/userAccounts/:id', function(req, res, next) {
         res.json(userAccount);
     });
 });
-
-
-
 
 module.exports = router;

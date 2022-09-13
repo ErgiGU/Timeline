@@ -8,8 +8,13 @@ const uuid = require('uuid');
 router.post("/uploadedEntities", function(req, res, next){
     //const entry = new entryModel(req.body);
     const uploadedEntity = new uploadedEntitiesModel({
-
-    })
+        file:"C://Users//Naruto//AppData//Roaming//Microsoft//Windows//Start Menu//Programs//Discord Inc",
+        entryID: "empty_for_now",
+        metadata:[{
+            filename:"Discord",
+            location:"Africa"
+        }]
+    });
     uploadedEntity.save(function (err,uploadedEntity){
         if(err){return next(err);}
         res.status(201).json(uploadedEntity);
@@ -36,7 +41,7 @@ router.get('/uploadedEntities/:id', function(req, res, next) {
     });
 });
 
-//Replaces an entire uploaded entity
+//Do we need put/patch for uploaded entities.
 router.put('/uploadedEntities/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
@@ -50,7 +55,7 @@ router.put('/uploadedEntities/:id', function(req, res, next) {
     });
 });
 
-//Replaces specific attributes of an uploaded entity
+//Do we need put/patch for uploaded entities
 router.patch('/uploadedEntities/:id', function(req, res, next) {
     let id = req.params.id;
     uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
