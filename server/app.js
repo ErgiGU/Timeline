@@ -6,6 +6,9 @@ const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const entryController = require("./controllers/entryController");
+const uploadedEntitiesController = require("./controllers/uploadedEntitiesController");
+const userAccountController = require("./controllers/userAccountController");
+const userPasswordController = require("./controllers/userPasswordController");
 
 // Variables
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -49,6 +52,10 @@ app.get('/camel', function (req, res) {
     res.send('Camel 1');
 });
 app.use(entryController);
+app.use(uploadedEntitiesController);
+app.use(userAccountController);
+app.use(userPasswordController);
+
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
 app.use(history());

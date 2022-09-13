@@ -6,6 +6,11 @@ const entrySchema = new Schema({
         type: String,
         required: true
     },
+ /*   userID: {
+        type: String,
+        ref: 'userAccount',
+        required: true
+    },*/
     location: {
         type: String
     },
@@ -19,4 +24,4 @@ const entrySchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('entryModel', entrySchema);
+module.exports = mongoose.model('entry', entrySchema);

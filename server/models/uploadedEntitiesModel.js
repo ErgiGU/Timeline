@@ -6,6 +6,11 @@ const uploadedEntitiesSchema = new Schema({
         path: String,
         required: true
     },
+    entryID: {
+        type: String,
+        ref: 'entry',
+        required: true
+    },
     metadata:[{
         filename:{
             type: String,
