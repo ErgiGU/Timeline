@@ -71,7 +71,7 @@ A personal page where users can easily create diary-like entries arranged in a t
 
 ### Entity-Relationship (ER) Diagram
 
-![ER Diagram](./images/er_diagram.png)
+![ER Diagram](./images/ERdiagram2.0.png)
 
 ## Teaser (MS3)
 

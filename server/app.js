@@ -1,13 +1,18 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var path = require('path');
-var cors = require('cors');
-var history = require('connect-history-api-fallback');
+const express = require('express');
+const mongoose = require('mongoose');
+const uuid = require('uuid');
+const morgan = require('morgan');
+const path = require('path');
+const cors = require('cors');
+const history = require('connect-history-api-fallback');
+const entryController = require("./controllers/entryController");
+const uploadedEntitiesController = require("./controllers/uploadedEntitiesController");
+const userAccountController = require("./controllers/userAccountController");
+const userPasswordController = require("./controllers/userPasswordController");
 
 // Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
-var port = process.env.PORT || 3000;
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
+const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
@@ -19,8 +24,9 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, 
     console.log(`Connected to MongoDB with URI: ${mongoURI}`);
 });
 
+
 // Create Express app
-var app = express();
+let app = express();
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,6 +41,11 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
+app.use(entryController);
+app.use(uploadedEntitiesController);
+app.use(userAccountController);
+app.use(userPasswordController);
+
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
@@ -44,16 +55,16 @@ app.use('/api/*', function (req, res) {
 // Support Vuejs HTML 5 history mode
 app.use(history());
 // Serve static assets
-var root = path.normalize(__dirname + '/..');
-var client = path.join(root, 'client', 'dist');
+let root = path.normalize(__dirname + '/..');
+let client = path.join(root, 'client', 'dist');
 app.use(express.static(client));
 
 // Error handler (i.e., when exception is thrown) must be registered last
-var env = app.get('env');
+let env = app.get('env');
 // eslint-disable-next-line no-unused-vars
 app.use(function(err, req, res, next) {
     console.error(err.stack);
-    var err_res = {
+    let err_res = {
         'message': err.message,
         'error': {}
     };
@@ -64,6 +75,7 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.json(err_res);
 });
+
 
 app.listen(port, function(err) {
     if (err) throw err;
