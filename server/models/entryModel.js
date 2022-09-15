@@ -17,6 +17,12 @@ const entrySchema = new Schema({
         date : {type : Date},
         created : {type : Date},
     },
+    uploaded_entities_list:[{
+        uploaded_entities : {
+            type : String,
+            ref : "uploadedEntity"
+        }
+    }]
 });
 
 module.exports = mongoose.model('entry', entrySchema);

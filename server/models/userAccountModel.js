@@ -21,7 +21,13 @@ const userAccountSchema = new Schema({
     date_of_birth: {
         type: Date,
         required: false
-    }
+    },
+    entry_list:[{
+        entry : {
+            type : String,
+            ref : "entry"
+        }
+    }]
 });
 
 module.exports = mongoose.model('userAccount', userAccountSchema);

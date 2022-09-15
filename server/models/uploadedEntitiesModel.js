@@ -4,9 +4,6 @@ const Schema = mongoose.Schema;
 const uploadedEntitiesSchema = new Schema({
     file: {
         path: String,
-    }, entryID: {
-        type: String,
-        ref: 'entry',
     },
     metadata:[{
         filename:{

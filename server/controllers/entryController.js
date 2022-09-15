@@ -24,13 +24,19 @@ router.post("/api/entries", function(req, res, next) {
     });
 });
 
-// Gets all entries
-router.get("/api/entries", function (req, res, next) {
-    entryModel.find(function(err, entry) {
-        if (err) {
-            return next(err);
+//Get all entry or get all by filter if query
+router.get('/entries', function(req, res) {
+    let filter = req.query.text;
+    entryModel.find(function(err, entry){
+        if (filter){
+            res.json(entry.filter(function (e){
+                return filter === e.text;
+            }));
+        }else {
+            if(err){return next(err);}
+            res.json({"entries": entry});
+
         }
-        res.json({"entries": entry});
     })
 });
 
@@ -47,6 +53,8 @@ router.get('/api/entries/:id', function(req, res, next) {
         res.json(entry);
     });
 });
+
+
 
 //Replaces an entry
 router.put('/api/entries/:id', function(req, res, next) {
