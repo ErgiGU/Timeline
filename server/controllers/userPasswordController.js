@@ -2,11 +2,12 @@ const express = require("express");
 const userPasswordModel = require("../models/userPasswordModel");
 const router = express.Router();
 const uuid = require('uuid');
-const { createHash } = require('crypto');
+const crypto = require('crypto');
 
 //CREATE AN ENTRY
 router.post("/api/userPasswords", function(req, res, next) {
-    let generatedSalt = crypto.randomBytes(15).toString();
+    let generatedSalt = crypto.randomBytes(15).toString('hex');
+    console.log(generatedSalt);
     const userPassword = new userPasswordModel({
         _id: req.body.id,
         salt: generatedSalt,
@@ -100,7 +101,7 @@ router.delete('/api/userPasswords/:id', function(req, res, next) {
 /*This functions takes in the password that the user typed,
 it adds the salt to it(a random word) and hashes it using sha256 */
 function hashPassword(password) {
-    return createHash('sha256').update(password).digest('hex');
+    return crypto.createHash('sha256').update(password).digest('hex');
 }
 
 module.exports = router;
