@@ -53,9 +53,11 @@ router.put('/api/userPasswords/:id', function(req, res, next) {
         if (userPassword == null) {
             return res.status(404).json({"message": "User-password not found"});
         }
-        userPassword.hashedPassword = req.body.hashedPassword;
+        let generatedSalt = crypto.randomBytes(15).toString('hex');
+        userPassword.salt = generatedSalt;
+        userPassword.hashedPassword = hashPassword(req.body.hashedPassword + generatedSalt);
         userPassword.save();
-        res.json(userPassword);
+        res.status(201).json("User password updated.");
     });
 });
 
