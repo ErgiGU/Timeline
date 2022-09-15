@@ -6,12 +6,12 @@ const crypto = require('crypto');
 
 //CREATE AN ENTRY
 router.post("/api/userPasswords", function(req, res, next) {
+    let id = uuid.v4();
     let generatedSalt = crypto.randomBytes(15).toString('hex');
-    console.log(generatedSalt);
     const userPassword = new userPasswordModel({
-        _id: req.body.id,
+        _id: id,
         salt: generatedSalt,
-        hashedPassword: hashPassword(req.params.hashedPassword + generatedSalt)
+        hashedPassword: hashPassword(req.params.hashedPassword + generatedSalt),
     });
     userPassword.save(function (err,userPassword) {
         if (err) {

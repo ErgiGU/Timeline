@@ -27,7 +27,14 @@ const userAccountSchema = new Schema({
             type : String,
             ref : "entry"
         }
-    }]
+    }],
+    links:[
+        {
+            _id: 0,
+            rel:String,
+            href:String
+        }
+    ]
 });
 
 module.exports = mongoose.model('userAccount', userAccountSchema);

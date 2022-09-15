@@ -13,7 +13,13 @@ router.post("/api/uploadedEntities", function(req, res, next) {
         metadata:[{
             filename:"Discord",
             location:"Africa"
-        }]
+        }],
+        links:[
+            {
+                rel: "entries",
+                href: "http://localhost:3000/api/uploadedEntities/"
+            }
+        ]
     });
     uploadedEntity.save(function (err,uploadedEntity){
         if (err) {

@@ -6,19 +6,28 @@ const uuid = require('uuid');
 
 //Creates the user account in the DB
 router.post("/api/userAccounts", function(req, res, next) {
+    let id = uuid.v4();
     const userAccount = new userAccountModel({
-        _id: uuid.v4(),
+        _id: id,
         first_name: req.body.first_name,
         surname: req.body.surname,
         email: req.body.email,
-        date_of_birth: new Date().toISOString().slice(0,10)
+        date_of_birth: new Date().toISOString().slice(0,10),
+        links:[
+            {
+                rel: "self",
+                href: "http://localhost:3000/api/userAccounts/" + id
+            }
+        ]
     })
+
     userAccount.save(function (err,userAccount) {
         if (err) {
             return next(err);
         }
         res.status(201).json(userAccount);
     });
+
 });
 
 // Gets all the user accounts

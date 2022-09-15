@@ -22,7 +22,15 @@ const entrySchema = new Schema({
             type : String,
             ref : "uploadedEntity"
         }
-    }]
+    }],
+    links:[
+        {
+        _id: 0,
+        rel:String,
+        href:String
+        }
+    ]
+
 });
 
 module.exports = mongoose.model('entry', entrySchema);

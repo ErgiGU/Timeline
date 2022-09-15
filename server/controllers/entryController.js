@@ -6,15 +6,22 @@ const uuid = require('uuid');
 
 //Creates an entry
 router.post("/api/entries", function(req, res, next) {
+    let id = uuid.v4();
     const entry = new entryModel({
-        _id: uuid.v4(),
+        _id: id,
         location: req.body.location,
         text : req.body.text,
         dates: {
             edited : new Date().toISOString().slice(0,10),
             date : new Date().toISOString().slice(0,10),
             created : new Date().toISOString().slice(0,10),
-        }
+        },
+        links:[
+            {
+               rel: "users",
+               href: "http://localhost:3000/api/entries/" + id
+            }
+        ]
     })
     entry.save(function (err,entry) {
         if (err) {
@@ -25,7 +32,7 @@ router.post("/api/entries", function(req, res, next) {
 });
 
 //Get all entry or get all by filter if query
-router.get('/entries', function(req, res) {
+router.get('/api/entries', function(req, res) {
     let filter = req.query.text;
     entryModel.find(function(err, entry){
         if (filter){
