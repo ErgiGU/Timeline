@@ -34,15 +34,16 @@ router.post("/api/entries", function(req, res, next) {
 //Get all entry or get all by filter if query
 router.get('/api/entries', function(req, res) {
     let filter = req.query.text;
-    entryModel.find(function(err, entry){
-        if (filter){
-            res.json(entry.filter(function (e){
+    entryModel.find(function(err, entry) {
+        if (filter) {
+            res.json(entry.filter(function (e) {
                 return filter === e.text;
             }));
-        }else {
-            if(err){return next(err);}
+        } else {
+            if (err) {
+                return next(err);
+            }
             res.json({"entries": entry});
-
         }
     })
 });
@@ -61,8 +62,6 @@ router.get('/api/entries/:id', function(req, res, next) {
     });
 });
 
-
-
 //Replaces an entry
 router.put('/api/entries/:id', function(req, res, next) {
     let id = req.params.id;
@@ -71,15 +70,17 @@ router.put('/api/entries/:id', function(req, res, next) {
         if (err) {
             return next(err);
         }
+        console.log("got here");
         if (entry == null) {
             return res.status(404).json({"message": "Entry not found"});
         }
+        console.log("got here");
         entry.text = req.body.text;
         entry.location = req.body.location;
         entry.dates.edited = new Date().toISOString().slice(0,10);
-        entry.dates.date = new Date(req.body.dates.date).toISOString().slice(0,10);
+        entry.dates.date = new Date().toISOString().slice(0,10);
         entry.save();
-        res.json(entry);
+        return res.status(201).json(entry);
     });
 });
 

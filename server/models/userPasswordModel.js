@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 const userPasswordSchema = new Schema({
     _id: {
         type: String,
-        ref: 'userAccount',
         required: true
     },
     salt: {

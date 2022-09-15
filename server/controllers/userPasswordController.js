@@ -6,12 +6,11 @@ const crypto = require('crypto');
 
 //CREATE AN ENTRY
 router.post("/api/userPasswords", function(req, res, next) {
-    let id = uuid.v4();
     let generatedSalt = crypto.randomBytes(15).toString('hex');
     const userPassword = new userPasswordModel({
-        _id: id,
+        _id: req.body.id,
         salt: generatedSalt,
-        hashedPassword: hashPassword(req.params.hashedPassword + generatedSalt),
+        hashedPassword: hashPassword(req.params.hashedPassword + generatedSalt)
     });
     userPassword.save(function (err,userPassword) {
         if (err) {
@@ -71,9 +70,18 @@ router.patch('/api/userPasswords/:id', function(req, res, next) {
                 {"message": "User-password not found"});
         }
         //Add the hashing and de-hashing
-        userPassword.hashedPassword = req.body.hashedPassword;
+        let password = "";
+
+        if (req.body.password !== "") {
+            password = req.body.password;
+        }
+
+        let generatedSalt = crypto.randomBytes(15).toString('hex');
+
+        userPassword.salt = generatedSalt;
+        userPassword.hashedPassword = hashPassword(password + generatedSalt)
         userPassword.save();
-        res.json(userPassword);
+        res.json("password updated.");
     });
 });
 
