@@ -5,7 +5,7 @@ const uuid = require('uuid');
 
 
 // Creates an uploaded entity in the DB when an image is uploaded
-router.post("/uploadedEntities", function(req, res, next){
+router.post("/api/uploadedEntities", function(req, res, next) {
     //const entry = new entryModel(req.body);
     const uploadedEntity = new uploadedEntitiesModel({
         file:"C://Users//Naruto//AppData//Roaming//Microsoft//Windows//Start Menu//Programs//Discord Inc",
@@ -16,24 +16,30 @@ router.post("/uploadedEntities", function(req, res, next){
         }]
     });
     uploadedEntity.save(function (err,uploadedEntity){
-        if(err){return next(err);}
+        if (err) {
+            return next(err);
+        }
         res.status(201).json(uploadedEntity);
     });
 });
 
 // Gets all the uploaded entities
-router.get("/uploadedEntities", function (req, res, next){
-    uploadedEntitiesModel.find(function(err, uploadedEntity){
-        if(err){return next(err);}
+router.get("/api/uploadedEntities", function (req, res, next) {
+    uploadedEntitiesModel.find(function(err, uploadedEntity) {
+        if (err) {
+            return next(err);
+        }
         res.json({"entries": uploadedEntity});
     })
 });
 
 // Gets a specific uploaded entity
-router.get('/uploadedEntities/:id', function(req, res, next) {
+router.get('/api/uploadedEntities/:id', function(req, res, next) {
     let id = req.params.id;
     uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (uploadedEntity === null) {
             return res.status(404).json({'message': 'Uploaded-entity not found!'});
         }
@@ -42,11 +48,13 @@ router.get('/uploadedEntities/:id', function(req, res, next) {
 });
 
 //Do we need put/patch for uploaded entities.
-router.put('/uploadedEntities/:id', function(req, res, next) {
+router.put('/api/uploadedEntities/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
     uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (uploadedEntity == null) {
             return res.status(404).json({"message": "Uploaded-entity not found"});
         }
@@ -56,10 +64,12 @@ router.put('/uploadedEntities/:id', function(req, res, next) {
 });
 
 //Do we need put/patch for uploaded entities
-router.patch('/uploadedEntities/:id', function(req, res, next) {
+router.patch('/api/uploadedEntities/:id', function(req, res, next) {
     let id = req.params.id;
     uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (uploadedEntity == null) {
             return res.status(404).json(
                 {"message": "uploaded-entity not found"});
@@ -70,26 +80,27 @@ router.patch('/uploadedEntities/:id', function(req, res, next) {
 });
 
 //Deletes all the uploaded entities
-router.delete('/uploadedEntities', function(req, res, next) {
+router.delete('/api/uploadedEntities', function(req, res, next) {
     uploadedEntitiesModel.deleteMany(function(err, uploadedEntity) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         res.json({'entries': uploadedEntity });
     });
 });
 
 //Deletes an uploaded entity
-router.delete('/uploadedEntities/:id', function(req, res, next) {
+router.delete('/api/uploadedEntities/:id', function(req, res, next) {
     let id = req.params.id;
     uploadedEntitiesModel.findOneAndDelete({_id: id}, function(err, uploadedEntity) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (uploadedEntity === null) {
             return res.status(404).json({'message': 'Uploaded-entity not found'});
         }
         res.json(uploadedEntity);
     });
 });
-
-
-
 
 module.exports = router;

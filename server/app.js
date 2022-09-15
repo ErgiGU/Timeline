@@ -43,19 +43,15 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
-// Catch all non-error handler for api (i.e., 404 Not Found)
-app.use('/api/*', function (req, res) {
-    res.status(404).json({ 'message': 'Not Found' });
-});
-
-
-app.get('/camel', function (req, res) {
-    res.send('Camel 1');
-});
 app.use(entryController);
 app.use(uploadedEntitiesController);
 app.use(userAccountController);
 app.use(userPasswordController);
+
+// Catch all non-error handler for api (i.e., 404 Not Found)
+app.use('/api/*', function (req, res) {
+    res.status(404).json({ 'message': 'Not Found' });
+});
 
 // Configuration for serving frontend in production mode
 // Support Vuejs HTML 5 history mode
@@ -84,7 +80,7 @@ app.use(function(err, req, res, next) {
 
 //To generate a SHA-256 hash in Node.js using crypto:
 const { createHash } = require('crypto');
-    function hash(password,salt) {
+function hash(password, salt) {
     let saltedPassword = password + salt;
     return createHash('sha256').update(saltedPassword).digest('hex');
 }

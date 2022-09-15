@@ -5,34 +5,37 @@ const uuid = require('uuid');
 
 
 //Creates the user account in the DB
-router.post("/userAccounts", function(req, res, next){
-    //const userAccount = new userAccountModel(req.body);
+router.post("/api/userAccounts", function(req, res, next) {
     const userAccount = new userAccountModel({
         _id: uuid.v4(),
-        first_name: "Greek",
-        surname: "God",
-        email: "ergiman@gmail.com",
+        first_name: req.body.first_name,
+        surname: req.body.surname,
+        email: req.body.email,
         date_of_birth: new Date().toISOString().slice(0,10)
     })
-    userAccount.save(function (err,userAccount){
-        if(err){return next(err);}
+    userAccount.save(function (err,userAccount) {
+        if (err) {
+            return next(err);
+        }
         res.status(201).json(userAccount);
     });
 });
 
 // Gets all the user accounts
-router.get("/userAccounts", function (req, res, next){
-    userAccountModel.find(function(err, userAccount){
+router.get("/api/userAccounts", function (req, res, next) {
+    userAccountModel.find(function(err, userAccount) {
         if(err){return next(err);}
         res.json({"users": userAccount});
     })
 });
 
 // Gets a user account
-router.get('/userAccounts/:id', function(req, res, next) {
+router.get('/api/userAccounts/:id', function(req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function(err, userAccount) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userAccount === null) {
             return res.status(404).json({'message': 'User not found!'});
         }
@@ -42,11 +45,13 @@ router.get('/userAccounts/:id', function(req, res, next) {
 });
 
 //I don't think we should have this for the user account
-router.put('/userAccounts/:id', function(req, res, next) {
+router.put('/api/userAccounts/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
     userAccountModel.findById(id, function(err, userAccount) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userAccount == null) {
             return res.status(404).json({"message": "User not found"});
         }
@@ -60,10 +65,12 @@ router.put('/userAccounts/:id', function(req, res, next) {
 });
 
 //Replaces specific attributes of the user account
-router.patch('/userAccounts/:id', function(req, res, next) {
+router.patch('/api/userAccounts/:id', function(req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function(err, userAccount) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userAccount == null) {
             return res.status(404).json(
                 {"message": "User not found"});
@@ -78,18 +85,22 @@ router.patch('/userAccounts/:id', function(req, res, next) {
 });
 
 //Deletes all user accounts
-router.delete('/userAccounts', function(req, res, next) {
+router.delete('/api/userAccounts', function(req, res, next) {
     userAccountModel.deleteMany(function(err, userAccount) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         res.json({'userAccounts': userAccount });
     });
 });
 
 //Deletes a user account
-router.delete('/userAccounts/:id', function(req, res, next) {
+router.delete('/api/userAccounts/:id', function(req, res, next) {
     let id = req.params.id;
     userAccountModel.findOneAndDelete({_id: id}, function(err, userAccount) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userAccount === null) {
             return res.status(404).json({'message': 'user not found'});
         }

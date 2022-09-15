@@ -6,11 +6,6 @@ const entrySchema = new Schema({
         type: String,
         required: true
     },
-    userID: {
-        type: String,
-        ref: 'userAccount',
-        required: true
-    },
     location: {
         type: String
     },

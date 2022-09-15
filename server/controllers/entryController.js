@@ -5,37 +5,42 @@ const uuid = require('uuid');
 
 
 //Creates an entry
-router.post("/entries", function(req, res, next){
-    //const entry = new entryModel(req.body);
+router.post("/api/entries", function(req, res, next) {
     const entry = new entryModel({
         _id: uuid.v4(),
-        location: "Sweden",
-        text : "Had a fun time in Gothenburg",
+        location: req.body.location,
+        text : req.body.text,
         dates: {
             edited : new Date().toISOString().slice(0,10),
             date : new Date().toISOString().slice(0,10),
             created : new Date().toISOString().slice(0,10),
         }
     })
-    entry.save(function (err,entry){
-        if(err){return next(err);}
+    entry.save(function (err,entry) {
+        if (err) {
+            return next(err);
+        }
         res.status(201).json(entry);
     });
 });
 
 // Gets all entries
-router.get("/entries", function (req, res, next){
-    entryModel.find(function(err, entry){
-        if(err){return next(err);}
+router.get("/api/entries", function (req, res, next) {
+    entryModel.find(function(err, entry) {
+        if (err) {
+            return next(err);
+        }
         res.json({"entries": entry});
     })
 });
 
 //Gets an entry
-router.get('/entries/:id', function(req, res, next) {
+router.get('/api/entries/:id', function(req, res, next) {
     let id = req.params.id;
     entryModel.findById(id, function(err, entry) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (entry === null) {
             return res.status(404).json({'message': 'Entry not found!'});
         }
@@ -44,11 +49,13 @@ router.get('/entries/:id', function(req, res, next) {
 });
 
 //Replaces an entry
-router.put('/entries/:id', function(req, res, next) {
+router.put('/api/entries/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
     entryModel.findById(id, function(err, entry) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (entry == null) {
             return res.status(404).json({"message": "Entry not found"});
         }
@@ -62,10 +69,12 @@ router.put('/entries/:id', function(req, res, next) {
 });
 
 //Replaces specific attributes of an entry(text, date etc.)
-router.patch('/entries/:id', function(req, res, next) {
+router.patch('/api/entries/:id', function(req, res, next) {
     let id = req.params.id;
     entryModel.findById(id, function(err, entry) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (entry == null) {
             return res.status(404).json(
                 {"message": "Entry not found"});
@@ -80,17 +89,21 @@ router.patch('/entries/:id', function(req, res, next) {
 });
 
 //Deletes all entries
-router.delete('/entries', function(req, res, next) {
+router.delete('/api/entries', function(req, res, next) {
     entryModel.deleteMany(function(err, entry) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         res.json({'entries': entry });
     });
 });
 //Deletes an entry
-router.delete('/entries/:id', function(req, res, next) {
+router.delete('/api/entries/:id', function(req, res, next) {
     let id = req.params.id;
     entryModel.findOneAndDelete({_id: id}, function(err, entry) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (entry === null) {
             return res.status(404).json({'message': 'Entry not found'});
         }

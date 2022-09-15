@@ -5,42 +5,50 @@ const uuid = require('uuid');
 
 
 //CREATE AN ENTRY
-router.post("/userPasswords", function(req, res, next){
+router.post("/api/userPasswords", function(req, res, next) {
     //const userPassword = new userPasswordModel(req.body);
     const userPassword = new userPasswordModel({
         _id: uuid.v4(),
         salt: "apple",
         hashedPassword: "applepie224"
     })
-    userPassword.save(function (err,userPassword){
-        if(err){return next(err);}
+    userPassword.save(function (err,userPassword) {
+        if (err) {
+            return next(err);
+        }
         res.status(201).json(userPassword);
     });
 });
 
 // SEND BACK ALL ENTRIES
-router.get("/userPasswords", function (req, res, next){
-    userPasswordModel.find(function(err, userPassword){
-        if(err){return next(err);}
+router.get("/api/userPasswords", function (req, res, next) {
+    userPasswordModel.find(function(err, userPassword) {
+        if (err) {
+            return next(err);
+        }
         res.json({"User Passwords": userPassword});
     })
 });
 
-router.get('/userPasswords/:id', function(req, res, next) {
+router.get('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
     userPasswordModel.findById(id, function(err, userPassword) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userPassword === null) {
             return res.status(404).json({'message': 'User-password not found!'});
         }
         res.json(userPassword);
     });
 });
-router.put('/userPasswords/:id', function(req, res, next) {
+router.put('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
     userPasswordModel.findById(id, function(err, userPassword) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userPassword == null) {
             return res.status(404).json({"message": "User-password not found"});
         }
@@ -50,10 +58,12 @@ router.put('/userPasswords/:id', function(req, res, next) {
     });
 });
 
-router.patch('/userPasswords/:id', function(req, res, next) {
+router.patch('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
     userPasswordModel.findById(id, function(err, userPassword) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userPassword == null) {
             return res.status(404).json(
                 {"message": "User-password not found"});
@@ -65,25 +75,24 @@ router.patch('/userPasswords/:id', function(req, res, next) {
     });
 });
 
-router.delete('/userPasswords', function(req, res, next) {
+router.delete('/api/userPasswords', function(req, res, next) {
     userPasswordModel.deleteMany(function(err, userPassword) {
         if (err) { return next(err); }
         res.json({'User-password': userPassword });
     });
 });
 
-router.delete('/userPasswords/:id', function(req, res, next) {
+router.delete('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
     userPasswordModel.findOneAndDelete({_id: id}, function(err, userPassword) {
-        if (err) { return next(err); }
+        if (err) {
+            return next(err);
+        }
         if (userPassword === null) {
             return res.status(404).json({'message': 'User-password not found'});
         }
         res.json(userPassword);
     });
 });
-
-
-
 
 module.exports = router;
