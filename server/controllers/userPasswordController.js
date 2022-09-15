@@ -4,12 +4,11 @@ const router = express.Router();
 const uuid = require('uuid');
 const { createHash } = require('crypto');
 
-
 //CREATE AN ENTRY
 router.post("/api/userPasswords", function(req, res, next) {
     let generatedSalt = crypto.randomBytes(15).toString();
     const userPassword = new userPasswordModel({
-        _id: uuid.v4(),
+        _id: req.body.id,
         salt: generatedSalt,
         hashedPassword: hashPassword(req.params.hashedPassword + generatedSalt)
     });
@@ -43,6 +42,7 @@ router.get('/api/userPasswords/:id', function(req, res, next) {
         res.json(userPassword);
     });
 });
+
 router.put('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
