@@ -35,7 +35,19 @@ router.get("/api/userAccounts", function (req, res, next) {
     userAccountModel.find(function(err, userAccount) {
         if(err){return next(err);}
         res.json({"users": userAccount});
+
     })
+});
+
+router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
+    userAccountModel.findById(req.params.id, { entries: 1 })
+        .populate("entry_list")
+        .exec((err, userAccounts) => {
+            if (err) {
+                return res.status(400).send(err);
+            }
+            return res.status(200).json(userAccounts.entry_list);
+        });
 });
 
 // Gets a user account
@@ -69,7 +81,7 @@ router.put('/api/userAccounts/:id', function(req, res, next) {
         userAccount.email = req.body.email;
         userAccount.date_of_birth = req.body.date_of_birth;
         userAccount.save();
-        res.json(userAccount);
+        res.status(201).json(userAccount);
     });
 });
 
@@ -84,10 +96,17 @@ router.patch('/api/userAccounts/:id', function(req, res, next) {
             return res.status(404).json(
                 {"message": "User not found"});
         }
+
         userAccount.first_name = (req.body.first_name||userAccount.first_name);
         userAccount.surname = (req.body.surname||userAccount.surname);
         userAccount.email = (req.body.email||userAccount.email);
         userAccount.date_of_birth = (req.body.date_of_birth||userAccount.date_of_birth);
+        if(req.body.entry_list){
+            console.log(req.body.entry_list)
+            userAccount.entry_list.push(req.body.entry_list);
+            userAccount.populate("entry_list")
+        }
+        userAccount.find
         userAccount.save();
         res.json(userAccount);
     });

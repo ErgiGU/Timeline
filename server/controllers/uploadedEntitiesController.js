@@ -35,7 +35,7 @@ router.get("/api/uploadedEntities", function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.json({"entries": uploadedEntity});
+        res.json({"uploadedEntities": uploadedEntity});
     })
 });
 

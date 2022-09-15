@@ -23,10 +23,8 @@ const userAccountSchema = new Schema({
         required: false
     },
     entry_list:[{
-        entry : {
-            type : String,
-            ref : "entry"
-        }
+        type : String,
+        ref : "entry"
     }],
     links:[
         {

@@ -17,8 +17,12 @@ const entrySchema = new Schema({
         date : {type : Date},
         created : {type : Date},
     },
+    user: {
+        type: String,
+        ref: "userAccount"
+    },
     uploaded_entities_list:[{
-        uploaded_entities : {
+        uploaded_entity : {
             type : String,
             ref : "uploadedEntity"
         }
