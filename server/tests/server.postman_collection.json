@@ -20,6 +20,21 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"entry_1\", jsonData._id);\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -60,6 +75,21 @@
 							"script": {
 								"exec": [
 									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"entry_2\", jsonData._id);\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -106,6 +136,21 @@
 								],
 								"type": "text/javascript"
 							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"test_user\", jsonData._id);\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
 					"request": {
@@ -137,6 +182,95 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST /uploadedEntities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"uploaded_entity\", jsonData._id);\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{host/api}}/uploadedEntities",
+							"host": [
+								"{{host/api}}"
+							],
+							"path": [
+								"uploadedEntities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /userPasswords",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{test_user}}\",\r\n    \"password\": \"lettuce\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host/api}}/userPasswords",
+							"host": [
+								"{{host/api}}"
+							],
+							"path": [
+								"userPasswords"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -155,11 +289,10 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"\r",
+									"//Expected response format\r",
 									"const jsonData = pm.response.json();\r",
 									"pm.test(\"Test data types and format of the response\", function() {\r",
 									"    pm.expect(jsonData).to.be.an(\"object\");\r",
-									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -213,8 +346,14 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -262,8 +401,14 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -293,8 +438,14 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -324,8 +475,14 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -334,159 +491,6 @@
 					],
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host/api}}/uploadedEntities",
-							"host": [
-								"{{host/api}}"
-							],
-							"path": [
-								"uploadedEntities"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "POST",
-			"item": [
-				{
-					"name": "POST /entries",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host/api}}/entries",
-							"host": [
-								"{{host/api}}"
-							],
-							"path": [
-								"entries"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /userAccounts",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{host/api}}/userAccounts",
-							"host": [
-								"{{host/api}}"
-							],
-							"path": [
-								"userAccounts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /userPasswords",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{host/api}}/userPasswords",
-							"host": [
-								"{{host/api}}"
-							],
-							"path": [
-								"userPasswords"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /uploadedEntities",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
 						"header": [],
 						"url": {
 							"raw": "{{host/api}}/uploadedEntities",
@@ -522,8 +526,13 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Text patched\", function() {\r",
+									"    pm.expect(jsonData.text).to.be.equal(\"Decided to paraglide instead.\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -541,7 +550,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"text\": \"Decided to paraglide instead.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -549,12 +558,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries",
+							"raw": "{{host/api}}/entries/{{entry_1}}",
 							"host": [
 								"{{host/api}}"
 							],
 							"path": [
-								"entries"
+								"entries",
+								"{{entry_1}}"
 							]
 						}
 					},
@@ -568,8 +578,13 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Surname patched\", function() {\r",
+									"    pm.expect(jsonData.surname).to.be.equal(\"Poindexter\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -579,13 +594,23 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"surname\": \"Poindexter\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host/api}}/userAccounts",
+							"raw": "{{host/api}}/userAccounts/{{test_user}}",
 							"host": [
 								"{{host/api}}"
 							],
 							"path": [
-								"userAccounts"
+								"userAccounts",
+								"{{test_user}}"
 							]
 						}
 					},
@@ -599,8 +624,13 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Password patched\", function() {\r",
+									"    pm.expect(jsonData).to.be.equal(\"password updated.\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -610,44 +640,23 @@
 					"request": {
 						"method": "PATCH",
 						"header": [],
-						"url": {
-							"raw": "{{host/api}}/userPasswords",
-							"host": [
-								"{{host/api}}"
-							],
-							"path": [
-								"userPasswords"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PATCH /uploadedEntities",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"inserttexthere\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
 							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
+						},
 						"url": {
-							"raw": "{{host/api}}/uploadedEntities",
+							"raw": "{{host/api}}/userPasswords/{{test_user}}",
 							"host": [
 								"{{host/api}}"
 							],
 							"path": [
-								"uploadedEntities"
+								"userPasswords",
+								"{{test_user}}"
 							]
 						}
 					},
@@ -677,6 +686,12 @@
 									"//Expected status code response\r",
 									"pm.test(\"Status code is 201\", function() {\r",
 									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Entry updated\", function() {\r",
+									"    pm.expect(jsonData.text).to.be.equal(\"Traveled for vacation.\");\r",
+									"    pm.expect(jsonData.location).to.be.equal(\"Korea\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -694,7 +709,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"text\": \"Traveled for vacation.\",\r\n    \"location\": \"Korea\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -702,12 +717,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries",
+							"raw": "{{host/api}}/entries/{{entry_2}}",
 							"host": [
 								"{{host/api}}"
 							],
 							"path": [
-								"entries"
+								"entries",
+								"{{entry_2}}"
 							]
 						}
 					},
@@ -723,6 +739,13 @@
 									"//Expected status code response\r",
 									"pm.test(\"Status code is 201\", function() {\r",
 									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Entry updated\", function() {\r",
+									"    pm.expect(jsonData.first_name).to.be.equal(\"Penny\");\r",
+									"    pm.expect(jsonData.surname).to.be.equal(\"Peterwhacker\");\r",
+									"    pm.expect(jsonData.email).to.be.equal(\"peterwhack@aol.com\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -732,13 +755,23 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Penny\",\r\n    \"surname\": \"Peterwhacker\",\r\n    \"email\": \"peterwhack@aol.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host/api}}/userAccounts",
+							"raw": "{{host/api}}/userAccounts/{{test_user}}",
 							"host": [
 								"{{host/api}}"
 							],
 							"path": [
-								"userAccounts"
+								"userAccounts",
+								"{{test_user}}"
 							]
 						}
 					},
@@ -754,6 +787,11 @@
 									"//Expected status code response\r",
 									"pm.test(\"Status code is 201\", function() {\r",
 									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"User password updated\", function() {\r",
+									"    pm.expect(jsonData).to.be.equal(\"User password updated.\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -763,44 +801,23 @@
 					"request": {
 						"method": "PUT",
 						"header": [],
-						"url": {
-							"raw": "{{host/api}}/userPasswords",
-							"host": [
-								"{{host/api}}"
-							],
-							"path": [
-								"userPasswords"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT /uploadedEntities",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"inserttexthere\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
 							}
-						}
-					],
-					"request": {
-						"method": "PUT",
-						"header": [],
+						},
 						"url": {
-							"raw": "{{host/api}}/uploadedEntities",
+							"raw": "{{host/api}}/userPasswords/{{test_user}}",
 							"host": [
 								"{{host/api}}"
 							],
 							"path": [
-								"uploadedEntities"
+								"userPasswords",
+								"{{test_user}}"
 							]
 						}
 					},
@@ -812,7 +829,7 @@
 			"name": "DELETE",
 			"item": [
 				{
-					"name": "GET /entries Copy 4",
+					"name": "DELETE /entries",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -828,19 +845,16 @@
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});"
 								],
 								"type": "text/javascript"
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Accept",
@@ -870,15 +884,15 @@
 					"response": []
 				},
 				{
-					"name": "GET /userAccounts Copy 4",
+					"name": "DELETE /userAccounts",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -886,7 +900,7 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "{{host/api}}/userAccounts",
@@ -901,15 +915,15 @@
 					"response": []
 				},
 				{
-					"name": "GET /userPasswords Copy 4",
+					"name": "DELETE /userPasswords",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -917,7 +931,7 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "{{host/api}}/userPasswords",
@@ -932,15 +946,15 @@
 					"response": []
 				},
 				{
-					"name": "GET /uploadedEntities Copy 4",
+					"name": "DELETE /uploadedEntities",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -948,7 +962,7 @@
 						}
 					],
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [],
 						"url": {
 							"raw": "{{host/api}}/uploadedEntities",
@@ -982,8 +996,7 @@
 				"exec": [
 					"// pm.test(\"Status code is 200\", function() {",
 					"//     pm.response.to.have.status(200);",
-					"// });",
-					""
+					"// });"
 				]
 			}
 		}
@@ -998,6 +1011,23 @@
 			"key": "host/api",
 			"value": "http://localhost:3000/api",
 			"type": "string"
+		},
+		{
+			"key": "test_user",
+			"value": "null",
+			"type": "string"
+		},
+		{
+			"key": "entry_1",
+			"value": ""
+		},
+		{
+			"key": "entry_2",
+			"value": ""
+		},
+		{
+			"key": "uploaded_entity",
+			"value": ""
 		}
 	]
 }

@@ -13,8 +13,6 @@ const userPasswordController = require("./controllers/userPasswordController");
 // Variables
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
 const port = process.env.PORT || 3000;
-//let mongoURI = process.env.MONGODB_URI || 'mongodb+srv://askan:20U8caKPqSplnCg2@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
-//let port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
