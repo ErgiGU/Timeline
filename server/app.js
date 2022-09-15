@@ -78,9 +78,13 @@ app.use(function(err, req, res, next) {
     res.json(err_res);
 });
 
+
 //To generate a SHA-256 hash in Node.js using crypto:
 const { createHash } = require('crypto');
-function hash(password, salt) {
+/*This functions takes in the password that the user typed,
+it adds the salt to it(a random word) and hashes it using sha256*/
+function hashAndSaltPassword(password) {
+    const salt = crypto.randomBytes(15).toString();
     let saltedPassword = password + salt;
     return createHash('sha256').update(saltedPassword).digest('hex');
 }
