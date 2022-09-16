@@ -33,11 +33,11 @@ router.post("/api/entries", function(req, res, next) {
 
 //Get all entry or get all by filter if query
 router.get('/api/entries', function(req, res) {
-    let filter = req.query.dates.date;
+    let filter = req.query.text;
     entryModel.find(function(err, entry) {
         if (filter) {
             res.json(entry.filter(function (e) {
-                return filter === e.dates.date;
+                return filter === e.text;
             }));
         } else {
             if (err) {
