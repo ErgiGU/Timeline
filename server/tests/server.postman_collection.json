@@ -56,9 +56,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries",
+							"raw": "{{host}}/entries",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"entries"
@@ -114,9 +114,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries",
+							"raw": "{{host}}/entries",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"entries"
@@ -172,9 +172,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/userAccounts",
+							"raw": "{{host}}/userAccounts",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userAccounts"
@@ -210,9 +210,9 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{host/api}}/uploadedEntities",
+							"raw": "{{host}}/uploadedEntities",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"uploadedEntities"
@@ -261,9 +261,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/userPasswords",
+							"raw": "{{host}}/userPasswords",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userPasswords"
@@ -318,12 +318,9 @@
 							}
 						],
 						"url": {
-							"raw": "{{host}}/api",
+							"raw": "{{host}}",
 							"host": [
 								"{{host}}"
-							],
-							"path": [
-								"api"
 							]
 						}
 					},
@@ -382,9 +379,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries",
+							"raw": "{{host}}/entries",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"entries"
@@ -419,9 +416,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host/api}}/userAccounts",
+							"raw": "{{host}}/userAccounts",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userAccounts"
@@ -456,9 +453,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host/api}}/userPasswords",
+							"raw": "{{host}}/userPasswords",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userPasswords"
@@ -493,9 +490,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host/api}}/uploadedEntities",
+							"raw": "{{host}}/uploadedEntities",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"uploadedEntities"
@@ -558,9 +555,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries/{{entry_1}}",
+							"raw": "{{host}}/entries/{{entry_1}}",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"entries",
@@ -604,9 +601,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/userAccounts/{{test_user}}",
+							"raw": "{{host}}/userAccounts/{{test_user}}",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userAccounts",
@@ -650,9 +647,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/userPasswords/{{test_user}}",
+							"raw": "{{host}}/userPasswords/{{test_user}}",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userPasswords",
@@ -717,9 +714,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries/{{entry_2}}",
+							"raw": "{{host}}/entries/{{entry_2}}",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"entries",
@@ -765,9 +762,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/userAccounts/{{test_user}}",
+							"raw": "{{host}}/userAccounts/{{test_user}}",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userAccounts",
@@ -811,9 +808,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/userPasswords/{{test_user}}",
+							"raw": "{{host}}/userPasswords/{{test_user}}",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userPasswords",
@@ -872,9 +869,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host/api}}/entries",
+							"raw": "{{host}}/entries",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"entries"
@@ -903,9 +900,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host/api}}/userAccounts",
+							"raw": "{{host}}/userAccounts",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userAccounts"
@@ -934,9 +931,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host/api}}/userPasswords",
+							"raw": "{{host}}/userPasswords",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"userPasswords"
@@ -965,9 +962,9 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host/api}}/uploadedEntities",
+							"raw": "{{host}}/uploadedEntities",
 							"host": [
-								"{{host/api}}"
+								"{{host}}"
 							],
 							"path": [
 								"uploadedEntities"
@@ -1004,11 +1001,6 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "http://localhost:3000",
-			"type": "string"
-		},
-		{
-			"key": "host/api",
 			"value": "http://localhost:3000/api",
 			"type": "string"
 		},
