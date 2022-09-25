@@ -22,6 +22,10 @@ const userAccountSchema = new Schema({
         type: Date,
         required: false
     },
+    profile_picture: {
+        type: Schema.Types.ObjectId,
+        ref : "uploadedEntity"
+    },
     entry_list:[{
         type : String,
         ref : "entry"
