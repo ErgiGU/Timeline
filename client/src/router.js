@@ -7,6 +7,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
+  // eslint-disable-next-line no-undef
   base: process.env.BASE_URL,
   routes: [
     {

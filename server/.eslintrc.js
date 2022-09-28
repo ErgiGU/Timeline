@@ -1,28 +1,21 @@
 module.exports = {
     "env": {
+        "es2021": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/vue3-essential"
+    ],
+    "overrides": [
+    ],
     "parserOptions": {
-        "ecmaVersion": 6
+        "ecmaVersion": "latest",
+        "sourceType": "module"
     },
+    "plugins": [
+        "vue"
+    ],
     "rules": {
-        "no-console": "off",
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ]
     }
-};  
+}
