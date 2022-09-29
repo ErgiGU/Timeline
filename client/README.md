@@ -17,7 +17,7 @@ This [Vue.js](https://vuejs.org/) template provides sample code how to connect t
 | [src/main.js](src/main.js) | Main JavaScript entry point | — |
 | [src/router.js](src/router.js) | Vue routes configuration | Register new routes/pages/views |
 | `src/views/` | Vue components that are separate pages/views | Add new routes/pages/views |
-| [src/views/Home.vue](src/views/Home.vue) | Home page/view | Replace with your home page/view |
+| [src/views/Home.vue](src/views/ExampleHome.vue) | Home page/view | Replace with your home page/view |
 | [package.json](package.json) | Project meta-information | —|
 | [vue.config.js](vue.config.js) | Vue configuration | — |
 
