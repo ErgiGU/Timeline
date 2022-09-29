@@ -136,4 +136,29 @@ router.delete('/api/userAccounts/:id', function(req, res, next) {
     });
 });
 
+router.get('/api/statistics/:id', function(req, res) {
+    let totalEntry;
+    let totalImages;
+    let words;
+    let averageWords;
+    userAccountModel.findOne({_id: userIdentity}, function(err, userAccount) {
+        userAccount.forEach((user) => {
+            totalEntry = user.entry_list.length
+
+            user.entry_list.forEach((entry) => {
+                totalImages = totalImages + entry.uploaded_entities_list.length
+                words.push(entry.text.split(" "))
+
+            })
+        })
+    })
+    averageWords = (words.length / totalEntry)
+    res.json({
+        'totalEntries': totalEntry,
+        'totalImages': totalImages,
+        'totalSize': 'NO DATA',
+        'averageWord': averageWords
+    });
+});
+
 module.exports = router;
