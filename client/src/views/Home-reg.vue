@@ -73,11 +73,11 @@
 
 <style>
 
+#registrationForm{
+  vertical-align: auto;
+}
 #topContainer{
   padding: 20px;
-}
-#registrationForm{
-  width: 500px;
 }
 Html, body{
   height:100vh;
@@ -87,10 +87,8 @@ Html, body{
   background-color:greenyellow;
   width: 600px;
   height: 700px;
-  padding-left: 50px;
-  padding-top: 50px;
-  padding-bottom: 50px;
   margin: auto;
+  padding: 50px;
   border-radius: 14px;
 }
 
