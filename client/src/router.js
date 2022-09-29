@@ -11,12 +11,12 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/ExampleHome',
       name: 'ExampleHome',
       component: ExampleHome
     },
     {
-      path: '/Home',
+      path: '/',
       name: 'Home',
       component: Home
     }
