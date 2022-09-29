@@ -38,8 +38,8 @@
 
           <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px">Sing Up</button>
 
-          <p class="text-center text-muted mt-3 mb-2">Already have an account?
-            <a href="#!" class="fw-bold text-body"> <u>Login here</u></a>
+          <p class="text-center mt-3 mb-2">Already have an account?
+            <router-link to="/" style="color: black">Login here</router-link>
           </p>
         </form>
       </div>
@@ -72,14 +72,10 @@
 
 <style>
 
-#registrationForm {
-  vertical-align: auto;
-}
-
 #rowContainer {
   height: 100%;
   padding: 10px;
-  margin: 10px;
+  margin: auto;
 }
 
 #registrationForm {
@@ -103,8 +99,4 @@ Html, body {
   border-radius: 14px;
 }
 
-#button1 {
-  background-color: cornflowerblue;
-  border-color: cornflowerblue;
-}
 </style>
