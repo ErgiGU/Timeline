@@ -75,9 +75,7 @@
 #registrationForm {
   vertical-align: auto;
 }
-#topContainer{
-  padding: 20px;
-}
+
 #rowContainer {
   height: 100%;
   padding: 10px;
@@ -102,7 +100,6 @@ Html, body {
   padding: 50px;
   height: 700px;
   margin: auto;
-  padding: 50px;
   border-radius: 14px;
 }
 
