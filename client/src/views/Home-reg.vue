@@ -86,6 +86,7 @@ Html, body{
   display:table-cell; vertical-align:middle;
   background-color:greenyellow;
   width: 600px;
+  height: 700px;
   padding-left: 50px;
   padding-top: 50px;
   padding-bottom: 50px;
