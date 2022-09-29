@@ -2,10 +2,10 @@
   <div>
     <b-button id="settingsButtons" variant="outline-light" v-b-modal.modal-1>Change User Information</b-button>
     <b-modal id="modal-1" centered title="Change User Information">
-      <div style="display: flex; justify-content: space-evenly;" >
+      <div style="display: flex; justify-content: space-evenly;">
         <div class="form-floating mb-4" style="font-size: small">
           <input type="text" class="form-control form-control-sm" id="firstName">
-         <label>First Name</label>
+          <label>First Name</label>
         </div>
         <div class="form-floating mb-4" style="font-size: small">
           <input type="text" class="form-control form-control-sm" id="lastName">
@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 
-#settingsButtons{
+#settingsButtons {
   font-size: 80%;
   width: 100%;
 }
