@@ -72,14 +72,9 @@
 
 <style>
 
-#registrationForm {
-  vertical-align: auto;
-}
-
 #rowContainer {
   height: 100%;
   padding: 10px;
-  margin: 10px;
 }
 
 #registrationForm {
