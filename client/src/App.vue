@@ -3,7 +3,7 @@
     <div id="nav">
       <router-link to="/">Timeline-Home</router-link>
       |
-      <router-link to="/home">Example-Home</router-link>
+      <router-link to="/ExampleHome">Example-Home</router-link>
     </div>
     <!-- Render the content of the current page view -->
     <router-view/>

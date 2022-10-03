@@ -1,13 +1,10 @@
 <template>
-  <div>
+  <div style=" display: flex;flex-wrap: nowrap">
     <div>
       <drop-down></drop-down>
     </div>
 
-    <div class="row">
-      <div class="col-2">
-        <!-- Enter sidebar here -->
-      </div>
+    <div class="row" style="width: 100%">
       <div class="col-10">
         <b-jumbotron header="Timeline">
           <b-button class="btn_message" variant="primary" @click="getEntries()">Get Message from Server</b-button>
