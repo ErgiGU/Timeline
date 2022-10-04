@@ -12,32 +12,29 @@
           <div id = "sidebarComponents" class="px-3 py-2 w-100 h-100" >
             <div style="display: flex; flex-direction: column; justify-content: center;">
               <b-img style="display: flex; align-self: center; border-radius: 50%; width: 70%" src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
-              <p>USERNAME</p>
+              <p>{{firstName}} {{surname}}</p>
             </div>
-            <div style="font-size: 80%;text-align: left;">
-              <p>Name: {{firstName}} {{surname}}</p>
+            <div style="font-size: 85%;text-align: left; font-weight: bold">
               <p>Email: {{email}}</p>
               <p>Date of Birth: {{dateBirth}}</p>
             </div>
             <div>
-              <div id="cardsStatistics" style="text-align: left; display:flex; flex-direction: column;" >
-                <p style="color: lightgrey" class="m-0">
-                  Total Entries: {{totalEntries}}<br>
-                  Average Word per Entry: {{averageWord}}<br>
-                  Total Images: {{totalImages}}<br>
-                  Total Size of Entries: {{totalSize}}
-                </p>
+              <div id="cardsStatistics" style="text-align: left; display:flex; flex-wrap: wrap; border-top: solid; border-bottom: solid; border-top-color: white">
+                <p class="statPart">Total Entries: {{totalEntries}}</p>
+                <p class="statPart">Average Word per Entry: {{averageWord}}</p>
+                <p class="statPart">Total Images: {{totalImages}}</p>
+                <p class="statPart">Total Size of Entries: {{totalSize}}</p>
               </div>
             </div>
             <div>
-              <b-button id = "settings" v-b-toggle.settingsCollapse variant="light" class = "w-100">
-                Settings <b-icon width="10px" rotate="180" icon="triangle-fill" aria-hidden="true"></b-icon>
+              <b-button id = "settings" v-b-toggle.settingsCollapse variant="light" class = "settings w-100" v-on:click="settingsButton()">
+                Settings &nbsp; <b-icon class="iconSettings" width="6px" rotate="180" icon="triangle-fill" aria-hidden="true"></b-icon>
               </b-button>
               <b-collapse id="settingsCollapse">
                 <div id="cardSettings" class="py-2">
                   <change-password></change-password>
                   <change-info></change-info>
-                  <b-button id="settingsButtons" variant="outline-danger">Delete User</b-button>
+                  <delete-user></delete-user>
                 </div>
               </b-collapse>
             </div>
@@ -58,12 +55,14 @@ import ChangeUserInfo from '@/components/ChangeUserInfo'
 import { Api } from '@/Api'
 import ChangePassword from '@/components/ChangePassword'
 import HamburgerIcon from '@/components/HamburgerIcon'
+import DeleteAccount from "@/components/DeleteAccount";
 
 export default {
   name: 'SideBar',
   components: {
     'change-info': ChangeUserInfo,
     'change-password': ChangePassword,
+    'delete-user': DeleteAccount,
     'burger-button': HamburgerIcon
   },
   data() {
@@ -72,13 +71,14 @@ export default {
       averageWord: 'NaN',
       totalImages: 'NaN',
       totalSize: 'NaN',
-      firstName: 'First Name',
+      firstName: 'First-Name',
       surname: 'Surname',
-      dateBirth: 'Date of Birth',
+      dateBirth: 'Date-of-Birth',
       email: 'Email',
       menuOpen: true,
       widthCollapse: 0,
-      heightCollapse: 0
+      heightCollapse: 0,
+      settingsOpen: false
     }
   },
   methods: {
@@ -121,6 +121,16 @@ export default {
         menuBtn.classList.remove('open')
         this.menuOpen = false
       }
+    },
+    settingsButton() {
+      const settings = document.querySelector('.settings')
+      if (!this.settingsOpen) {
+        settings.classList.add('open')
+        this.settingsOpen = true
+      } else {
+        settings.classList.remove('open')
+        this.settingsOpen = false
+      }
     }
   },
   mounted() {
@@ -134,6 +144,29 @@ export default {
 </script>
 
 <style scoped>
+
+* {
+  font-family: "Times New Roman", serif;
+}
+
+.statPart {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.settings {
+  transition: all .5s ease-in-out;
+}
+
+.iconSettings {
+  transition: all .5s ease-in-out;
+}
+
+.settings.open .iconSettings {
+  rotate: 180deg;
+}
 
 #cardsStatistics {
   font-size: 75%;

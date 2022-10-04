@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-button id="settingsButtons" variant="outline-light" v-b-modal.modal-1>Change User Information</b-button>
-    <b-modal id="modal-1" centered title="Change User Information">
+    <b-modal id="modal-1" centered title="Change User Information" hide-header-close>
       <div style="display: flex; justify-content: space-evenly;">
         <div class="form-floating mb-4" style="font-size: small">
           <input type="text" class="form-control form-control-sm" id="firstName">
@@ -19,18 +19,6 @@
       <div>
         <label for="dateOfBirth">Date of Birth</label>
         <input type="date" class="form-control" id="dateOfBirth">
-      </div>
-      <p>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-          Toggle width collapse
-        </button>
-      </p>
-      <div style="min-height: 120px;">
-        <div class="collapse collapse-horizontal" id="collapseWidthExample">
-          <div class="card card-body" style="width: 300px;">
-            This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
-          </div>
-        </div>
       </div>
     </b-modal>
   </div>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-button id="settingsButtons" v-b-modal.rePassword variant="outline-light">Reset Password</b-button>
-    <b-modal id="rePassword" centered title="Reset Password">
+    <b-modal id="rePassword" centered title="Reset Password" hide-header-close>
       <div style="display: flex; flex-direction: column">
         <div class="form-floating mb-4" style="font-size: small">
           <input type="password" class="form-control form-control-sm" id="oldPassword">
