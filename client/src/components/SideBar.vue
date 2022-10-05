@@ -10,8 +10,8 @@
             </div>
           </template>
           <div id = "sidebarComponents" class="px-3 py-2 w-100 h-100" >
-            <div style="display: flex; flex-direction: column; justify-content: center;">
-              <b-img style="display: flex; align-self: center; border-radius: 50%; width: 70%" src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <user-image style="width: 70%;"></user-image>
               <p>{{firstName}} {{surname}}</p>
             </div>
             <div style="font-size: 85%;text-align: left; font-weight: bold">
@@ -56,6 +56,7 @@ import { Api } from '@/Api'
 import ChangePassword from '@/components/ChangePassword'
 import HamburgerIcon from '@/components/HamburgerIcon'
 import DeleteAccount from "@/components/DeleteAccount";
+import UserImage from "@/components/UserImage";
 
 export default {
   name: 'SideBar',
@@ -63,7 +64,8 @@ export default {
     'change-info': ChangeUserInfo,
     'change-password': ChangePassword,
     'delete-user': DeleteAccount,
-    'burger-button': HamburgerIcon
+    'burger-button': HamburgerIcon,
+    'user-image': UserImage
   },
   data() {
     return {
@@ -108,9 +110,11 @@ export default {
     },
     getDimensions() {
       const container = document.getElementById('container')
-      this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
-      container.style.width = this.widthCollapse
-      console.log('this is the size' + container.style.width)
+      let changeWidth = document.getElementById('sidebar-1').clientWidth;
+      if (changeWidth!== 0){
+        this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
+        container.style.width = this.widthCollapse
+      }
     },
     menuButton() {
       const menuBtn = document.querySelector('.menu-btn')
