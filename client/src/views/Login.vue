@@ -55,12 +55,15 @@ Html, body {
 #parentContainer {
   vertical-align: middle;
   display: table-cell;
-  background-color: greenyellow;
   width: 600px;
   padding: 50px;
   height: 400px;
   margin: auto;
-  border-radius: 14px;
+  background-color: rgba(255,255,255,0.13);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 40px rgba(8,7,16,0.6);
 }
 
 
