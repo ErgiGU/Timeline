@@ -22,6 +22,10 @@ const userAccountSchema = new Schema({
         type: Date,
         required: false
     },
+    profile_picture: {
+        type: String,
+        required: false
+    },
     entry_list:[{
         type : String,
         ref : "entry"

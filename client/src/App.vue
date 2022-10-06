@@ -1,7 +1,5 @@
 <template>
-  <div class="container" id="app">
-    <div id="nav">
-    </div>
+  <div id="app">
     <!-- Render the content of the current page view -->
     <router-view/>
   </div>
@@ -9,11 +7,17 @@
 
 <style>
 #app {
+  height: 100vh;
+  background-color: #3b3b3b;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  background-color: #3b3b3b;
+  color: #d6d9e5;
+  overflow: hidden;
 }
 </style>
+
+<script>
+
+</script>

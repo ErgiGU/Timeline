@@ -7,11 +7,15 @@
     "postinstall": "npm install --prefix server && npm install --prefix client && npm install --only=dev --prefix client && npm run build --prefix client"
   },
   "engines": {
-    "npm": "6.x",
-    "node": "14.x"
+    "npm": "8.x",
+    "node": "16.x"
   },
   "dependencies": {
     "mongodb": "^4.9.1",
     "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-plugin-vue": "^9.6.0"
   }
 }

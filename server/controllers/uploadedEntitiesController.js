@@ -1,7 +1,6 @@
 const express = require("express");
 const uploadedEntitiesModel = require("../models/uploadedEntitiesModel");
 const router = express.Router();
-const uuid = require('uuid');
 
 
 // Creates an uploaded entity in the DB when an image is uploaded

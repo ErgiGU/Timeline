@@ -12,9 +12,9 @@ router.post("/api/entries", function(req, res, next) {
         location: req.body.location,
         text : req.body.text,
         dates: {
-            edited : new Date().toISOString().slice(0,10),
-            date : new Date().toISOString().slice(0,10),
-            created : new Date().toISOString().slice(0,10),
+            edited : new Date().toISOString(),
+            date : new Date().toISOString(),
+            created : new Date().toISOString(),
         },
         links:[
             {
