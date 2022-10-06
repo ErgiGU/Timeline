@@ -1,5 +1,6 @@
 <template>
-  <div class="row needs-validation"  id="rowContainer" >
+  <div class="container">
+  <div class="row needs-validation"  id="rowContainer">
     <div class="col-md-4" id="parentContainer">
       <form id="registrationForm" v-on:submit="function1">
         <h2 class="text-center mb-5 text-white">Create an account</h2>
@@ -41,13 +42,15 @@
           </label>
         </div>
 
-        <button class="btn1 btn submits text-white sign-up disabled" id="btn1"
+        <button class="btn btn-primary text-white sign-up disabled" id="btn1"
                 style="width: 150px; height: 50px">Sign Up</button>
+
         <p class="text-center mt-3 mb-2 text-white">Already have an account?
           <router-link to="/" style="color: black">Login here</router-link>
         </p>
       </form>
     </div>
+  </div>
   </div>
 </template>
 
@@ -68,7 +71,7 @@ export default {
       const email = document.getElementById('email');
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
-      /*    console.log(fName.checkValidity());
+      /* console.log(fName.checkValidity());
       console.log(lName.checkValidity());
       console.log(email.checkValidity());
       console.log(pass.checkValidity());
@@ -114,6 +117,11 @@ export default {
 
 <style>
 
+html, body {
+  height: 100vh;
+  align-items: center;
+  background-color: black;
+}
 
 #rowContainer {
   height: 100%;
@@ -126,11 +134,6 @@ export default {
   vertical-align: auto;
 }
 
-body {
-  height: 100vh;
-  align-items: center;
-  background: #3b3b3b;
-}
 
 #parentContainer {
   vertical-align: middle;
@@ -145,8 +148,6 @@ body {
   border: 2px solid rgba(255,255,255,0.1);
   box-shadow: 0 0 40px rgba(8,7,16,0.6);
 }
-#btn1{
-  background-color: cornflowerblue;
-}
+
 
 </style>
