@@ -5,11 +5,9 @@
     </div>
 
     <div class="row" style="width: 100%">
-      <div class="col-10">
+      <div class="col-10" id="timelineTopContainer">
         <b-jumbotron header="Timeline">
-          <b-button class="btn_message" variant="primary" @click="getEntries()">Get Message from Server</b-button>
-          <p>Message from the server:<br/>
-            {{ message }}</p>
+          <b-button class="btn_message" variant="primary" @click="getEntries()">Update Entries</b-button>
         </b-jumbotron>
 
         <div class="container" id="entryInputContainer">
@@ -18,9 +16,12 @@
               <input type="date" class="form-control" placeholder="Date" aria-label="Date" id="entryDate">
             </div>
             <div class="col">
-              <div class="form-floating">
-                <textarea class="form-control" placeholder="Entry" aria-label="Entry" id="entryText"></textarea>
-                <label for="entryText">Entry</label>
+              <div class="input-group">
+                <div class="form-floating">
+                  <textarea class="form-control" placeholder="Entry" aria-label="Entry" id="entryText"></textarea>
+                  <label for="entryText">Entry</label>
+                </div>
+                <button class="btn btn-outline-secondary" type="button" id="submitEntryButton" @click="createEntry()">Create</button>
               </div>
             </div>
           </div>
@@ -59,6 +60,7 @@
 import {Api} from '@/Api'
 
 import SideBar from '@/components/SideBar'
+import axios from "axios";
 
 export default {
   components: {
@@ -111,6 +113,17 @@ export default {
           });
         }
       }
+    },
+    createEntry() {
+      let date = document.getElementById('entryDate').value
+      let text = document.getElementById('entryText').value
+      console.log(date + "," + text)
+      let entry = {
+        text
+      }
+      console.log(JSON.stringify(entry))
+      //Api.post('/entries', "{}")
+      axios.Axios
     }
   },
 
@@ -121,6 +134,11 @@ export default {
 </script>
 
 <style>
+
+#topRow {
+  margin: 0 20px 0 20px;
+}
+
 .btn_message {
   margin-bottom: 1em;
 }
