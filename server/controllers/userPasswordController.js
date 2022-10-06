@@ -1,8 +1,6 @@
 const express = require("express");
 const userPasswordModel = require("../models/userPasswordModel");
 const router = express.Router();
-const uuid = require('uuid');
-const crypto = require('crypto');
 
 //CREATE AN ENTRY
 router.post("/api/userPasswords", function(req, res, next) {

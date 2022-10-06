@@ -1,31 +1,50 @@
 <template>
   <div id="imageSet">
-  <b-img id="imgActual" style="border-radius: 50%" :src=this.imageURL fluid thumbnail></b-img>
+  <b-img id="imgActual" style="border-radius: 50%" :src="imageURL" fluid thumbnail></b-img>
     <p id="text" class="text">
       Change Image
     </p>
-    <input accept="image/*" class="form-control" v-on:change="this.onFile" type="file" id="formFile">
+    <input accept="image/*" v-on:change="this.loadTextFromFile" type="file" id="formFile">
   </div>
 </template>
 
 <script>
+import {Api} from "@/Api";
+
 export default {
   name: "UserImage",
   data() {
     return {
       hover: false,
-      imageURL: "https://media.tenor.com/kHcmsxlKHEAAAAAC/rock-one-eyebrow-raised-rock-staring.gif"
+      imageURL: ""
     }
   },
   methods: {
-    onFile(e) {
-      const files = e.target.files
-      if (!files.length) return
+    loadTextFromFile(ev) {
+      const file = ev.target.files[0];
+      const reader = new FileReader();
+      let body;
+      let bodyPicture;
 
-      const reader = new FileReader()
-      reader.readAsDataURL(files[0])
-      reader.onload = () => (console.log(reader.result))
+      reader.onload = e => {
+        bodyPicture = e.target.result
+        body = {
+          "profile_picture": bodyPicture
+        }
+        Api.patch('/userAccounts/cb3068cd-f1f3-4f6e-a9cb-7cc2517b93c0', body)
+        this.imageURL = e.target.result
+      }
+      reader.readAsDataURL(file)
     }
+  },
+  mounted() {
+    Api.get('/userAccounts/cb3068cd-f1f3-4f6e-a9cb-7cc2517b93c0')
+      .then(response => {
+        this.imageURL = response.data.profile_picture
+      })
+      .catch(error => {
+        this.imageURL = error
+      })
   }
 }
 </script>

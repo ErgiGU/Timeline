@@ -10,6 +10,7 @@ const userAccountController = require("./controllers/userAccountController");
 const userPasswordController = require("./controllers/userPasswordController");
 
 // Variables
+//const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 const port = process.env.PORT || 3000;
 
@@ -34,6 +35,9 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
+
+app.use(express.json({limit: '500mb'}));
+app.use(express.urlencoded({limit: '500mb',  parameterLimit: 100000000000, extended: true}));
 
 // Import routes
 app.get('/api', function(req, res) {
