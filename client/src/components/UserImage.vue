@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       hover: false,
-      imageURL: ""
+      imageURL: "/assets/profile.png"
     }
   },
   methods: {
@@ -42,8 +42,9 @@ export default {
       .then(response => {
         this.imageURL = response.data.profile_picture
       })
+      // eslint-disable-next-line no-unused-vars
       .catch(error => {
-        this.imageURL = error
+        return this.imageURL = "/assets/profile.png";
       })
   }
 }

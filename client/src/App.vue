@@ -13,7 +13,7 @@
 <style>
 #app {
   height: 100%;
-  background-color: #3b3b3b;
+  background-color: #121212;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
