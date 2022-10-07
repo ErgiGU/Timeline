@@ -12,14 +12,14 @@
 
 <style>
 #app {
-  height: 100vh;
+  height: 100%;
   background-color: #3b3b3b;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #d6d9e5;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 </style>
 

@@ -32,7 +32,7 @@ router.post("/api/entries", function(req, res, next) {
 });
 
 //Get all entry or get all by filter if query
-router.get('/api/entries', function(req, res) {
+router.get('/api/entries', function(req, res, next) {
     let filter = req.query.text;
     entryModel.find(function(err, entry) {
         if (filter) {
@@ -115,6 +115,7 @@ router.delete('/api/entries', function(req, res, next) {
         res.json({'entries': entry });
     });
 });
+
 //Deletes an entry
 router.delete('/api/entries/:id', function(req, res, next) {
     let id = req.params.id;

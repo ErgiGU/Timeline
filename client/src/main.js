@@ -6,6 +6,7 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/js/dist/collapse'
+import 'bootstrap/js/dist/carousel'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
