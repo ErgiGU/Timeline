@@ -4,7 +4,7 @@
     <p id="text" class="text">
       Change Image
     </p>
-    <input accept="image/*" v-on:change="this.loadTextFromFile" type="file" id="formFile">
+    <input accept="image/*" v-on:change="this.imageFile" type="file" id="formFile">
   </div>
 </template>
 
@@ -20,7 +20,7 @@ export default {
     }
   },
   methods: {
-    loadTextFromFile(ev) {
+    imageFile(ev) {
       const file = ev.target.files[0];
       const reader = new FileReader();
       let body;

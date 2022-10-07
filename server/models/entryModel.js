@@ -22,10 +22,8 @@ const entrySchema = new Schema({
         ref: "userAccount"
     },
     uploaded_entities_list:[{
-        uploaded_entity : {
-            type : String,
-            ref : "uploadedEntity"
-        }
+        type : String,
+        ref : "uploadedEntity"
     }],
     links:[
         {

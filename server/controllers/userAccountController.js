@@ -39,17 +39,6 @@ router.get("/api/userAccounts", function (req, res, next) {
     })
 });
 
-router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
-    userAccountModel.findById(req.params.id, { entries: 1 })
-        .populate("entry_list")
-        .exec((err, userAccounts) => {
-            if (err) {
-                return res.status(400).send(err);
-            }
-            return res.status(200).json(userAccounts.entry_list);
-        });
-});
-
 // Gets a user account
 router.get('/api/userAccounts/:id', function(req, res, next) {
     let id = req.params.id;
@@ -96,7 +85,6 @@ router.patch('/api/userAccounts/:id', function(req, res, next) {
             return res.status(404).json(
                 {"message": "User not found"});
         }
-        console.log("hello this is it: " + req.body.profile_picture)
         userAccount.first_name = (req.body.first_name||userAccount.first_name);
         userAccount.surname = (req.body.surname||userAccount.surname);
         userAccount.email = (req.body.email||userAccount.email);
@@ -119,7 +107,7 @@ router.delete('/api/userAccounts', function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.json({'userAccounts': userAccount });
+        res.json({'userAccounts': userAccount});
     });
 });
 
