@@ -2,8 +2,8 @@
   <div id = "sidebarActual">
     <div style="min-height: 120px;transition-delay: 50ms;" class="collapse collapse-horizontal show" id="collapseWidthExample">
       <b-card id = "container" class="border-0"></b-card>
-      <nav id="sidebar" style="transition: linear">
-        <b-sidebar id="sidebar-1" style="transition: linear" title="Timeline" bg-variant="dark" text-variant="light" width="20%" no-header-close no-close-on-esc visible shadow>
+      <nav id="sidebar" style="transition: linear; min-width: 250px; display: inline-block; width: 100%">
+        <b-sidebar id="sidebar-1" style="transition: linear; min-width: 250px; display: inline-block; width: 100%;" title="Timeline" bg-variant="dark" text-variant="light" width="20%" v-model="collapse" no-header-close no-close-on-esc shadow>
           <template #footer>
             <div class="d-flex bg-light text-light px-3 py-2 w-100">
               <div><b-button id="signOutButton" variant="primary">Sign Out</b-button></div>
@@ -80,7 +80,8 @@ export default {
       menuOpen: true,
       widthCollapse: 0,
       heightCollapse: 0,
-      settingsOpen: false
+      settingsOpen: false,
+      collapse: true
     }
   },
   methods: {
@@ -112,8 +113,24 @@ export default {
       const container = document.getElementById('container')
       let changeWidth = document.getElementById('sidebar-1').clientWidth;
       if (changeWidth!== 0){
+        console.log(document.getElementById('sidebar-1').clientWidth + 'px')
         this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
         container.style.width = this.widthCollapse
+      }
+      if(changeWidth < 250) {
+        document.getElementById('sidebar-1').style.width = 250 + 'px'
+      }
+
+      if(screen.width < 768) {
+        document.getElementById('sidebar-1').style.width = screen.width * 0.8 + 'px'
+        document.getElementById('container').style.width = screen.width * 0.8 + 'px'
+        document.getElementById('collapseWidthExample').classList.remove('show')
+        this.collapse = false
+      }else {
+        document.getElementById('container').style.width = 250 + 'px'
+        const container = document.getElementById('collapseWidthExample')
+        container.classList.add('show')
+        this.collapse = true
       }
     },
     menuButton() {
@@ -208,5 +225,7 @@ export default {
   outline: transparent;
   background-color: transparent;
   height: 1px;
+  display: inline-block;
+  min-width: 250px;
 }
 </style>
