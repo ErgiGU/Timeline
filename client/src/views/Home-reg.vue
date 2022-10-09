@@ -3,12 +3,14 @@
   <div class="row needs-validation"  id="rowContainer">
     <div class="col-md-4" id="parentContainer">
       <form id="registrationForm" v-on:submit="function1">
-        <h2 class="text-center mb-5 text-white">Create an account</h2>
+        <h2 class="text-center text-white mb-3"  style="top: 100px; ">Create an account</h2>
+        <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px" >
+          Registration Successful!
+        </b-alert>
 
         <div class="form-floating mb-4">
           <input type="text" class="form-control form-control-lg" id="fName" placeholder="a" required>
           <label>First Name</label>
-          <div class="valid-feedback text-danger">Looks good!</div>
         </div>
 
         <div class="form-floating mb-4">
@@ -43,9 +45,9 @@
         </div>
 
         <button class="btn btn-primary text-white sign-up disabled" id="btn1"
-                style="width: 150px; height: 50px">Sign Up</button>
+                style="width: 150px; height: 50px; align-self: center ">Sign Up</button>
 
-        <p class="text-center mt-3 mb-2 text-white">Already have an account?
+        <p class="text-center mt-1 mb-2 text-white">Already have an account?
           <router-link to="/" style="color: black">Login here</router-link>
         </p>
       </form>
@@ -62,7 +64,10 @@ import {Api} from '@/Api'
 export default {
   name: "App",
   data() {
-    return {checked: false}
+    return {
+      checked: false,
+      showDismissibleAlert: false
+    }
   },
   methods: {
     function1(event) {
@@ -88,6 +93,10 @@ export default {
         Api.post("/userAccounts",userAccount);
 
         Api.post("/userPasswords",userPass);
+        this.showDismissibleAlert=true;
+        event.preventDefault();
+
+        setTimeout(() => { this.$router.push({name:'login'}); }, 3000);
 
       } else {
         event.preventDefault();
@@ -128,7 +137,7 @@ export default {
         }
 
       })
-    }
+    },
   }
 }
 
@@ -149,7 +158,8 @@ html, body {
 }
 
 #registrationForm {
-  width: auto;
+  display: flex;
+  flex-direction: column;
   vertical-align: auto;
 }
 

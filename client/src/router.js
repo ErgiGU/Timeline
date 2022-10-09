@@ -4,7 +4,7 @@ import ExampleHome from './views/ExampleHome.vue'
 import Registration from './views/Home-reg.vue'
 import Login from './views/Login.vue'
 import Home from "@/views/Home";
-import InitialHome from "./views/Initial-home";
+import InitialHome from "./views/Landing";
 
 Vue.use(Router)
 
@@ -29,7 +29,7 @@ export default new Router({
       component: Registration
     },
     {
-      path: '/login',
+      path: '/Login',
       name: 'login',
       component: Login,
     },
