@@ -87,12 +87,15 @@ export default {
           "email": email.value
         }
 
-        let userPass = {
-          "password": pass.value
+        Api.post("/userAccounts",userAccount).then(res =>{
+          let userPass = {
+            "_id": res.data._id,
+              "password": pass.value
         }
-        Api.post("/userAccounts",userAccount);
+          Api.post("/userPasswords",userPass);
+          console
+        });
 
-        Api.post("/userPasswords",userPass);
         this.showDismissibleAlert=true;
         event.preventDefault();
 
