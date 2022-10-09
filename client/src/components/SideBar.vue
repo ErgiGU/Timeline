@@ -113,12 +113,11 @@ export default {
       const container = document.getElementById('container')
       let changeWidth = document.getElementById('sidebar-1').clientWidth;
       if (changeWidth!== 0){
-        console.log(document.getElementById('sidebar-1').clientWidth + 'px')
         this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
         container.style.width = this.widthCollapse
       }
       if(changeWidth < 250) {
-        document.getElementById('sidebar-1').style.width = 250 + 'px'
+        document.getElementById('container').style.width = 250 + 'px'
       }
 
       if(screen.width < 768) {
@@ -127,6 +126,7 @@ export default {
         document.getElementById('collapseWidthExample').classList.remove('show')
         this.collapse = false
       }else {
+        document.getElementById('sidebar-1').style.width = 250 + 'px'
         document.getElementById('container').style.width = 250 + 'px'
         const container = document.getElementById('collapseWidthExample')
         container.classList.add('show')
