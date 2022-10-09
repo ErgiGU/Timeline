@@ -13,7 +13,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #d6d9e5;
+  color: black;
   overflow: hidden;
 }
 </style>
