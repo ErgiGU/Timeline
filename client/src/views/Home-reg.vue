@@ -17,7 +17,7 @@
         </div>
 
         <div class="form-floating mb-4">
-          <input type="email" class="form-control form-control-lg" id="email" placeholder="exampleEmail"
+          <input type="email" class="form-control form-control-lg" id="email"  v-on:keyup="checkIfEmailExists" placeholder="exampleEmail"
                  required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" title="Please enter a valid email.">
           <label>Email</label>
         </div>
@@ -57,6 +57,8 @@
 <script>
 
 // @ is an alias to /src
+import {Api} from '@/Api'
+
 export default {
   name: "App",
   data() {
@@ -71,19 +73,21 @@ export default {
       const email = document.getElementById('email');
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
-      /* console.log(fName.checkValidity());
-      console.log(lName.checkValidity());
-      console.log(email.checkValidity());
-      console.log(pass.checkValidity());
-      console.log(confPass.checkValidity());*/
 
       if (fName.checkValidity() && lName.checkValidity() && email.checkValidity() && pass.checkValidity() &&
         confPass.checkValidity()) {
-        console.log(fName.value);
-        console.log(lName.value);
-        console.log(email.value);
-        console.log(pass.value);
-        console.log(confPass.value);
+        let userAccount = {
+          "first_name": fName.value,
+          "surname": lName.value,
+          "email": email.value
+        }
+
+        let userPass = {
+          "password": pass.value
+        }
+        Api.post("/userAccounts",userAccount);
+
+        Api.post("/userPasswords",userPass);
 
       } else {
         event.preventDefault();
@@ -108,6 +112,22 @@ export default {
       } else {
         confPass.setCustomValidity('');
       }
+    },
+    checkIfEmailExists() {
+      let userAccounts = [];
+      const email = document.getElementById('email');
+      Api.get('/userAccounts').then(result => {
+        userAccounts = result.data.users;
+        const isFound = userAccounts.some(element => {
+          return element.email === email.value;
+        });
+        if(isFound){
+          email.setCustomValidity("Email already exists");
+        }else {
+          email.setCustomValidity('');
+        }
+
+      })
     }
   }
 }
@@ -120,7 +140,6 @@ export default {
 html, body {
   height: 100vh;
   align-items: center;
-  background-color: black;
 }
 
 #rowContainer {
