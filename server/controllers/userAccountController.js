@@ -125,29 +125,34 @@ router.delete('/api/userAccounts/:id', function(req, res, next) {
     });
 });
 
-/*router.get('/api/statistics/:id', function(req, res) {
-    let totalEntry;
-    let totalImages;
-    let words;
-    let averageWords;
-    userAccountModel.findOne({_id: userIdentity}, function(err, userAccount) {
-        userAccount.forEach((user) => {
-            totalEntry = user.entry_list.length
-
-            user.entry_list.forEach((entry) => {
-                totalImages = totalImages + entry.uploaded_entities_list.length
-                words.push(entry.text.split(" "))
-
+router.get('/api/statistics/:id', function(req, res) {
+    userAccountModel.findById(req.params.id, { entries: 1 })
+        .populate("entry_list")
+        .exec((err, userAccounts) => {
+            let totalEntry
+            let totalImages = 0;
+            let words = [];
+            let averageWords = 0;
+            userAccounts.entry_list.forEach(entry => {
+                if(entry.uploaded_entities_list){
+                    totalImages = totalImages + entry.uploaded_entities_list.length
+                }
+                let newWordsList = entry.text.split(" ")
+                words = words.concat(newWordsList)
             })
+            totalEntry = userAccounts.entry_list.length
+
+            if(totalEntry){
+                averageWords = (words.length / totalEntry)
+            }
+            averageWords = Math.round(averageWords * 100) / 100
+            res.json({
+                'totalEntries': totalEntry,
+                'totalImages': totalImages,
+                'totalSize': 'NO DATA',
+                'averageWord': averageWords
+            });
         })
-    })
-    averageWords = (words.length / totalEntry)
-    res.json({
-        'totalEntries': totalEntry,
-        'totalImages': totalImages,
-        'totalSize': 'NO DATA',
-        'averageWord': averageWords
-    });
-});*/
+});
 
 module.exports = router;

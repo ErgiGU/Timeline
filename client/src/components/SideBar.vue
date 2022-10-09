@@ -19,7 +19,7 @@
               <p>Date of Birth: {{dateBirth}}</p>
             </div>
             <div>
-              <div id="cardsStatistics" style="text-align: left; display:flex; flex-wrap: wrap; border-top: solid; border-bottom: solid; border-top-color: white">
+              <div id="cardsStatistics" style="text-align: left; display:flex; flex-wrap: wrap; flex-direction: column; border-top: solid; border-bottom: solid; border-top-color: white">
                 <p class="statPart">Total Entries: {{totalEntries}}</p>
                 <p class="statPart">Average Word per Entry: {{averageWord}}</p>
                 <p class="statPart">Total Images: {{totalImages}}</p>
@@ -85,19 +85,19 @@ export default {
   },
   methods: {
     getUserInfo() {
-      Api.get('/userAccounts/:id')
+      Api.get('/userAccounts/603c6b48-e869-49db-9611-b1c29278ebf5')
         .then(response => {
-          this.firstName = response.data.totalEntries
-          this.surname = response.data.averageWord
-          this.dateBirth = response.data.totalImages
-          this.email = response.data.totalSize
+          this.firstName = response.data.first_name
+          this.surname = response.data.surname
+          this.dateBirth = response.data.date_of_birth
+          this.email = response.data.email
         })
         .catch(error => {
           this.message = error
         })
     },
     getStatistics() {
-      Api.get('/statistics/')
+      Api.get('/statistics/603c6b48-e869-49db-9611-b1c29278ebf5')
         .then(response => {
           this.totalEntries = response.data.totalEntries
           this.averageWord = response.data.averageWord
@@ -138,7 +138,9 @@ export default {
     }
   },
   mounted() {
+    this.getUserInfo()
     this.getDimensions()
+    this.getStatistics()
     window.addEventListener('resize', this.getDimensions)
   },
   unmounted() {
@@ -187,10 +189,6 @@ export default {
   flex-wrap: nowrap;
   flex-direction:  column;
   justify-content: space-evenly;
-}
-
-#settingsButtons {
-  font-size: 80%;
 }
 
 #signOutButton{
