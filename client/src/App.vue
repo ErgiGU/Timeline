@@ -12,6 +12,7 @@
 
 <style>
 #app {
+  min-height: 100vh;
   height: 100%;
   background-color: #121212;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -24,5 +25,4 @@
 </style>
 
 <script>
-
 </script>

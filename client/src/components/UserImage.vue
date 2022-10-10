@@ -16,7 +16,7 @@ export default {
   data() {
     return {
       hover: false,
-      imageURL: "/assets/profile.png"
+      imageURL: "../assets/profile.png"
     }
   },
   methods: {
@@ -40,11 +40,15 @@ export default {
   mounted() {
     Api.get('/userAccounts/603c6b48-e869-49db-9611-b1c29278ebf5')
       .then(response => {
-        this.imageURL = response.data.profile_picture
+        if (response.data.profile_picture === null) {
+          return this.imageURL = "../assets/profile.png";
+        } else {
+          this.imageURL = response.data.profile_picture
+        }
       })
       // eslint-disable-next-line no-unused-vars
       .catch(error => {
-        return this.imageURL = "/assets/profile.png";
+        return this.imageURL = "../assets/profile.png";
       })
   }
 }

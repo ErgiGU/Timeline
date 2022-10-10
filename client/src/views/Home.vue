@@ -6,7 +6,7 @@
 
     <div class="row" id="topContainer">
       <b-jumbotron header="Timeline">
-        <b-button class="btn_message" variant="primary" @click="getEntry()">Refresh entries</b-button>
+        <b-button class="btn_message" variant="primary" @click="getEntries()">Refresh entries</b-button>
       </b-jumbotron>
 
       <div class="container sticky-top" id="entryInputContainer">
@@ -29,6 +29,7 @@
                 <textarea class="form-control text-bg-dark" placeholder="Entry" aria-label="Entry" id="entryText"></textarea>
                 <label for="entryText">Entry</label>
               </div>
+              <button class="btn btn-outline-light" @click="createEntry">Preview Entry</button>
               <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
             </div>
           </div>
@@ -67,6 +68,7 @@ export default {
   data() {
     return {
       previewMarkdown: "",
+      visibleEntries: 0,
       entries: []
     }
   },
@@ -98,19 +100,18 @@ export default {
       let user = {}
 
       Api.get('userAccounts/20fc98fa-fd11-4f3f-8b48-f3c4bbbe74ba').then(result => {
-        console.log(result.data.entry_list)
         entry_list = result.data.entry_list
       })
 
-      Api.post('/entries', JSON.stringify(entry)).then(response => {
+      Api.post('/entries', entry).then(response => {
+        console.log("created string representation:")
+        console.log(response.data)
         console.log("created entry id:")
         console.log(response.data._id)
         entry_list.push(response.data._id)
         user = {
           entry_list
         }
-        console.log("created string representation:")
-        console.log(JSON.stringify(user))
       })
 
       Api.patch('/userAccounts/20fc98fa-fd11-4f3f-8b48-f3c4bbbe74ba', user).then(response => {
@@ -149,7 +150,7 @@ export default {
         if (bottomOfWindow) {
           console.log("bottom of window reached")
           Api.get(`/entries`).then(response => {
-            this.entries.push(response.data.results);
+            this.entries = response.data.entries;
           });
         }
       }
@@ -185,7 +186,8 @@ export default {
 #entryLocation {
   margin: 0;
   border-radius: 0 0 0 5px;
-  height: 60px;
+  min-height: 60px;
+  resize: none;
 }
 
 #entryText {

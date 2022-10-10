@@ -133,6 +133,7 @@ router.get('/api/statistics/:id', function(req, res) {
             let totalImages = 0;
             let words = [];
             let averageWords = 0;
+
             userAccounts.entry_list.forEach(entry => {
                 if(entry.uploaded_entities_list){
                     totalImages = totalImages + entry.uploaded_entities_list.length
