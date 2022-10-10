@@ -31,14 +31,14 @@ export default {
         body = {
           "profile_picture": bodyPicture
         }
-        Api.patch('/userAccounts/:id', body)
+        Api.patch('/userAccounts/' + this.$defaultUserAccount, body)
         this.imageURL = e.target.result
       }
       reader.readAsDataURL(file)
     }
   },
   mounted() {
-    Api.get('/userAccounts/:id')
+    Api.get('/userAccounts/' + this.$defaultUserAccount)
       .then(response => {
         if (response.data.profile_picture === null) {
           return this.imageURL = "../assets/profile.png";

@@ -81,12 +81,13 @@ export default {
       widthCollapse: 0,
       heightCollapse: 0,
       settingsOpen: false,
-      collapse: true
+      collapse: true,
+      userUrl: '/userAccounts/' + this.$defaultUserAccount
     }
   },
   methods: {
     getUserInfo() {
-      Api.get('/userAccounts/:id')
+      Api.get(this.userUrl)
         .then(response => {
           this.firstName = response.data.first_name
           this.surname = response.data.surname
@@ -98,7 +99,7 @@ export default {
         })
     },
     getStatistics() {
-      Api.get('/statistics/:id')
+      Api.get('/statistics/' + this.$defaultUserAccount)
         .then(response => {
           this.totalEntries = response.data.totalEntries
           this.averageWord = response.data.averageWord

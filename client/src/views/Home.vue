@@ -92,24 +92,16 @@ export default {
       let entry_list = []
       let user = {}
 
-
-      Api.get('userAccounts/:id').then(result => {
+      Api.get('/userAccounts/' + this.$defaultUserAccount).then(result => {
         entry_list = result.data.entry_list
         Api.post('/entries', entry).then(response => {
           entry_list.push(response.data._id)
           user = {
             entry_list
           }
-          Api.patch('/userAccounts/:id', user)
+          Api.patch('/userAccounts/' + this.$defaultUserAccount, user)
         })
       })
-    },
-
-    getEntry() {
-      Api.get('/entries/:id')
-        .then(response => {
-          this.entries.push(response.data)
-        })
     },
 
     getEntries() {

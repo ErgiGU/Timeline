@@ -12,6 +12,7 @@ import 'marked'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.prototype.$defaultUserAccount = '0268486c-faf7-498d-98c4-ea10fe7929ea'
 
 Vue.config.productionTip = false
 
