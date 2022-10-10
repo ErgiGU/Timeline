@@ -1,6 +1,6 @@
 <template>
   <div id="imageSet">
-    <b-img id="imgActual" :src="imageURL" fluid style="border-radius: 50%" thumbnail></b-img>
+    <b-img id="imgActual" :src="this.imageURL" fluid style="border-radius: 50%" thumbnail></b-img>
     <p id="text" class="text">
       Change Image
     </p>
@@ -16,11 +16,12 @@ export default {
   data() {
     return {
       hover: false,
-      imageURL: "../assets/profile.png"
+      imageURL: "https://construct-static.com/images/v1027/r/uploads/tutorial/0/images/17449/windows-8-user-account_v650.jpg"
     }
   },
   methods: {
     imageFile(ev) {
+      console.log(this.imageURL)
       const file = ev.target.files[0];
       const reader = new FileReader();
       let body;
@@ -35,21 +36,18 @@ export default {
         this.imageURL = e.target.result
       }
       reader.readAsDataURL(file)
+    },
+    setInitialImage() {
+      Api.get('/userAccounts/' + this.$defaultUserAccount)
+        .then(response => {
+          if (response.data.profile_picture !== null && response.data.profile_picture !== "random") {
+            this.imageURL = response.data.profile_picture
+          }
+        })
     }
   },
   mounted() {
-    Api.get('/userAccounts/' + this.$defaultUserAccount)
-      .then(response => {
-        if (response.data.profile_picture === null) {
-          return this.imageURL = "../assets/profile.png";
-        } else {
-          this.imageURL = response.data.profile_picture
-        }
-      })
-      // eslint-disable-next-line no-unused-vars
-      .catch(error => {
-        return this.imageURL = "../assets/profile.png";
-      })
+    this.setInitialImage()
   }
 }
 </script>
