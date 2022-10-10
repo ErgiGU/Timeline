@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     getUserInfo() {
-      Api.get('/userAccounts/603c6b48-e869-49db-9611-b1c29278ebf5')
+      Api.get('/userAccounts/:id')
         .then(response => {
           this.firstName = response.data.first_name
           this.surname = response.data.surname
@@ -97,39 +97,34 @@ export default {
           this.message = error
         })
     },
-    // getStatistics() {
-    //   Api.get('/statistics/603c6b48-e869-49db-9611-b1c29278ebf5')
-    //     .then(response => {
-    //       this.totalEntries = response.data.totalEntries
-    //       this.averageWord = response.data.averageWord
-    //       this.totalImages = response.data.totalImages
-    //       this.totalSize = response.data.totalSize
-    //     })
-    //     .catch(error => {
-    //       this.message = error
-    //     })
-    // },
+    getStatistics() {
+      Api.get('/statistics/:id')
+        .then(response => {
+          this.totalEntries = response.data.totalEntries
+          this.averageWord = response.data.averageWord
+          this.totalImages = response.data.totalImages
+          this.totalSize = response.data.totalSize
+        })
+        .catch(error => {
+          this.message = error
+        })
+    },
     getDimensions() {
-      const container = document.getElementById('container')
-      let changeWidth = document.getElementById('sidebar-1').clientWidth;
-      if (changeWidth!== 0){
-        this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
-        container.style.width = this.widthCollapse
-      }
-      if(changeWidth < 250) {
-        document.getElementById('container').style.width = 250 + 'px'
-      }
-
+      const menuBtn = document.querySelector('.menu-btn')
       if(screen.width < 768) {
         document.getElementById('sidebar-1').style.width = screen.width * 0.8 + 'px'
         document.getElementById('container').style.width = screen.width * 0.8 + 'px'
         document.getElementById('collapseWidthExample').classList.remove('show')
         this.collapse = false
+        menuBtn.classList.remove('open')
+        this.menuOpen = false
       }else {
         document.getElementById('sidebar-1').style.width = 250 + 'px'
         document.getElementById('container').style.width = 250 + 'px'
         const container = document.getElementById('collapseWidthExample')
         container.classList.add('show')
+        menuBtn.classList.add('open')
+        this.menuOpen = true
         this.collapse = true
       }
     },
@@ -225,7 +220,6 @@ export default {
   outline: transparent;
   background-color: transparent;
   height: 1px;
-  display: inline-block;
-  min-width: 250px;
+  width: 250px;
 }
 </style>

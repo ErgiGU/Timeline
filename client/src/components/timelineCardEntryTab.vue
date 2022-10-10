@@ -12,6 +12,7 @@
         </div>
       </div>
     </div>
+    <google-maps :mapLocation="this.entry.location" :entryID="entry._id"/>
     <div class="col-md-8">
       <div id="entryDisplay" v-html="markdownToHTML"></div>
     </div>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import GoogleMaps from "@/components/GoogleMaps";
 import {marked} from "marked";
 
 export default {
@@ -32,7 +34,10 @@ export default {
       return marked(this.markdownEntry)
     }
   },
-  props: ['entry']
+  props: ['entry'],
+  components: {
+    'google-maps': GoogleMaps
+  }
 }
 </script>
 

@@ -93,20 +93,20 @@ export default {
       let user = {}
 
 
-      Api.get('userAccounts/0268486c-faf7-498d-98c4-ea10fe7929ea').then(result => {
+      Api.get('userAccounts/:id').then(result => {
         entry_list = result.data.entry_list
         Api.post('/entries', entry).then(response => {
           entry_list.push(response.data._id)
           user = {
             entry_list
           }
-          Api.patch('/userAccounts/0268486c-faf7-498d-98c4-ea10fe7929ea', user)
+          Api.patch('/userAccounts/:id', user)
         })
       })
     },
 
     getEntry() {
-      Api.get('/entries/0268486c-faf7-498d-98c4-ea10fe7929ea')
+      Api.get('/entries/:id')
         .then(response => {
           this.entries.push(response.data)
         })

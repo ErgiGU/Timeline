@@ -14,6 +14,7 @@ router.post("/api/userAccounts", function(req, res, next) {
         email: req.body.email,
         date_of_birth: new Date().toISOString().slice(0,10),
         profile_picture: "random",
+        entry_list: [],
         links:[
             {
                 rel: "self",
