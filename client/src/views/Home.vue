@@ -67,15 +67,8 @@ export default {
 
   data() {
     return {
-      previewMarkdown: "",
       visibleEntries: 0,
       entries: []
-    }
-  },
-
-  computed: {
-    markdownToHTML() {
-      return marked(this.previewMarkdown)
     }
   },
 

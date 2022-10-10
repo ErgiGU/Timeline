@@ -8,6 +8,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap/js/dist/collapse'
 import 'bootstrap/js/dist/carousel'
 import 'bootstrap/js/dist/tab'
+import 'marked'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)

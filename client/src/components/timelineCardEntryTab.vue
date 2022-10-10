@@ -12,13 +12,26 @@
       </div>
     </div>
     <div class="col-md-8">
-      <p class="card-text"> {{ entry.text }} </p>
+      <textarea class="card-text" v-model="markdownEntry"></textarea>
+      <div v-html="markdownToHTML"></div>
     </div>
   </div>
 </template>
 
 <script>
+import {marked} from "marked";
+
 export default {
+  data() {
+    return {
+      markdownEntry: this.entry.text,
+    }
+  },
+  computed: {
+    markdownToHTML() {
+      return marked(this.markdownEntry)
+    }
+  },
   props: ['entry']
 }
 </script>
