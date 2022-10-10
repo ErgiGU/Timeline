@@ -30,8 +30,8 @@
                           placeholder="Entry"></textarea>
                 <label for="entryText">Entry</label>
               </div>
-              <button class="btn btn-outline-light" @click="createEntry">Preview Entry</button>
-              <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
+              <button class="btn btn-outline-light btn-sm" @click="createEntry">Preview Entry</button>
+              <button class="btn btn-outline-light btn-sm" @click="createEntry">Create Entry</button>
             </div>
           </div>
         </div>
@@ -92,40 +92,21 @@ export default {
       let entry_list = []
       let user = {}
 
-      Api.get('userAccounts/20fc98fa-fd11-4f3f-8b48-f3c4bbbe74ba').then(result => {
+
+      Api.get('userAccounts/0268486c-faf7-498d-98c4-ea10fe7929ea').then(result => {
         entry_list = result.data.entry_list
+        Api.post('/entries', entry).then(response => {
+          entry_list.push(response.data._id)
+          user = {
+            entry_list
+          }
+          Api.patch('/userAccounts/0268486c-faf7-498d-98c4-ea10fe7929ea', user)
+        })
       })
-
-      Api.post('/entries', entry).then(response => {
-        // console.log("created string representation:")
-        // console.log(response.data)
-        // console.log("created entry id:")
-        // console.log(response.data._id)
-        entry_list.push(response.data._id)
-        user = {
-          entry_list
-        }
-      })
-
-      Api.patch('/userAccounts/20fc98fa-fd11-4f3f-8b48-f3c4bbbe74ba', user).then(response => {
-      // .then(response => {
-      // console.log("response userdata:")
-      // console.log(response.data)
-      // })
-    },
-
-    getMessage() {
-      // Api.get('/userAccounts/92f6059e-af8b-41a8-b595-3e75cdceebd5')
-      //   .then(response => {
-      //     this.message = response.data.first_name + " " + response.data.surname
-      //   })
-      //   .catch(error => {
-      //     this.message = error
-      //   })
     },
 
     getEntry() {
-      Api.get('/entries/7cce7508-030a-411d-bc82-1b21ad903d5c')
+      Api.get('/entries/0268486c-faf7-498d-98c4-ea10fe7929ea')
         .then(response => {
           this.entries.push(response.data)
         })
@@ -143,9 +124,7 @@ export default {
         let bottomOfWindow = document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight;
         if (bottomOfWindow) {
           console.log("bottom of window reached")
-          Api.get(`/entries`).then(response => {
-            this.entries = response.data.entries;
-          });
+          this.getEntries()
         }
       }
     },
