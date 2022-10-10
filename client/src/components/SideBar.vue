@@ -97,18 +97,18 @@ export default {
           this.message = error
         })
     },
-    getStatistics() {
-      Api.get('/statistics/603c6b48-e869-49db-9611-b1c29278ebf5')
-        .then(response => {
-          this.totalEntries = response.data.totalEntries
-          this.averageWord = response.data.averageWord
-          this.totalImages = response.data.totalImages
-          this.totalSize = response.data.totalSize
-        })
-        .catch(error => {
-          this.message = error
-        })
-    },
+    // getStatistics() {
+    //   Api.get('/statistics/603c6b48-e869-49db-9611-b1c29278ebf5')
+    //     .then(response => {
+    //       this.totalEntries = response.data.totalEntries
+    //       this.averageWord = response.data.averageWord
+    //       this.totalImages = response.data.totalImages
+    //       this.totalSize = response.data.totalSize
+    //     })
+    //     .catch(error => {
+    //       this.message = error
+    //     })
+    // },
     getDimensions() {
       const container = document.getElementById('container')
       let changeWidth = document.getElementById('sidebar-1').clientWidth;

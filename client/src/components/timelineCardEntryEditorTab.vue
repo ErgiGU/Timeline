@@ -2,51 +2,63 @@
   <div class="row g-0">
     <div class="col-md-4">
       <div class="row">
-        <img src="../assets/wallpaper1.jpg" class="img-fluid rounded-start" alt="">
+        <img alt="" class="img-fluid rounded-start" src="../assets/wallpaper1.jpg">
       </div>
       <div class="row">
         <div id="dateInfo">
-          <input type="text" id="entryDateEditor" style="margin-bottom: 16px" :value="entry.dates.date.split('T')[0]">
-          <p class="text-secondary" style="font-size: 12px">Created: {{ entry.dates.created.split('T')[0] }} | Last edited: {{ entry.dates.edited.split('T')[0] }}</p>
+          <input id="entryDateEditor" :value="entry.dates.date.split('T')[0]" style="margin-bottom: 16px" type="text">
+          <p class="text-secondary" style="font-size: 12px">Created: {{ entry.dates.created.split('T')[0] }} | Last
+            edited: {{ entry.dates.edited.split('T')[0] }}</p>
         </div>
       </div>
     </div>
     <div class="col-md-8">
       <div class="form-floating">
-        <textarea class="form-control text-bg-dark" :value="entry.text" placeholder="Entry" aria-label="Entry" id="entryText"></textarea>
+        <textarea id="entryTextEditor" v-model="markdownEntry" aria-label="Entry" class="form-control text-bg-dark"
+                  placeholder="Entry"></textarea>
         <label for="entryText">Entry</label>
       </div>
+      <div v-html="markdownToHTML"></div>
+      <button type="submit" @click="updateEntry">Done</button>
     </div>
   </div>
 </template>
 
 <script>
 import {Api} from "@/Api";
+import {marked} from "marked";
 
 export default {
   data() {
     return {
-
+      markdownEntry: this.entry.text,
+    }
+  },
+  computed: {
+    markdownToHTML() {
+      return marked(this.markdownEntry)
     }
   },
   methods: {
     updateEntry() {
-      const date = document.getElementById('entryDateEditor').value
-      const edited = document.getElementById('entryDate').value
-      const location = document.getElementById('entryLocation').value
-      const text = document.getElementById('entryText').value
-      const entry = {
-        dates: {
-          date,
-          edited
-        },
+      let date = document.getElementById('entryDateEditor').value
+      let created = this.entry.dates.created
+      let location = document.getElementById('entryLocation').value
+      let text = document.getElementById('entryTextEditor').value
+      let dates = {
+        date,
+        created
+      }
+      let entry = {
+        dates,
         location,
         text
       }
 
-      let url = '/entries' + this.entry._id
+      let url = '/entries/' + this.entry._id
 
-      Api.patch(url, JSON.stringify(entry)).then(response => {
+      Api.patch(url, entry).then(response => {
+        console.log("Final response")
         console.log(response.data)
       })
     }

@@ -4,21 +4,21 @@
       <drop-down></drop-down>
     </div>
 
-    <div class="row" id="topContainer">
+    <div id="topContainer" class="row">
       <b-jumbotron header="Timeline">
         <b-button class="btn_message" variant="primary" @click="getEntries()">Refresh entries</b-button>
       </b-jumbotron>
 
-      <div class="container sticky-top" id="entryInputContainer">
-        <div class="row g-0 text-bg-dark" id="entryInput">
+      <div id="entryInputContainer" class="container sticky-top">
+        <div id="entryInput" class="row g-0 text-bg-dark">
           <div class="col-4">
             <div class="row g-0">
-              <input type="date" class="form-control text-bg-dark" placeholder="Date" aria-label="Date" id="entryDate">
+              <input id="entryDate" aria-label="Date" class="form-control text-bg-dark" placeholder="Date" type="date">
             </div>
             <div class="row g-0">
               <div class="form-floating">
-                <textarea class="form-control text-bg-dark" placeholder="Location" aria-label="Location"
-                          id="entryLocation"></textarea>
+                <textarea id="entryLocation" aria-label="Location" class="form-control text-bg-dark"
+                          placeholder="Location"></textarea>
                 <label for="locationText">Location</label>
               </div>
             </div>
@@ -26,7 +26,8 @@
           <div class="col-8">
             <div class="input-group">
               <div class="form-floating">
-                <textarea class="form-control text-bg-dark" placeholder="Entry" aria-label="Entry" id="entryText"></textarea>
+                <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
+                          placeholder="Entry"></textarea>
                 <label for="entryText">Entry</label>
               </div>
               <button class="btn btn-outline-light" @click="createEntry">Preview Entry</button>
@@ -36,7 +37,7 @@
         </div>
       </div>
 
-      <div class="container" id="timelineContainer">
+      <div id="timelineContainer" class="container">
         <timeline-card
           v-for="entry of entries"
           :key="entry._id"
@@ -50,7 +51,6 @@
 <script>
 // @ is an alias to /src
 import {Api} from '@/Api'
-import {marked} from 'marked'
 import SideBar from '@/components/SideBar'
 import timelineCard from "@/components/timelineCard";
 
@@ -97,10 +97,10 @@ export default {
       })
 
       Api.post('/entries', entry).then(response => {
-        console.log("created string representation:")
-        console.log(response.data)
-        console.log("created entry id:")
-        console.log(response.data._id)
+        // console.log("created string representation:")
+        // console.log(response.data)
+        // console.log("created entry id:")
+        // console.log(response.data._id)
         entry_list.push(response.data._id)
         user = {
           entry_list
@@ -108,9 +108,10 @@ export default {
       })
 
       Api.patch('/userAccounts/20fc98fa-fd11-4f3f-8b48-f3c4bbbe74ba', user).then(response => {
-        console.log("response userdata:")
-        console.log(response.data)
-      })
+      // .then(response => {
+      // console.log("response userdata:")
+      // console.log(response.data)
+      // })
     },
 
     getMessage() {

@@ -1,10 +1,10 @@
 <template>
   <div id="imageSet">
-  <b-img id="imgActual" style="border-radius: 50%" :src="imageURL" fluid thumbnail></b-img>
+    <b-img id="imgActual" :src="imageURL" fluid style="border-radius: 50%" thumbnail></b-img>
     <p id="text" class="text">
       Change Image
     </p>
-    <input accept="image/*" v-on:change="this.imageFile" type="file" id="formFile">
+    <input id="formFile" accept="image/*" type="file" v-on:change="this.imageFile">
   </div>
 </template>
 
@@ -75,7 +75,7 @@ export default {
   transition: all 0.5s ease;
 }
 
-#imageSet:hover #text{
+#imageSet:hover #text {
   visibility: visible;
   opacity: 1;
 }

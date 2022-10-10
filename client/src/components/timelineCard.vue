@@ -1,12 +1,18 @@
 <template>
-  <div class="card text-bg-dark" id="timelineCard">
+  <div id="timelineCard" class="card text-bg-dark">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item" role="presentation">
-          <button class="nav-link" :class="{active:currentTab==='TimelineCardEntryTab'}" id="TimelineCardEntryTab" @click="currentTab='TimelineCardEntryTab'" type="button" role="tab" :aria-selected="{active:currentTab==='TimelineCardEntryTab'}">Entry</button>
+          <button id="TimelineCardEntryTab" :aria-selected="{active:currentTab==='TimelineCardEntryTab'}" :class="{active:currentTab==='TimelineCardEntryTab'}"
+                  class="nav-link" role="tab" type="button"
+                  @click="currentTab='TimelineCardEntryTab'">Entry
+          </button>
         </li>
         <li class="nav-item ms-auto" role="presentation">
-          <button class="nav-link" :class="{active:currentTab==='TimelineCardEntryEditorTab'}" id="TimelineCardEntryEditorTab" @click="currentTab='TimelineCardEntryEditorTab'" type="button" role="tab" :aria-selected="{active:currentTab==='TimelineCardEntryEditorTab'}">Edit</button>
+          <button id="TimelineCardEntryEditorTab" :aria-selected="{active:currentTab==='TimelineCardEntryEditorTab'}"
+                  :class="{active:currentTab==='TimelineCardEntryEditorTab'}" class="nav-link" role="tab"
+                  type="button" @click="currentTab='TimelineCardEntryEditorTab'">Edit
+          </button>
         </li>
       </ul>
     </div>
