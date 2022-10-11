@@ -1,15 +1,14 @@
 const express = require("express");
 const userPasswordModel = require("../models/userPasswordModel");
 const router = express.Router();
-const crypto = require('crypto');
+const bcrypt = require("bcrypt");
 
 //CREATE AN ENTRY
-router.post("/api/userPasswords", function(req, res, next) {
-    let generatedSalt = crypto.randomBytes(15).toString('hex');
+router.post("/api/userPasswords",async function(req, res, next) {
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const userPassword = new userPasswordModel({
         _id: req.body._id,
-        salt: generatedSalt,
-        hashedPassword: hashPassword(req.body.password + generatedSalt)
+        hashedPassword: hashedPassword
     });
     userPassword.save(function (err,userPassword) {
         if (err) {
@@ -45,16 +44,14 @@ router.get('/api/userPasswords/:id', function(req, res, next) {
 router.put('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
     console.log(id);
-    userPasswordModel.findById(id, function(err, userPassword) {
+    userPasswordModel.findById(id, async function(err, userPassword) {
         if (err) {
             return next(err);
         }
         if (userPassword == null) {
             return res.status(404).json({"message": "User-password not found"});
         }
-        let generatedSalt = crypto.randomBytes(15).toString('hex');
-        userPassword.salt = generatedSalt;
-        userPassword.hashedPassword = hashPassword(req.body.hashedPassword + generatedSalt);
+        userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
         userPassword.save();
         res.status(201).json("User password updated.");
     });
@@ -62,25 +59,15 @@ router.put('/api/userPasswords/:id', function(req, res, next) {
 
 router.patch('/api/userPasswords/:id', function(req, res, next) {
     let id = req.params.id;
-    userPasswordModel.findById(id, function(err, userPassword) {
+    userPasswordModel.findById(id, async function(err, userPassword) {
         if (err) {
             return next(err);
         }
         if (userPassword == null) {
-            return res.status(404).json(
-                {"message": "User-password not found"});
-        }
-        //Add the hashing and de-hashing
-        let password = "";
-
-        if (req.body.password !== "") {
-            password = req.body.password;
+            return res.status(404).json({"message": "User-password not found"});
         }
 
-        let generatedSalt = crypto.randomBytes(15).toString('hex');
-
-        userPassword.salt = generatedSalt;
-        userPassword.hashedPassword = hashPassword(password + generatedSalt)
+        userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
         userPassword.save();
         res.json("password updated.");
     });
@@ -107,10 +94,5 @@ router.delete('/api/userPasswords/:id', function(req, res, next) {
 });
 
 
-/*This functions takes in the password that the user typed,
-it adds the salt to it(a random word) and hashes it using sha256 */
-function hashPassword(password) {
-    return crypto.createHash('sha256').update(password).digest('hex');
-}
 
 module.exports = router;
