@@ -31,7 +31,14 @@
 <script>
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "Login"
+  name: "Login",
+  methods:{
+    login(){
+      //const email = document.getElementById("email").value;
+      //const pass = document.getElementById('pass').value;
+
+    }
+  }
 }
 </script>
 

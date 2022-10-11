@@ -1,7 +1,10 @@
 const express = require("express");
 const userAccountModel = require("../models/userAccountModel");
+const userPassword = require("../models/userPasswordModel");
 const router = express.Router();
 const uuid = require('uuid');
+const bcrypt = require("bcrypt");
+
 
 
 //Creates the user account in the DB
@@ -137,6 +140,32 @@ router.delete('/api/userAccounts/:id', function(req, res, next) {
         res.json(userAccount);
     });
 });
+
+router.get('/api/users/login', async (req, res,next) => {
+    const email1 = req.body.email;
+    userAccountModel.findOne({ email: email1 }, function (err, userAccount){
+        if (err) {
+            return next(err);
+        }
+        if (userAccount === null) {
+            return res.status(404).json({'message': 'weeeeee'});
+        }else{
+            const id = userAccount._id;
+            userPassword.findOne({_id:id}, async function (err, userPassword){
+                if (err) {
+                    return next(err);
+                }
+                if(await bcrypt.compare(req.body.password,userPassword.hashedPassword)){
+                    res.send('Success');
+                }else{
+                    res.send('Invalid password');
+                }
+            } );
+        }
+    })
+});
+
+
 
 /*router.get('/api/statistics/:id', function(req, res) {
     let totalEntry;
