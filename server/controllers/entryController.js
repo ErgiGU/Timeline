@@ -12,6 +12,9 @@ router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
             if (err) {
                 return res.status(400).send(err);
             }
+            userAccounts.entry_list.sort(function(a,b){
+                return ((b.date_date) - (a.date_date));
+            });
             return res.status(200).json(userAccounts.entry_list);
         });
 });
@@ -30,11 +33,9 @@ router.post("/api/userAccounts/:id/entry_list", async function (req, res, next) 
                 text: req.body.text,
                 user: req.params.id,
                 uploaded_entities_list: [],
-                dates: {
-                    edited: new Date().toISOString(),
-                    date: new Date().toISOString(),
-                    created: new Date().toISOString(),
-                },
+                edited_date: new Date().toISOString(),
+                date_date: new Date().toISOString(),
+                created_date: new Date().toISOString(),
                 links: [
                     {
                         rel: "users",
@@ -97,11 +98,9 @@ router.post("/api/entries", function (req, res, next) {
         location: req.body.location,
         text: req.body.text,
         user: req.body.user,
-        dates: {
-            edited: new Date().toISOString(),
-            date: new Date().toISOString(),
-            created: new Date().toISOString(),
-        },
+        edited_date: new Date().toISOString(),
+        date_date: req.body.dates.date,
+        created_date: new Date().toISOString(),
         links: [
             {
                 rel: "users",
@@ -129,6 +128,9 @@ router.get('/api/entries', function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            entry.sort(function(a,b){
+                return ((b.date_date) - (a.date_date));
+            });
             res.json({"entries": entry});
         }
     })
@@ -161,8 +163,8 @@ router.put('/api/entries/:id', function (req, res, next) {
         }
         entry.text = req.body.text;
         entry.location = req.body.location;
-        entry.dates.edited = new Date().toISOString().slice(0, 10);
-        entry.dates.date = new Date().toISOString().slice(0, 10);
+        entry.edited_date = new Date().toISOString().slice(0, 10);
+        entry.date_date = new Date().toISOString().slice(0, 10);
         entry.save();
         return res.status(201).json(entry);
     });
@@ -181,9 +183,9 @@ router.patch('/api/entries/:id', function (req, res, next) {
         }
         entry.text = (req.body.text || entry.text);
         entry.location = (req.body.location || entry.location);
-        entry.edited = new Date().toISOString().slice(0, 10);
-        entry.date = (req.body.date || entry.date);
-        entry.created = (req.body.created || entry.created);
+        entry.edited_date = new Date().toISOString().slice(0, 10);
+        entry.date_date = (req.body.date || entry.date_date);
+        entry.created_date = (req.body.created || entry.created_date);
         if (req.body.uploaded_entity) {
             entry.uploaded_entities_list.push(req.body.uploaded_entity);
         }
