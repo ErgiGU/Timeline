@@ -1,58 +1,58 @@
 <template>
   <div class="container">
-  <div class="row needs-validation"  id="rowContainer">
-    <div class="col-md-4" id="parentContainer">
-      <form id="registrationForm" v-on:submit="function1">
-        <h2 class="text-center text-white mb-3"  style="top: 100px; ">Create an account</h2>
-        <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px" >
-          Registration Successful!
-        </b-alert>
+    <div class="row needs-validation"  id="rowContainer">
+      <div class="col-md-4" id="parentContainer">
+        <form id="registrationForm" v-on:submit="function1">
+          <h2 class="text-center text-white mb-3"  style="top: 100px; ">Create an account</h2>
+          <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px" >
+            Registration Successful!
+          </b-alert>
 
-        <div class="form-floating mb-4">
-          <input type="text" class="form-control form-control-lg" id="fName" placeholder="a" required>
-          <label>First Name</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="text" class="form-control form-control-lg" id="fName" placeholder="a" required>
+            <label>First Name</label>
+          </div>
 
-        <div class="form-floating mb-4">
-          <input type="text" class="form-control form-control-lg" id="lName" placeholder="b" required>
-          <label>Last Name</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="text" class="form-control form-control-lg" id="lName" placeholder="b" required>
+            <label>Last Name</label>
+          </div>
 
-        <div class="form-floating mb-4">
-          <input type="email" class="form-control form-control-lg" id="email"  v-on:keyup="checkIfEmailExists" placeholder="exampleEmail"
-                 required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" title="Please enter a valid email.">
-          <label>Email</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="email" class="form-control form-control-lg" id="email"  v-on:keyup="checkIfEmailExists" placeholder="exampleEmail"
+                   required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" title="Please enter a valid email.">
+            <label>Email</label>
+          </div>
 
-        <div class="form-floating mb-4">
-          <input type="password" class="form-control form-control-lg" id="pass"  title="
-          Password must contain: Minimum 8 characters at least 1 alphabetic character and 1 number"
-                 placeholder="b" required=""
-                 pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
-          <label>Password</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control form-control-lg" id="pass"  title="
+            Password must contain: Minimum 8 characters at least 1 alphabetic character and 1 number"
+                   placeholder="b" required=""
+                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
+            <label>Password</label>
+          </div>
 
-        <div class="form-floating mb-4">
-          <input type="password" class="form-control form-control-lg" id="confPass" v-on:keyup="checkIfPassMatches"
-                 placeholder="b" required>
-          <label>Confirm Password</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control form-control-lg" id="confPass" v-on:keyup="checkIfPassMatches"
+                   placeholder="b" required>
+            <label>Confirm Password</label>
+          </div>
 
-        <div class="form-check d-flex mb-2">
-          <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value="" id="tosCheckbox"/>
-          <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms of Service</u></a>
-          </label>
-        </div>
+          <div class="form-check d-flex mb-2">
+            <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value="" id="tosCheckbox"/>
+            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms of Service</u></a>
+            </label>
+          </div>
 
-        <button class="btn btn-primary text-white sign-up disabled" id="btn1"
-                style="width: 150px; height: 50px; align-self: center ">Sign Up</button>
+          <button class="btn btn-primary text-white sign-up disabled" id="btn1"
+                  style="width: 150px; height: 50px; align-self: center ">Sign Up</button>
 
-        <p class="text-center mt-1 mb-2 text-white">Already have an account?
-          <router-link to="/" style="color: black">Login here</router-link>
-        </p>
-      </form>
+          <p class="text-center mt-1 mb-2 text-white">Already have an account?
+            <router-link to="/" style="color: black">Login here</router-link>
+          </p>
+        </form>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -126,11 +126,9 @@ export default {
       }
     },
     checkIfEmailExists() {
-      let userAccounts = [];
       const email = document.getElementById('email');
       Api.get('/userAccounts').then(result => {
-        userAccounts = result.data.users;
-        const isFound = userAccounts.some(element => {
+        const isFound = result.data.users.some(element => {
           return element.email === email.value;
         });
         if(isFound){
@@ -138,17 +136,32 @@ export default {
         }else {
           email.setCustomValidity('');
         }
-
       })
     },
   }
 }
 
-
 </script>
 
 <style>
 
+body {
+  background: linear-gradient(-45deg, #6b6b6b, #213FAF);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 html, body {
   height: 100vh;
   align-items: center;
