@@ -6,9 +6,9 @@
       </div>
       <div class="row">
         <div id="dateInfo">
-          <p>{{ entry.dates.date.split('T')[0] }}</p>
-          <p class="text-secondary" style="font-size: 12px">Created: {{ entry.dates.created.split('T')[0] }} | Last
-            edited: {{ entry.dates.edited.split('T')[0] }}</p>
+          <p>{{ entry.date_date.split('T')[0] }}</p>
+          <p class="text-secondary" style="font-size: 12px">Created: {{ entry.created_date.split('T')[0] }} | Last
+            edited: {{ entry.edited_date.split('T')[0] }}</p>
         </div>
       </div>
     </div>
