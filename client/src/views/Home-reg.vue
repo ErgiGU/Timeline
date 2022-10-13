@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="row needs-validation" id="rowContainer">
+  <div class="container vh-100">
+    <div class="row needs-validation justify-content-center" id="rowContainer">
       <div class="col-md-4" id="parentContainer">
         <form id="registrationForm" v-on:submit="function1">
           <h2 class="text-center text-white mb-3" style="top: 100px; ">Create an account</h2>
