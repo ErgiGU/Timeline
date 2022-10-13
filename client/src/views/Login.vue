@@ -29,14 +29,28 @@
 </template>
 
 <script>
+
+// @ is an alias to /src
+import {Api} from '@/Api'
+
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
   methods:{
     login(){
-      //const email = document.getElementById("email").value;
-      //const pass = document.getElementById('pass').value;
-
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById('pass').value;
+      Api.post('/login', {
+        username: email,
+        password: pass
+      }).then((response) => {
+        this.$router.push('/Home');
+        const token = response.data
+        localStorage.token = token
+      }).catch((error) => {
+          console.log(error.response)
+        })
     }
   }
 }

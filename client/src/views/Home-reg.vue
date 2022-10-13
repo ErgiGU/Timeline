@@ -20,7 +20,7 @@
 
           <div class="form-floating mb-4">
             <input type="email" class="form-control form-control-lg" id="email"  v-on:keyup="checkIfEmailExists" placeholder="exampleEmail"
-                   required pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" title="Please enter a valid email.">
+                   required  title="Please enter a valid email.">
             <label>Email</label>
           </div>
 
@@ -93,7 +93,6 @@ export default {
               "password": pass.value
         }
           Api.post("/userPasswords",userPass);
-          console
         });
 
         this.showDismissibleAlert=true;
@@ -127,16 +126,17 @@ export default {
     },
     checkIfEmailExists() {
       const email = document.getElementById('email');
-      Api.get('/userAccounts').then(result => {
-        const isFound = result.data.users.some(element => {
-          return element.email === email.value;
-        });
-        if(isFound){
+      let body = {
+        'email': email.value
+      }
+      Api.post('/checkEmail',body).then(result => {
+        if (result.data === "Email already exists") {
+          console.log(result.data);
           email.setCustomValidity("Email already exists");
-        }else {
-          email.setCustomValidity('');
+        }else{
+          email.setCustomValidity("");
         }
-      })
+      });
     },
   }
 }
