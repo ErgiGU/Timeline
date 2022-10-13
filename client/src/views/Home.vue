@@ -53,7 +53,7 @@
 import {Api} from '@/Api'
 import timelineCard from "@/components/timelinecards/timelineCard";
 
-import SideBar from '@/components/SideBar'
+import SideBar from '@/components/sidebar/SideBar'
 
 export default {
   components: {
