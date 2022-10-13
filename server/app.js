@@ -10,7 +10,8 @@ const userAccountController = require("./controllers/userAccountController");
 const userPasswordController = require("./controllers/userPasswordController");
 
 // Variables
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+//const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
