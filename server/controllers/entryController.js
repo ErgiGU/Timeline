@@ -99,7 +99,7 @@ router.post("/api/entries", function (req, res, next) {
         text: req.body.text,
         user: req.body.user,
         edited_date: new Date().toISOString(),
-        date_date: req.body.dates.date,
+        date_date: req.body.date_date,
         created_date: new Date().toISOString(),
         links: [
             {
