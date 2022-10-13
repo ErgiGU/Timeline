@@ -61,7 +61,7 @@ export default {
             "_id": res.data._id,
             "password": pass.value
           }
-          Api.post("/userPasswords/" + this.$defaultUserAccount, userPass);
+          Api.post("/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
           console
         });
 

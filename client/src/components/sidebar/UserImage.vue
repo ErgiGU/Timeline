@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     imageFile(ev) {
-      console.log(this.imageURL)
       const file = ev.target.files[0];
       const reader = new FileReader();
       let body;
@@ -32,13 +31,13 @@ export default {
         body = {
           "profile_picture": bodyPicture
         }
-        Api.patch('/userAccounts/' + this.$defaultUserAccount, body)
+        Api.patch('/userAccounts/' + this.parseJwt(localStorage.token)._id, body)
         this.imageURL = e.target.result
       }
       reader.readAsDataURL(file)
     },
     setInitialImage() {
-      Api.get('/userAccounts/' + this.$defaultUserAccount)
+      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id)
         .then(response => {
           if (response.data.profile_picture !== null && response.data.profile_picture !== "random") {
             this.imageURL = response.data.profile_picture

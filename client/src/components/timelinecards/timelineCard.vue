@@ -10,7 +10,8 @@
           </button>
         </li>
         <li class="nav-item ms-auto" role="presentation">
-          <button id="TimelineCardEntryEditorTab" :aria-selected="{active:currentTab==='TimelineCardEntryEditorTab'}"
+          <button id="TimelineCardEntryEditorTab"
+                  :aria-selected="{active:currentTab==='TimelineCardEntryEditorTab'}"
                   :class="{active:currentTab==='TimelineCardEntryEditorTab'}" class="nav-link" role="tab"
                   type="button" @click="currentTab='TimelineCardEntryEditorTab'">Edit
           </button>

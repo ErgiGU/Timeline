@@ -1,31 +1,32 @@
 <template>
   <body>
-  <div class="row" id="rowContainer">
-    <div class="col-md-4" id="parentContainer">
-      <form id="loginForm">
-        <h2 class="text-center mb-4">Sign In</h2>
+    <div class="row" id="rowContainer">
+      <div class="col-md-4" id="parentContainer">
+        <form id="loginForm">
+          <h2 class="text-center mb-4">Sign In</h2>
 
-        <div class="form-floating mb-4">
-          <input type="email" class="form-control form-control-lg" id="email" placeholder="deeznuts@mail.com"
-                 required>
-          <label>Email</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="email" class="form-control form-control-lg" id="email" placeholder="deeznuts@mail.com"
+                   required>
+            <label>Email</label>
+          </div>
 
-        <div class="form-floating mb-4">
-          <input type="password" class="form-control form-control-lg" id="pass" placeholder="b" required>
-          <label>Password</label>
-        </div>
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control form-control-lg" id="pass" placeholder="b" required>
+            <label>Password</label>
+          </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px">Sign In</button>
+          <button type="submit" class="btn btn-primary" @click="login" style="width: 150px; height: 50px">Sign
+            In
+          </button>
 
-        <p class="text-center mt-3 mb-2">Don't have an account?
-          <router-link to="/Registration" style="color: black">Register here</router-link>
-        </p>
-      </form>
+          <p class="text-center mt-3 mb-2">Don't have an account?
+            <router-link to="/Registration" style="color: black">Register here</router-link>
+          </p>
+        </form>
+      </div>
     </div>
-  </div>
   </body>
-
 </template>
 
 <script>
@@ -33,25 +34,27 @@
 // @ is an alias to /src
 import {Api} from '@/Api'
 
-
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
   methods: {
-    login() {
+    login(event) {
+      event.preventDefault()
       const email = document.getElementById("email").value;
       const pass = document.getElementById('pass').value;
+
       Api.post('/login', {
-        username: email,
+        email: email,
         password: pass
       }).then((response) => {
         this.$router.push('/Home');
-        const token = response.data
-        localStorage.token = token
+        localStorage.token = response.data.token
+        console.log(localStorage.token)
+        console.log(this.parseJwt(localStorage.token)._id)
       }).catch((error) => {
         console.log(error.response)
       })
-    }
+    },
   }
 }
 </script>

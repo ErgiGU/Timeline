@@ -6,8 +6,10 @@
       </div>
       <div class="row">
         <div id="dateInfo">
-          <input id="entryDateEditor" :value="entry.date_date.split('T')[0]" style="margin-bottom: 16px" type="text">
-          <p class="text-secondary" style="font-size: 12px">Created: {{ entry.created_date.split('T')[0] }} | Last
+          <input id="entryDateEditor" :value="entry.date_date.split('T')[0]" style="margin-bottom: 16px"
+                 type="text">
+          <p class="text-secondary" style="font-size: 12px">Created: {{ entry.created_date.split('T')[0] }} |
+            Last
             edited: {{ entry.edited_date.split('T')[0] }}</p>
         </div>
       </div>
@@ -49,16 +51,13 @@ export default {
     },
 
     updateEntry() {
-      let date = document.getElementById('entryDateEditor').value
-      let created = this.entry.created_date
+      let date_date = document.getElementById('entryDateEditor').value
+      let created_date = this.entry.created_date
       let location = document.getElementById('entryLocation').value
       let text = document.getElementById('entryTextEditor').value
-      let dates = {
-        date,
-        created
-      }
       let entry = {
-        dates,
+        date_date,
+        created_date,
         location,
         text
       }

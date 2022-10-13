@@ -16,7 +16,8 @@
                 <p>Date of Birth: {{ dateBirth }}</p>
               </div>
               <div>
-                <div id="cardsStatistics" style="text-align: left; display:flex; flex-direction: column;">
+                <div id="cardsStatistics"
+                     style="text-align: left; display:flex; flex-direction: column;">
                   <p style="color: lightgrey" class="m-0">
                     Total Entries: {{ totalEntries }}<br>
                     Average Word per Entry: {{ averageWord }}<br>
@@ -42,7 +43,8 @@
           </div>
         </div>
         <div class="col pt-2">
-          <button data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1">Sidebar</button>
+          <button data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1">Sidebar
+          </button>
         </div>
       </div>
     </div>

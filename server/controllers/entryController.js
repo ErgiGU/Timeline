@@ -4,21 +4,26 @@ const entryModel = require("../models/entryModel");
 const router = express.Router();
 const uuid = require('uuid');
 
-
+// Get user entries
 router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
-        .exec((err, userAccounts) => {
+        .exec((err, userAccount) => {
             if (err) {
                 return res.status(400).send(err);
             }
-            userAccounts.entry_list.sort(function (a, b) {
-                return ((b.date_date) - (a.date_date));
-            });
-            return res.status(200).json(userAccounts.entry_list);
+            if (userAccount.entry_list !== null) {
+                userAccount.entry_list.sort(function (a, b) {
+                    return ((b.date_date) - (a.date_date));
+                });
+            } else {
+                console.log("no entries found")
+            }
+            return res.status(200).json(userAccount.entry_list);
         });
 });
 
+// Post new user entry list
 router.post("/api/userAccounts/:id/entry_list", async function (req, res, next) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
@@ -55,6 +60,7 @@ router.post("/api/userAccounts/:id/entry_list", async function (req, res, next) 
         });
 });
 
+// Delete specific entry from user list
 router.delete('/api/userAccounts/:id/entry_list/:entry_id', async (req, res) => {
     let entry_id = req.params.entry_id;
     let id = req.params.id;
@@ -77,6 +83,7 @@ router.delete('/api/userAccounts/:id/entry_list/:entry_id', async (req, res) => 
 
 });
 
+// Get specific entry from user list
 router.get('/api/userAccounts/:id/entry_list/:entry_id', async (req, res, next) => {
     let id = req.params.entry_id;
     entryModel.findById(id, function (err, entry) {

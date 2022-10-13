@@ -68,7 +68,7 @@ export default {
           "date_of_birth": date_of_birth.value
         }
         console.log("HHUUUUUUHHH")
-        Api.patch("/userAccounts/" + this.$defaultUserAccount, userAccount)
+        Api.patch("/userAccounts/" + this.parseJwt(localStorage.token)._id, userAccount)
 
         this.showDismissibleAlert = true;
         event.preventDefault();

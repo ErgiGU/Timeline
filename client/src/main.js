@@ -12,9 +12,21 @@ import 'marked'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
-Vue.prototype.$defaultUserAccount = '6a1c3323-c1f7-4d13-b71b-f6d222c6b4e5'
 
 Vue.config.productionTip = false
+
+Vue.mixin({
+  methods: {
+    parseJwt(token) {
+      const base64Url = token.split('.')[1]
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      }).join(''))
+      return JSON.parse(jsonPayload)
+    }
+  }
+})
 
 new Vue({
   router,
