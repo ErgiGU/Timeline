@@ -1,57 +1,48 @@
 <template>
-  <div>
+  <div style="display: flex;flex-wrap: nowrap">
     <div>
       <drop-down></drop-down>
     </div>
 
-    <div class="row">
-      <div class="col-2">
-        <!-- Enter sidebar here -->
-      </div>
-      <div class="col-10">
-        <b-jumbotron header="Timeline">
-          <b-button class="btn_message" variant="primary" @click="getEntries()">Get Message from Server</b-button>
-          <p>Message from the server:<br/>
-            {{ message }}</p>
-        </b-jumbotron>
+    <div id="topContainer" class="row">
+      <b-jumbotron header="Timeline">
+        <b-button class="btn_message" variant="primary" @click="getEntries()">Refresh entries</b-button>
+      </b-jumbotron>
 
-        <div class="container" id="entryInputContainer">
-          <div class="row g-0" id="entryInput">
-            <div class="col-sm-3">
-              <input type="date" class="form-control" placeholder="Date" aria-label="Date" id="entryDate">
+      <div id="entryInputContainer" class="container sticky-top">
+        <div id="entryInput" class="row g-0 text-bg-dark">
+          <div class="col-3">
+            <div class="row g-0">
+              <input id="entryDate" aria-label="Date" class="form-control text-bg-dark" placeholder="Date" type="date">
             </div>
-            <div class="col">
+            <div class="row g-0">
               <div class="form-floating">
-                <textarea class="form-control" placeholder="Entry" aria-label="Entry" id="entryText"></textarea>
-                <label for="entryText">Entry</label>
+                <textarea id="entryLocation" aria-label="Location" class="form-control text-bg-dark"
+                          placeholder="Location"></textarea>
+                <label for="locationText">Location</label>
               </div>
             </div>
           </div>
-        </div>
-
-
-        <div class="container" id="timelineContainer" v-for="entry of entries" v-bind:key="entry">
-          <div class="row" id="timelineRow">
-            <div class="col-3" id="timelineInfo">
-              <div class="row" id="imageGallery">image</div>
-              <div class="row" id="timelineInfoStats">
-                <div class="col-4">Date:</div>
-                <div class="col-8"> {{ entry.dates.date.split('T')[0] }}</div>
-              </div>
-              <div class="row" id="timelineInfoStats">
-                <div class="col-4">Created:</div>
-                <div class="col-8">{{ entry.dates.created.split('T')[0] }}</div>
-              </div>
-              <div class="row" id="timelineInfoStats">
-                <div class="col-4">Edited:</div>
-                <div class="col-8">{{ entry.dates.edited.split('T')[0] }}</div>
-              </div>
-            </div>
-            <div class="col-8" id="timelineText">
-              <p> {{ entry.text }} </p>
+          <div class="col-6">
+            <div class="form-floating">
+              <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
+                        placeholder="Entry"></textarea>
+              <label for="entryText">Entry</label>
             </div>
           </div>
+          <div class="d-grid gap-2 col-3">
+            <button class="btn btn-outline-light" @click="createEntry">Preview Entry</button>
+            <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
+          </div>
         </div>
+      </div>
+
+      <div id="timelineContainer" class="container">
+        <timeline-card
+          v-for="entry of entries"
+          :key="entry._id"
+          :entry="entry"
+        />
       </div>
     </div>
   </div>
@@ -60,61 +51,75 @@
 <script>
 // @ is an alias to /src
 import {Api} from '@/Api'
-
-import SideBar from '@/components/SideBar'
+import SideBar from '@/components/sidebar/SideBar'
+import timelineCard from "@/components/timelinecards/timelineCard";
 
 export default {
   components: {
+    timelineCard,
     'drop-down': SideBar
   },
 
-  name: 'ExampleHome',
+  name: 'Timeline-Home',
   created() {
     this.getEntries()
   },
 
   data() {
     return {
-      message: 'none',
-      entryDate: 'none',
-      entryText: 'none',
+      visibleEntries: 0,
       entries: []
     }
   },
 
   methods: {
-    getMessage() {
-      Api.get('/userAccounts/92f6059e-af8b-41a8-b595-3e75cdceebd5')
-        .then(response => {
-          this.message = response.data.first_name + " " + response.data.surname
+    createEntry() {
+      const date = document.getElementById('entryDate').value
+      const created = document.getElementById('entryDate').value
+      const edited = document.getElementById('entryDate').value
+      const location = document.getElementById('entryLocation').value
+      const text = document.getElementById('entryText').value
+      const entry = {
+        dates: {
+          date,
+          created,
+          edited
+        },
+        location,
+        text
+      }
+
+      let entry_list = []
+      let user = {}
+
+      Api.get('/userAccounts/' + this.$defaultUserAccount).then(result => {
+        entry_list = result.data.entry_list
+        Api.post('/entries', entry).then(response => {
+          entry_list.push(response.data._id)
+          user = {
+            entry_list
+          }
+          Api.patch('/userAccounts/' + this.$defaultUserAccount, user)
         })
-        .catch(error => {
-          this.message = error
-        })
+      })
     },
-    getEntry() {
-      Api.get('/entries/c67efd77-3c83-403f-8513-004829b6c2d4')
-        .then(response => {
-          this.entryDate = response.data.dates.date.split('T')[0];
-          this.entryText = response.data.text;
-        })
-    },
+
     getEntries() {
       Api.get('/entries')
         .then(response => {
           this.entries = response.data.entries;
         })
     },
+
     getNextEntry() {
       window.onscroll = () => {
         let bottomOfWindow = document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight;
         if (bottomOfWindow) {
-          Api.get(`/entries`).then(response => {
-            this.entries.push(response.data.results);
-          });
+          console.log("bottom of window reached")
+          this.getEntries()
         }
       }
-    }
+    },
   },
 
   mounted() {
@@ -124,52 +129,54 @@ export default {
 </script>
 
 <style>
+* {
+  padding: 0;
+  margin: 0;
+}
+/* Entry container */
+#entryInputContainer {
+  margin-bottom: 20px;
+  padding: 0;
+  margin-right: 100px;
+  border-radius: 5px;
+}
+
+#topContainer {
+  margin-right: 100px;
+  margin-left: 100px;
+}
+
+#entryDate {
+  margin: 0;
+  border-radius: 5px 0 0 0;
+  height: 60px;
+}
+
+#entryLocation {
+  margin: 0;
+  border-radius: 0 0 0 5px;
+  min-height: 60px;
+  resize: none;
+}
+
+#entryText {
+  margin: 0;
+  border-radius: 0 0 0 0;
+  min-height: 120px;
+}
+
 .btn_message {
   margin-bottom: 1em;
 }
 
+/* Timeline container */
 #timelineContainer {
   margin-top: 5px;
-  border: thin #bed2e1 solid;
   border-radius: 5px;
-  box-shadow: 2px 2px #93a3af;
-}
-
-#entryInputContainer {
   padding: 0;
-  margin-bottom: 20px;
 }
 
-#timelineText {
-  font-size: 20px;
-  /*border: thin #2c3e50 solid;*/
-  box-shadow: -2px 0 0 #bed2e1;
-}
-
-#timelineInfo {
-  padding-left: 0;
-  font-size: 20px;
-  /*border: thin #2c3e50 solid;*/
-}
-
-#imageGallery {
-  margin-left: 0;
-  box-shadow: 0 2px 0 #bed2e1;
-}
-
-#timelineInfoStats {
-  text-align: left;
-  font-size: 12pt;
-}
-
-#entryDate {
-  height: 60px;
-}
-
-#entryText {
-  min-height: 50px;
-}
-
+/* Scrollbar test */
 #entryText::-webkit-scrollbar {
   width: 12px;
   background-color: #b4b4b4;

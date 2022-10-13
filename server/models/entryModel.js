@@ -12,20 +12,22 @@ const entrySchema = new Schema({
     text : {
         type : String
     },
-    dates: {
-        edited : {type : Date},
-        date : {type : Date},
-        created : {type : Date},
+    edited_date : {
+        type : Date
+    },
+    date_date : {
+        type : Date
+    },
+    created_date : {
+        type : Date
     },
     user: {
         type: String,
         ref: "userAccount"
     },
     uploaded_entities_list:[{
-        uploaded_entity : {
-            type : String,
-            ref : "uploadedEntity"
-        }
+        type : String,
+        ref : "uploadedEntity"
     }],
     links:[
         {

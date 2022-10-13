@@ -13,6 +13,8 @@ router.post("/api/userAccounts", function(req, res, next) {
         surname: req.body.surname,
         email: req.body.email,
         date_of_birth: new Date().toISOString().slice(0,10),
+        profile_picture: "random",
+        entry_list: [],
         links:[
             {
                 rel: "self",
@@ -35,19 +37,7 @@ router.get("/api/userAccounts", function (req, res, next) {
     userAccountModel.find(function(err, userAccount) {
         if(err){return next(err);}
         res.json({"users": userAccount});
-
     })
-});
-
-router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
-    userAccountModel.findById(req.params.id, { entries: 1 })
-        .populate("entry_list")
-        .exec((err, userAccounts) => {
-            if (err) {
-                return res.status(400).send(err);
-            }
-            return res.status(200).json(userAccounts.entry_list);
-        });
 });
 
 // Gets a user account
@@ -96,11 +86,11 @@ router.patch('/api/userAccounts/:id', function(req, res, next) {
             return res.status(404).json(
                 {"message": "User not found"});
         }
-
         userAccount.first_name = (req.body.first_name||userAccount.first_name);
         userAccount.surname = (req.body.surname||userAccount.surname);
         userAccount.email = (req.body.email||userAccount.email);
         userAccount.date_of_birth = (req.body.date_of_birth||userAccount.date_of_birth);
+        userAccount.profile_picture = (req.body.profile_picture || userAccount.profile_picture);
         if(req.body.entry_list){
             console.log(req.body.entry_list)
             userAccount.entry_list.push(req.body.entry_list);
@@ -118,7 +108,7 @@ router.delete('/api/userAccounts', function(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.json({'userAccounts': userAccount });
+        res.json({'userAccounts': userAccount});
     });
 });
 
@@ -137,28 +127,34 @@ router.delete('/api/userAccounts/:id', function(req, res, next) {
 });
 
 router.get('/api/statistics/:id', function(req, res) {
-    let totalEntry;
-    let totalImages;
-    let words;
-    let averageWords;
-    userAccountModel.findOne({_id: userIdentity}, function(err, userAccount) {
-        userAccount.forEach((user) => {
-            totalEntry = user.entry_list.length
+    userAccountModel.findById(req.params.id, { entries: 1 })
+        .populate("entry_list")
+        .exec((err, userAccounts) => {
+            let totalEntry
+            let totalImages = 0;
+            let words = [];
+            let averageWords = 0;
 
-            user.entry_list.forEach((entry) => {
-                totalImages = totalImages + entry.uploaded_entities_list.length
-                words.push(entry.text.split(" "))
-
+            userAccounts.entry_list.forEach(entry => {
+                if(entry.uploaded_entities_list){
+                    totalImages = totalImages + entry.uploaded_entities_list.length
+                }
+                let newWordsList = entry.text.split(" ")
+                words = words.concat(newWordsList)
             })
+            totalEntry = userAccounts.entry_list.length
+
+            if(totalEntry){
+                averageWords = (words.length / totalEntry)
+            }
+            averageWords = Math.round(averageWords * 100) / 100
+            res.json({
+                'totalEntries': totalEntry,
+                'totalImages': totalImages,
+                'totalSize': 'NO DATA',
+                'averageWord': averageWords
+            });
         })
-    })
-    averageWords = (words.length / totalEntry)
-    res.json({
-        'totalEntries': totalEntry,
-        'totalImages': totalImages,
-        'totalSize': 'NO DATA',
-        'averageWord': averageWords
-    });
 });
 
 module.exports = router;
