@@ -4,7 +4,7 @@
       <div class="row">
         <entry-image-carousel></entry-image-carousel>
       </div>
-      <div class="row g-0 justify-content-center" style="font-size: 24px"> {{ entry.date_date.split('T')[0] }}</div>
+      <div class="row g-0 justify-content-center" style="font-size: 24px"> {{ entry.date_date.split('T')[0] }} </div>
       <div class="border-bottom">Location:</div>
       <div class="row">
         <google-maps :mapLocation="this.entry.location" :entryID="entry._id"/>

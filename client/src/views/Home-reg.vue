@@ -19,7 +19,8 @@
           </div>
 
           <div class="form-floating mb-4">
-            <input type="email" class="form-control form-control-lg" id="email" v-on:keyup="checkIfEmailExists"
+            <input type="email" class="form-control form-control-lg" id="email"
+                   v-on:keyup="checkIfEmailExists"
                    placeholder="exampleEmail"
                    required title="Please enter a valid email.">
             <label>Email</label>
@@ -34,14 +35,17 @@
           </div>
 
           <div class="form-floating mb-4">
-            <input type="password" class="form-control form-control-lg" id="confPass" v-on:keyup="checkIfPassMatches"
+            <input type="password" class="form-control form-control-lg" id="confPass"
+                   v-on:keyup="checkIfPassMatches"
                    placeholder="b" required>
             <label>Confirm Password</label>
           </div>
 
           <div class="form-check d-flex mb-2">
-            <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value="" id="tosCheckbox"/>
-            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms of
+            <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value=""
+                   id="tosCheckbox"/>
+            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms
+              of
               Service</u></a>
             </label>
           </div>

@@ -4,7 +4,8 @@
       <side-exampe></side-exampe>
       <div style=" width: 100%; align-self: center">
         <b-jumbotron header="DIT342 Frontend" lead="Welcome to your DIT342 Frontend Vue.js App">
-          <b-button class="btn_message" variant="primary" v-on:click="getMessage()">Get Message from Server</b-button>
+          <b-button class="btn_message" variant="primary" v-on:click="getMessage()">Get Message from Server
+          </b-button>
           <p>Message from the server:<br/>
             {{ message }}</p>
         </b-jumbotron>
