@@ -20,8 +20,7 @@ router.get("/api/getEmail", async function (req, res, next) {
     })
 })
 
-
-router.post('/api/login', auth, async (req, res, next) => {
+router.post('/api/login', async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         if (err) {

@@ -4,18 +4,20 @@
          id="collapseWidthExample">
       <b-card id="container" class="border-0"></b-card>
       <nav id="sidebar" style="transition: linear; min-width: 250px; display: inline-block; width: 100%">
-        <b-sidebar id="sidebar-1" style="transition: linear; min-width: 250px; display: inline-block; width: 100%;"
+        <b-sidebar id="sidebar-1"
+                   style="transition: linear; min-width: 250px; display: inline-block; width: 100%;"
                    title="Timeline" bg-variant="dark" text-variant="light" width="20%" v-model="collapse"
                    no-header-close no-close-on-esc shadow>
           <template #footer>
             <div class="d-flex bg-light text-light px-3 py-2 w-100">
               <div>
-                <b-button id="signOutButton" variant="primary">Sign Out</b-button>
+                <b-button id="signOutButton" @click="logOut" variant="primary">Sign Out</b-button>
               </div>
             </div>
           </template>
           <div id="sidebarComponents" class="px-3 py-2 w-100 h-100">
-            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div
+              style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
               <user-image style="width: 70%;"></user-image>
               <p>{{ firstName }} {{ surname }}</p>
             </div>
@@ -36,7 +38,8 @@
               <b-button id="settings" v-b-toggle.settingsCollapse variant="light" class="settings w-100"
                         v-on:click="settingsButton()">
                 Settings &nbsp;
-                <b-icon class="iconSettings" width="6px" rotate="180" icon="triangle-fill" aria-hidden="true"></b-icon>
+                <b-icon class="iconSettings" width="6px" rotate="180" icon="triangle-fill"
+                        aria-hidden="true"></b-icon>
               </b-button>
               <b-collapse id="settingsCollapse">
                 <div id="cardSettings" class="py-2">
@@ -91,13 +94,15 @@ export default {
       widthCollapse: 0,
       heightCollapse: 0,
       settingsOpen: false,
-      collapse: true,
-      userUrl: '/userAccounts/' + this.$defaultUserAccount
+      collapse: true
     }
   },
   methods: {
+    logOut(){
+      this.$router.push({name: 'login'});
+    },
     getUserInfo() {
-      Api.get(this.userUrl)
+      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id)
         .then(response => {
           this.firstName = response.data.first_name
           this.surname = response.data.surname
@@ -108,18 +113,18 @@ export default {
           this.message = error
         })
     },
-    // getStatistics() {
-    //   Api.get('/statistics/' + this.$defaultUserAccount)
-    //     .then(response => {
-    //       this.totalEntries = response.data.totalEntries
-    //       this.averageWord = response.data.averageWord
-    //       this.totalImages = response.data.totalImages
-    //       this.totalSize = response.data.totalSize
-    //     })
-    //     .catch(error => {
-    //       this.message = error
-    //     })
-    // },
+    getStatistics() {
+      Api.get('/statistics/' + this.parseJwt(localStorage.token)._id)
+        .then(response => {
+          this.totalEntries = response.data.totalEntries
+          this.averageWord = response.data.averageWord
+          this.totalImages = response.data.totalImages
+          this.totalSize = response.data.totalSize
+        })
+        .catch(error => {
+          this.message = error
+        })
+    },
     getDimensions() {
       const menuBtn = document.querySelector('.menu-btn')
       if (screen.width < 768) {
@@ -163,7 +168,7 @@ export default {
   mounted() {
     this.getUserInfo()
     this.getDimensions()
-    // this.getStatistics()
+    this.getStatistics()
     window.addEventListener('resize', this.getDimensions)
   },
   unmounted() {

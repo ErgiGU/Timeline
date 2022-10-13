@@ -10,7 +10,8 @@
       </template>
       <form>
         <div style="display: flex; flex-direction: column">
-          <p>Warning! This action is not revertable. Your account with all it's entries and images will be permanently
+          <p>Warning! This action is not revertable. Your account with all it's entries and images will be
+            permanently
             deleted!</p>
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="floatingInput" placeholder="********" required>
@@ -22,9 +23,11 @@
           </div>
           <b-form-checkbox class="checkbox" name="agreeCheck" v-on:change="checkBox()">
             &nbsp;
-            <b-icon class="iconSettings" width="20px" icon="exclamation-triangle" aria-hidden="true"></b-icon>
+            <b-icon class="iconSettings" width="20px" icon="exclamation-triangle"
+                    aria-hidden="true"></b-icon>
             I would like to permanently delete my account
-            <b-icon class="iconSettings" width="20px" icon="exclamation-triangle" aria-hidden="true"></b-icon>
+            <b-icon class="iconSettings" width="20px" icon="exclamation-triangle"
+                    aria-hidden="true"></b-icon>
           </b-form-checkbox>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; padding-top: 10px">
@@ -59,7 +62,7 @@ export default {
       }
     },
     deleteAccount() {
-      Api.delete("userAccounts/3cdd9180-7450-4511-9888-8f000efb5ecc")
+      Api.delete('userAccounts/' + this.parseJwt(localStorage.token)._id)
     }
   }
 }

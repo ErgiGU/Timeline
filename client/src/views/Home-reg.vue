@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <div class="row needs-validation" id="rowContainer">
+  <div class="container vh-100">
+    <div class="row needs-validation justify-content-center" id="rowContainer">
       <div class="col-md-4" id="parentContainer">
         <form id="registrationForm" v-on:submit="function1">
           <h2 class="text-center text-white mb-3" style="top: 100px; ">Create an account</h2>
@@ -19,7 +19,8 @@
           </div>
 
           <div class="form-floating mb-4">
-            <input type="email" class="form-control form-control-lg" id="email" v-on:keyup="checkIfEmailExists"
+            <input type="email" class="form-control form-control-lg" id="email"
+                   v-on:keyup="checkIfEmailExists"
                    placeholder="exampleEmail"
                    required title="Please enter a valid email.">
             <label>Email</label>
@@ -34,14 +35,17 @@
           </div>
 
           <div class="form-floating mb-4">
-            <input type="password" class="form-control form-control-lg" id="confPass" v-on:keyup="checkIfPassMatches"
+            <input type="password" class="form-control form-control-lg" id="confPass"
+                   v-on:keyup="checkIfPassMatches"
                    placeholder="b" required>
             <label>Confirm Password</label>
           </div>
 
           <div class="form-check d-flex mb-2">
-            <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value="" id="tosCheckbox"/>
-            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms of
+            <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value=""
+                   id="tosCheckbox"/>
+            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms
+              of
               Service</u></a>
             </label>
           </div>
@@ -150,7 +154,7 @@ export default {
 <style>
 
 body {
-  background: linear-gradient(-45deg, #6b6b6b, #213FAF);
+  background: linear-gradient(-45deg, #6b6b6b, rgba(26, 49, 134, 0.69), #C9CDDD);
   background-size: 400% 400%;
   animation: gradient 10s ease infinite;
 }

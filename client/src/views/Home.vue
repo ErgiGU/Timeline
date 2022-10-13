@@ -13,7 +13,8 @@
         <div id="entryInput" class="row g-0 text-bg-dark">
           <div class="col-3">
             <div class="row g-0">
-              <input id="entryDate" aria-label="Date" class="form-control text-bg-dark" placeholder="Date" type="date">
+              <input id="entryDate" aria-label="Date" class="form-control text-bg-dark" placeholder="Date"
+                     type="date">
             </div>
             <div class="row g-0">
               <div class="form-floating">
@@ -52,8 +53,7 @@
 // @ is an alias to /src
 import {Api} from '@/Api'
 import timelineCard from "@/components/timelinecards/timelineCard";
-
-import SideBar from '@/components/SideBar'
+import SideBar from '@/components/sidebar/SideBar'
 
 export default {
   components: {
@@ -74,41 +74,51 @@ export default {
   },
 
   methods: {
+    resizeTextarea(event) {
+      event.target.style.height = "auto";
+      event.target.style.height = event.target.scrollHeight + "px";
+    },
+
     createEntry() {
-      const date = document.getElementById('entryDate').value
-      const created = document.getElementById('entryDate').value
-      const edited = document.getElementById('entryDate').value
+      const date_date = document.getElementById('entryDate').value
+      const created_date = document.getElementById('entryDate').value
+      const edited_date = document.getElementById('entryDate').value
       const location = document.getElementById('entryLocation').value
       const text = document.getElementById('entryText').value
       const entry = {
-        dates: {
-          date,
-          created,
-          edited
-        },
+        date_date,
+        created_date,
+        edited_date,
         location,
         text
       }
 
-      let entry_list = []
-      let user = {}
+      if (date_date === "" || location === "" || text === "") {
+        alert("Please enter some text")
+      } else {
+        let entry_list = []
 
-      Api.get('/userAccounts/' + this.$defaultUserAccount).then(result => {
-        entry_list = result.data.entry_list
-        Api.post('/entries', entry).then(response => {
-          entry_list.push(response.data._id)
-          user = {
-            entry_list
-          }
-          Api.patch('/userAccounts/' + this.$defaultUserAccount, user)
+        Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id).then(result => {
+          entry_list = result.data.entry_list
+          Api.post('/entries', entry).then(response => {
+            entry_list.push(response.data._id)
+            let entries = {
+              'entry_list': entry_list
+            }
+            this.entries = entry_list
+            Api.patch('/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
+            this.getEntries()
+          })
         })
-      })
+      }
     },
 
     getEntries() {
-      Api.get('/entries')
+      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id + '/entry_list')
         .then(response => {
-          this.entries = response.data.entries;
+          this.entries = response.data.sort(function (a, b) {
+            return ((b.date_date) - (a.date_date));
+          });
         })
     },
 
@@ -124,7 +134,23 @@ export default {
   },
 
   mounted() {
+    this.$nextTick(() => {
+      // DOM updated
+      document.getElementById('entryText').setAttribute(
+        "style",
+        "height:" + document.getElementById('entryText').scrollHeight + "px;overflow-y:hidden;"
+      );
+      document.getElementById('entryText').addEventListener("input", this.resizeTextarea);
+    });
     this.getNextEntry()
+  },
+
+  beforeUnmount() {
+    document.getElementById('entryText').removeEventListener("input", this.resizeTextarea);
+  },
+
+  render() {
+    return this.$slots[0];
   }
 }
 </script>

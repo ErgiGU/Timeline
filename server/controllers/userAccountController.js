@@ -100,8 +100,7 @@ router.patch('/api/userAccounts/:id', function (req, res, next) {
         userAccount.date_of_birth = (req.body.date_of_birth || userAccount.date_of_birth);
         userAccount.profile_picture = (req.body.profile_picture || userAccount.profile_picture);
         if (req.body.entry_list) {
-            console.log(req.body.entry_list)
-            userAccount.entry_list.push(req.body.entry_list);
+            userAccount.entry_list = req.body.entry_list
             userAccount.populate("entry_list")
         }
         userAccount.find
@@ -133,7 +132,6 @@ router.delete('/api/userAccounts/:id', function (req, res, next) {
         res.json(userAccount);
     });
 });
-
 
 router.get('/api/statistics/:id', function (req, res) {
     userAccountModel.findById(req.params.id, {entries: 1})

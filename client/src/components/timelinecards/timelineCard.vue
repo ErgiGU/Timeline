@@ -1,5 +1,5 @@
 <template>
-  <div id="timelineCard" class="card text-bg-dark">
+  <div id="timelineCard" class="card">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item" role="presentation">
@@ -10,7 +10,8 @@
           </button>
         </li>
         <li class="nav-item ms-auto" role="presentation">
-          <button id="TimelineCardEntryEditorTab" :aria-selected="{active:currentTab==='TimelineCardEntryEditorTab'}"
+          <button id="TimelineCardEntryEditorTab"
+                  :aria-selected="{active:currentTab==='TimelineCardEntryEditorTab'}"
                   :class="{active:currentTab==='TimelineCardEntryEditorTab'}" class="nav-link" role="tab"
                   type="button" @click="currentTab='TimelineCardEntryEditorTab'">Edit
           </button>
@@ -50,6 +51,8 @@ export default {
 <style>
 /* Card styling */
 #timelineCard {
+  background-color: #212529;
+  color: white;
   border: thin #6b6b6b solid;
   border-radius: 5px;
   min-height: 400px;
