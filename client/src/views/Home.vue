@@ -54,6 +54,9 @@ import {Api} from '@/Api'
 import SideBar from '@/components/sidebar/SideBar'
 import timelineCard from "@/components/timelinecards/timelineCard";
 
+import SideBar from '@/components/SideBar'
+import axios from "axios";
+
 export default {
   components: {
     timelineCard,
