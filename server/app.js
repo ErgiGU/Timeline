@@ -8,6 +8,7 @@ const entryController = require("./controllers/entryController");
 const uploadedEntitiesController = require("./controllers/uploadedEntitiesController");
 const userAccountController = require("./controllers/userAccountController");
 const userPasswordController = require("./controllers/userPasswordController");
+const loginAuthController = require("./controllers/loginAuth");
 
 // Variables
 //const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
@@ -48,6 +49,7 @@ app.use(entryController);
 app.use(uploadedEntitiesController);
 app.use(userAccountController);
 app.use(userPasswordController);
+app.use(loginAuthController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
