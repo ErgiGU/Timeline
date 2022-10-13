@@ -2,7 +2,7 @@
   <div>
     <b-button id="settingsButtons" variant="outline-light" v-b-modal.modal-1>Change User Information</b-button>
     <b-modal id="modal-1" centered title="Change User Information" hide-footer>
-      <template #modal-header="{cancel}" >
+      <template #modal-header="{cancel}">
         <p style="font-size: 150%; line-height: 60%; margin-bottom: 0;">Change User Information</p>
         <b-button size="sm" variant="white" @click="cancel()">
           x
@@ -44,8 +44,8 @@ import {Api} from "@/Api";
 
 export default {
   name: 'ChangeUserInfo',
-  data(){
-    return{
+  data() {
+    return {
       checked: false,
       showDismissibleAlert: false
     }
@@ -68,18 +68,20 @@ export default {
           "date_of_birth": date_of_birth.value
         }
         console.log("HHUUUUUUHHH")
-        Api.patch("/userAccounts/" + this.$defaultUserAccount,userAccount)
+        Api.patch("/userAccounts/" + this.$defaultUserAccount, userAccount)
 
-        this.showDismissibleAlert=true;
+        this.showDismissibleAlert = true;
         event.preventDefault();
 
-        setTimeout(() => { location.reload() }, 2000);
+        setTimeout(() => {
+          location.reload()
+        }, 2000);
 
       } else {
         event.preventDefault();
         event.stopPropagation();
       }
-    },checkIfEmailExists() {
+    }, checkIfEmailExists() {
       let userAccounts = [];
       const email = document.getElementById('email');
       Api.get('/userAccounts').then(result => {
@@ -87,9 +89,9 @@ export default {
         const isFound = userAccounts.some(element => {
           return element.email === email.value;
         });
-        if(isFound){
+        if (isFound) {
           email.setCustomValidity("Email already exists");
-        }else {
+        } else {
           email.setCustomValidity('');
         }
 

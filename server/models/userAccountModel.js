@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
 
 const userAccountSchema = new Schema({
@@ -26,17 +27,22 @@ const userAccountSchema = new Schema({
         type: String,
         required: false
     },
-    entry_list:[{
-        type : String,
-        ref : "entry"
+    entry_list: [{
+        type: String,
+        ref: "entry"
     }],
-    links:[
+    links: [
         {
             _id: 0,
-            rel:String,
-            href:String
+            rel: String,
+            href: String
         }
     ]
 });
+
+userAccountSchema.methods.generateToken = function () {
+    const token = jwt.sign(this.toJSON(), 'secret_key');
+    return token;
+}
 
 module.exports = mongoose.model('userAccount', userAccountSchema);

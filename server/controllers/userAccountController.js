@@ -1,21 +1,23 @@
 const express = require("express");
 const userAccountModel = require("../models/userAccountModel");
+//const userPassword = require("../models/userPasswordModel");
 const router = express.Router();
 const uuid = require('uuid');
+//const bcrypt = require("bcrypt");
 
 
 //Creates the user account in the DB
-router.post("/api/userAccounts", function(req, res, next) {
+router.post("/api/userAccounts", function (req, res, next) {
     let id = uuid.v4();
     const userAccount = new userAccountModel({
         _id: id,
         first_name: req.body.first_name,
         surname: req.body.surname,
         email: req.body.email,
-        date_of_birth: new Date().toISOString().slice(0,10),
+        date_of_birth: new Date().toISOString().slice(0, 10),
         profile_picture: "random",
         entry_list: [],
-        links:[
+        links: [
             {
                 rel: "self",
                 href: "http://localhost:3000/api/userAccounts/" + id
@@ -23,27 +25,33 @@ router.post("/api/userAccounts", function(req, res, next) {
         ]
     })
 
-    userAccount.save(function (err,userAccount) {
+
+    userAccount.save(function (err, userAccount) {
         if (err) {
             return next(err);
         }
+
         res.status(201).json(userAccount);
+
     });
+
 
 });
 
 // Gets all the user accounts
 router.get("/api/userAccounts", function (req, res, next) {
-    userAccountModel.find(function(err, userAccount) {
-        if(err){return next(err);}
+    userAccountModel.find(function (err, userAccount) {
+        if (err) {
+            return next(err);
+        }
         res.json({"users": userAccount});
     })
 });
 
 // Gets a user account
-router.get('/api/userAccounts/:id', function(req, res, next) {
+router.get('/api/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
-    userAccountModel.findById(id, function(err, userAccount) {
+    userAccountModel.findById(id, function (err, userAccount) {
         if (err) {
             return next(err);
         }
@@ -56,10 +64,10 @@ router.get('/api/userAccounts/:id', function(req, res, next) {
 });
 
 //I don't think we should have this for the user account
-router.put('/api/userAccounts/:id', function(req, res, next) {
+router.put('/api/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
-    userAccountModel.findById(id, function(err, userAccount) {
+    userAccountModel.findById(id, function (err, userAccount) {
         if (err) {
             return next(err);
         }
@@ -76,9 +84,9 @@ router.put('/api/userAccounts/:id', function(req, res, next) {
 });
 
 //Replaces specific attributes of the user account
-router.patch('/api/userAccounts/:id', function(req, res, next) {
+router.patch('/api/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
-    userAccountModel.findById(id, function(err, userAccount) {
+    userAccountModel.findById(id, function (err, userAccount) {
         if (err) {
             return next(err);
         }
@@ -86,12 +94,12 @@ router.patch('/api/userAccounts/:id', function(req, res, next) {
             return res.status(404).json(
                 {"message": "User not found"});
         }
-        userAccount.first_name = (req.body.first_name||userAccount.first_name);
-        userAccount.surname = (req.body.surname||userAccount.surname);
-        userAccount.email = (req.body.email||userAccount.email);
-        userAccount.date_of_birth = (req.body.date_of_birth||userAccount.date_of_birth);
+        userAccount.first_name = (req.body.first_name || userAccount.first_name);
+        userAccount.surname = (req.body.surname || userAccount.surname);
+        userAccount.email = (req.body.email || userAccount.email);
+        userAccount.date_of_birth = (req.body.date_of_birth || userAccount.date_of_birth);
         userAccount.profile_picture = (req.body.profile_picture || userAccount.profile_picture);
-        if(req.body.entry_list){
+        if (req.body.entry_list) {
             console.log(req.body.entry_list)
             userAccount.entry_list.push(req.body.entry_list);
             userAccount.populate("entry_list")
@@ -103,8 +111,8 @@ router.patch('/api/userAccounts/:id', function(req, res, next) {
 });
 
 //Deletes all user accounts
-router.delete('/api/userAccounts', function(req, res, next) {
-    userAccountModel.deleteMany(function(err, userAccount) {
+router.delete('/api/userAccounts', function (req, res, next) {
+    userAccountModel.deleteMany(function (err, userAccount) {
         if (err) {
             return next(err);
         }
@@ -113,9 +121,9 @@ router.delete('/api/userAccounts', function(req, res, next) {
 });
 
 //Deletes a user account
-router.delete('/api/userAccounts/:id', function(req, res, next) {
+router.delete('/api/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
-    userAccountModel.findOneAndDelete({_id: id}, function(err, userAccount) {
+    userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
         if (err) {
             return next(err);
         }
@@ -126,8 +134,9 @@ router.delete('/api/userAccounts/:id', function(req, res, next) {
     });
 });
 
-router.get('/api/statistics/:id', function(req, res) {
-    userAccountModel.findById(req.params.id, { entries: 1 })
+
+router.get('/api/statistics/:id', function (req, res) {
+    userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccounts) => {
             let totalEntry
@@ -136,7 +145,7 @@ router.get('/api/statistics/:id', function(req, res) {
             let averageWords = 0;
 
             userAccounts.entry_list.forEach(entry => {
-                if(entry.uploaded_entities_list){
+                if (entry.uploaded_entities_list) {
                     totalImages = totalImages + entry.uploaded_entities_list.length
                 }
                 let newWordsList = entry.text.split(" ")
@@ -144,7 +153,7 @@ router.get('/api/statistics/:id', function(req, res) {
             })
             totalEntry = userAccounts.entry_list.length
 
-            if(totalEntry){
+            if (totalEntry) {
                 averageWords = (words.length / totalEntry)
             }
             averageWords = Math.round(averageWords * 100) / 100

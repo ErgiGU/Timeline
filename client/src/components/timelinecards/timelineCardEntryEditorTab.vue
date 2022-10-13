@@ -31,8 +31,7 @@ import {marked} from "marked";
 export default {
   data() {
     return {
-      markdownEntry: this.entry.text,
-      textarea: document.getElementById('entryTextEditor')
+      markdownEntry: this.entry.text
     }
   },
 
@@ -77,16 +76,16 @@ export default {
   mounted() {
     this.$nextTick(() => {
       // DOM updated
-      this.textarea.setAttribute(
+      document.getElementById('entryTextEditor').setAttribute(
         "style",
-        "height:" + this.textarea.scrollHeight + "px;overflow-y:hidden;"
+        "height:" + document.getElementById('entryTextEditor').scrollHeight + "px;overflow-y:hidden;"
       );
-      this.textarea.addEventListener("input", this.resizeTextarea);
+      document.getElementById('entryTextEditor').addEventListener("input", this.resizeTextarea);
     });
   },
 
   beforeUnmount() {
-    this.$el.removeEventListener("input", this.resizeTextarea);
+    document.getElementById('entryTextEditor').removeEventListener("input", this.resizeTextarea);
   },
 
   render() {

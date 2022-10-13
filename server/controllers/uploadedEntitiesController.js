@@ -5,7 +5,7 @@ const entryModel = require("../models/entryModel");
 const router = express.Router();
 
 router.get("/api/entries/:id/uploaded_entities_list", async function (req, res) {
-    entryModel.findById(req.params.id, { uploaded_entities: 1 })
+    entryModel.findById(req.params.id, {uploaded_entities: 1})
         .populate("uploaded_entities_list")
         .exec((err, entity) => {
             if (err) {
@@ -16,9 +16,9 @@ router.get("/api/entries/:id/uploaded_entities_list", async function (req, res) 
 });
 
 router.post("/api/entries/:id/uploaded_entities_list", async function (req, res, next) {
-    entryModel.findById(req.params.id, { uploaded_entities: 1 })
+    entryModel.findById(req.params.id, {uploaded_entities: 1})
         .populate("uploaded_entities_list")
-        .exec(function(err, entry) {
+        .exec(function (err, entry) {
             if (err) {
                 return res.status(400).send(err);
             }
@@ -27,11 +27,11 @@ router.post("/api/entries/:id/uploaded_entities_list", async function (req, res,
                 _id: id,
                 file: req.body.file,
                 entryID: req.params.id,
-                metadata:[{
-                    filename:"Discord",
-                    location:"Africa"
+                metadata: [{
+                    filename: "Discord",
+                    location: "Africa"
                 }],
-                links:[
+                links: [
                     {
                         rel: "entries",
                         href: "http://localhost:3000/api/uploadedEntities/"
@@ -40,7 +40,7 @@ router.post("/api/entries/:id/uploaded_entities_list", async function (req, res,
             })
             entry.uploaded_entities_list.push(entity._id)
             entry.save();
-            entity.save(function (err,entity) {
+            entity.save(function (err, entity) {
                 if (err) {
                     return next(err);
                 }
@@ -52,28 +52,28 @@ router.post("/api/entries/:id/uploaded_entities_list", async function (req, res,
 router.delete('/api/entries/:id/uploaded_entities_list/:uploaded_entity_id', async (req, res) => {
     let uploadedEntityId = req.params.uploaded_entity_id;
     let id = req.params.id;
-    uploadedEntitiesModel.findOneAndDelete({_id: uploadedEntityId}, function(err, uploadedEntity) {
+    uploadedEntitiesModel.findOneAndDelete({_id: uploadedEntityId}, function (err, uploadedEntity) {
         if (uploadedEntity === null) {
             return res.status(404).json({'message': 'Entity not found'});
         }
         res.status(200).json(uploadedEntity)
     });
 
-    entryModel.findById(id, { entries: 1 })
+    entryModel.findById(id, {entries: 1})
         .populate("uploaded_entities_list")
         .exec((err, entry) => {
             if (err) {
                 return res.status(400).send(err);
             }
             const index = entry.uploaded_entities_list.indexOf(uploadedEntityId)
-            entry.uploaded_entities_list.splice(index,1)
+            entry.uploaded_entities_list.splice(index, 1)
         });
 
 });
 
 router.get('/api/entries/:id/uploaded_entities_list/:uploaded_entity', async (req, res, next) => {
     let id = req.params.uploaded_entity;
-    uploadedEntitiesModel.findById(id, function(err, entity) {
+    uploadedEntitiesModel.findById(id, function (err, entity) {
         if (err) {
             return next(err);
         }
@@ -85,25 +85,25 @@ router.get('/api/entries/:id/uploaded_entities_list/:uploaded_entity', async (re
 });
 
 // Creates an uploaded entity in the DB when an image is uploaded
-router.post("/api/uploadedEntities", function(req, res, next) {
+router.post("/api/uploadedEntities", function (req, res, next) {
     //const entry = new entryModel(req.body);
     let id = req.params.id;
     const uploadedEntity = new uploadedEntitiesModel({
         id: id,
-        file:"C://Users//Naruto//AppData//Roaming//Microsoft//Windows//Start Menu//Programs//Discord Inc",
+        file: "C://Users//Naruto//AppData//Roaming//Microsoft//Windows//Start Menu//Programs//Discord Inc",
         entryID: "empty_for_now",
-        metadata:[{
-            filename:"Discord",
-            location:"Africa"
+        metadata: [{
+            filename: "Discord",
+            location: "Africa"
         }],
-        links:[
+        links: [
             {
                 rel: "entries",
                 href: "http://localhost:3000/api/uploadedEntities/"
             }
         ]
     });
-    uploadedEntity.save(function (err,uploadedEntity){
+    uploadedEntity.save(function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }
@@ -113,7 +113,7 @@ router.post("/api/uploadedEntities", function(req, res, next) {
 
 // Gets all the uploaded entities
 router.get("/api/uploadedEntities", function (req, res, next) {
-    uploadedEntitiesModel.find(function(err, uploadedEntity) {
+    uploadedEntitiesModel.find(function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }
@@ -122,9 +122,9 @@ router.get("/api/uploadedEntities", function (req, res, next) {
 });
 
 // Gets a specific uploaded entity
-router.get('/api/uploadedEntities/:id', function(req, res, next) {
+router.get('/api/uploadedEntities/:id', function (req, res, next) {
     let id = req.params.id;
-    uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
+    uploadedEntitiesModel.findById(id, function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }
@@ -136,10 +136,10 @@ router.get('/api/uploadedEntities/:id', function(req, res, next) {
 });
 
 //Do we need put/patch for uploaded entities.
-router.put('/api/uploadedEntities/:id', function(req, res, next) {
+router.put('/api/uploadedEntities/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
-    uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
+    uploadedEntitiesModel.findById(id, function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }
@@ -152,9 +152,9 @@ router.put('/api/uploadedEntities/:id', function(req, res, next) {
 });
 
 //Do we need put/patch for uploaded entities
-router.patch('/api/uploadedEntities/:id', function(req, res, next) {
+router.patch('/api/uploadedEntities/:id', function (req, res, next) {
     let id = req.params.id;
-    uploadedEntitiesModel.findById(id, function(err, uploadedEntity) {
+    uploadedEntitiesModel.findById(id, function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }
@@ -168,19 +168,19 @@ router.patch('/api/uploadedEntities/:id', function(req, res, next) {
 });
 
 //Deletes all the uploaded entities
-router.delete('/api/uploadedEntities', function(req, res, next) {
-    uploadedEntitiesModel.deleteMany(function(err, uploadedEntity) {
+router.delete('/api/uploadedEntities', function (req, res, next) {
+    uploadedEntitiesModel.deleteMany(function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }
-        res.json({'entries': uploadedEntity });
+        res.json({'entries': uploadedEntity});
     });
 });
 
 //Deletes an uploaded entity
-router.delete('/api/uploadedEntities/:id', function(req, res, next) {
+router.delete('/api/uploadedEntities/:id', function (req, res, next) {
     let id = req.params.id;
-    uploadedEntitiesModel.findOneAndDelete({_id: id}, function(err, uploadedEntity) {
+    uploadedEntitiesModel.findOneAndDelete({_id: id}, function (err, uploadedEntity) {
         if (err) {
             return next(err);
         }

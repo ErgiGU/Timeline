@@ -2,14 +2,14 @@
   <div>
     <b-button id="settingsButtons" v-b-modal.rePassword variant="outline-light">Reset Password</b-button>
     <b-modal id="rePassword" centered title="Reset Password" hide-header-close hide-footer>
-      <template #modal-header="{cancel}" >
+      <template #modal-header="{cancel}">
         <p style="font-size: 150%; margin-bottom: 0">Change Password</p>
         <b-button size="sm" variant="white" @click="cancel()">
           x
         </b-button>
       </template>
       <form v-on:submit="function1">
-        <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px" >
+        <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px">
           Change Successful!
         </b-alert>
         <div style="display: flex; flex-direction: column">
@@ -23,7 +23,8 @@
             <label>New Password</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="confPass" placeholder="********" v-on:keyup="checkIfPassMatches" required>
+            <input type="password" class="form-control" id="confPass" placeholder="********"
+                   v-on:keyup="checkIfPassMatches" required>
             <label>Re: New Password</label>
           </div>
         </div>
@@ -46,7 +47,7 @@ export default {
       showDismissibleAlert: false
     }
   },
-  methods : {
+  methods: {
     function1(event) {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       //const forms = document.querySelectorAll('.needs-validation');
@@ -55,25 +56,27 @@ export default {
 
       if (pass.checkValidity() && confPass.checkValidity()) {
 
-        Api.post("/userAccounts").then(res =>{
+        Api.post("/userAccounts").then(res => {
           let userPass = {
             "_id": res.data._id,
             "password": pass.value
           }
-          Api.post("/userPasswords/" + this.$defaultUserAccount,userPass);
+          Api.post("/userPasswords/" + this.$defaultUserAccount, userPass);
           console
         });
 
-        this.showDismissibleAlert=true;
+        this.showDismissibleAlert = true;
         event.preventDefault();
 
-        setTimeout(() => { this.$router.push({name:'Home'}); }, 3000);
+        setTimeout(() => {
+          this.$router.push({name: 'Home'});
+        }, 3000);
 
       } else {
         event.preventDefault();
         event.stopPropagation();
       }
-    },checkIfPassMatches() {
+    }, checkIfPassMatches() {
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
       if (pass.value !== confPass.value) {

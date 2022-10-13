@@ -3,10 +3,9 @@
     <div style="min-height: 120px;transition-delay: 50ms;" class="collapse collapse-horizontal show"
          id="collapseWidthExample">
       <b-card id="container" class="border-0"></b-card>
-      <nav id="sidebar" style="transition: linear; min-width: 250px; display: inline-block; width: 100%">
-        <b-sidebar id="sidebar-1" style="transition: linear; min-width: 250px; display: inline-block; width: 100%;"
-                   title="Timeline" bg-variant="dark" text-variant="light" width="20%" v-model="collapse"
-                   no-header-close no-close-on-esc shadow>
+      <nav id="sidebar" style="transition: linear">
+        <b-sidebar id="sidebar-1" style="transition: linear" title="Timeline" bg-variant="dark" text-variant="light"
+                   width="20%" no-header-close no-close-on-esc visible shadow>
           <template #footer>
             <div class="d-flex bg-light text-light px-3 py-2 w-100">
               <div>
@@ -25,7 +24,7 @@
             </div>
             <div>
               <div id="cardsStatistics"
-                   style="text-align: left; display:flex; flex-wrap: wrap; flex-direction: column; border-top: solid; border-bottom: solid; border-top-color: white">
+                   style="text-align: left; display:flex; flex-wrap: wrap; border-top: solid; border-bottom: solid; border-top-color: white">
                 <p class="statPart">Total Entries: {{ totalEntries }}</p>
                 <p class="statPart">Average Word per Entry: {{ averageWord }}</p>
                 <p class="statPart">Total Images: {{ totalImages }}</p>
@@ -61,12 +60,12 @@
 </template>
 
 <script>
-import ChangeUserInfo from '@/components/sidebar/ChangeUserInfo'
+import ChangeUserInfo from '@/components/ChangeUserInfo'
 import {Api} from '@/Api'
-import ChangePassword from '@/components/sidebar/ChangePassword'
-import HamburgerIcon from '@/components/sidebar/HamburgerIcon'
-import DeleteAccount from "@/components/sidebar/DeleteAccount";
-import UserImage from "@/components/sidebar/UserImage";
+import ChangePassword from '@/components/ChangePassword'
+import HamburgerIcon from '@/components/HamburgerIcon'
+import DeleteAccount from "@/components/DeleteAccount";
+import UserImage from "@/components/UserImage";
 
 export default {
   name: 'SideBar',
@@ -90,53 +89,40 @@ export default {
       menuOpen: true,
       widthCollapse: 0,
       heightCollapse: 0,
-      settingsOpen: false,
-      collapse: true,
-      userUrl: '/userAccounts/' + this.$defaultUserAccount
+      settingsOpen: false
     }
   },
   methods: {
     getUserInfo() {
-      Api.get(this.userUrl)
+      Api.get('/userAccounts/:id')
         .then(response => {
-          this.firstName = response.data.first_name
-          this.surname = response.data.surname
-          this.dateBirth = response.data.date_of_birth
-          this.email = response.data.email
+          this.firstName = response.data.totalEntries
+          this.surname = response.data.averageWord
+          this.dateBirth = response.data.totalImages
+          this.email = response.data.totalSize
         })
         .catch(error => {
           this.message = error
         })
     },
-    // getStatistics() {
-    //   Api.get('/statistics/' + this.$defaultUserAccount)
-    //     .then(response => {
-    //       this.totalEntries = response.data.totalEntries
-    //       this.averageWord = response.data.averageWord
-    //       this.totalImages = response.data.totalImages
-    //       this.totalSize = response.data.totalSize
-    //     })
-    //     .catch(error => {
-    //       this.message = error
-    //     })
-    // },
+    getStatistics() {
+      Api.get('/statistics/')
+        .then(response => {
+          this.totalEntries = response.data.totalEntries
+          this.averageWord = response.data.averageWord
+          this.totalImages = response.data.totalImages
+          this.totalSize = response.data.totalSize
+        })
+        .catch(error => {
+          this.message = error
+        })
+    },
     getDimensions() {
-      const menuBtn = document.querySelector('.menu-btn')
-      if (screen.width < 768) {
-        document.getElementById('sidebar-1').style.width = screen.width * 0.8 + 'px'
-        document.getElementById('container').style.width = screen.width * 0.8 + 'px'
-        document.getElementById('collapseWidthExample').classList.remove('show')
-        this.collapse = false
-        menuBtn.classList.remove('open')
-        this.menuOpen = false
-      } else {
-        document.getElementById('sidebar-1').style.width = 250 + 'px'
-        document.getElementById('container').style.width = 250 + 'px'
-        const container = document.getElementById('collapseWidthExample')
-        container.classList.add('show')
-        menuBtn.classList.add('open')
-        this.menuOpen = true
-        this.collapse = true
+      const container = document.getElementById('container')
+      let changeWidth = document.getElementById('sidebar-1').clientWidth;
+      if (changeWidth !== 0) {
+        this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
+        container.style.width = this.widthCollapse
       }
     },
     menuButton() {
@@ -161,9 +147,7 @@ export default {
     }
   },
   mounted() {
-    this.getUserInfo()
     this.getDimensions()
-    // this.getStatistics()
     window.addEventListener('resize', this.getDimensions)
   },
   unmounted() {
@@ -214,6 +198,10 @@ export default {
   justify-content: space-evenly;
 }
 
+#settingsButtons {
+  font-size: 80%;
+}
+
 #signOutButton {
   font-size: 80%;
 }
@@ -231,6 +219,5 @@ export default {
   outline: transparent;
   background-color: transparent;
   height: 1px;
-  width: 250px;
 }
 </style>

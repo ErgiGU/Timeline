@@ -12,7 +12,7 @@ router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
             if (err) {
                 return res.status(400).send(err);
             }
-            userAccounts.entry_list.sort(function(a,b){
+            userAccounts.entry_list.sort(function (a, b) {
                 return ((b.date_date) - (a.date_date));
             });
             return res.status(200).json(userAccounts.entry_list);
@@ -128,7 +128,7 @@ router.get('/api/entries', function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            entry.sort(function(a,b){
+            entry.sort(function (a, b) {
                 return ((b.date_date) - (a.date_date));
             });
             res.json({"entries": entry});
