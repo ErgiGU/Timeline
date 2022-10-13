@@ -93,20 +93,24 @@ export default {
         text
       }
 
-      let entry_list = []
+      if (date_date === "" || location === "" || text === "") {
+        alert("Please enter some text")
+      } else {
+        let entry_list = []
 
-      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id).then(result => {
-        entry_list = result.data.entry_list
-        Api.post('/entries', entry).then(response => {
-          entry_list.push(response.data._id)
-          let entries = {
-            'entry_list': entry_list
-          }
-          this.entries = entry_list
-          Api.patch('/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
-          this.getEntries()
+        Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id).then(result => {
+          entry_list = result.data.entry_list
+          Api.post('/entries', entry).then(response => {
+            entry_list.push(response.data._id)
+            let entries = {
+              'entry_list': entry_list
+            }
+            this.entries = entry_list
+            Api.patch('/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
+            this.getEntries()
+          })
         })
-      })
+      }
     },
 
     getEntries() {

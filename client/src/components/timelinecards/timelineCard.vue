@@ -1,5 +1,5 @@
 <template>
-  <div id="timelineCard" class="card text-bg-dark">
+  <div id="timelineCard" class="card">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item" role="presentation">
@@ -51,6 +51,8 @@ export default {
 <style>
 /* Card styling */
 #timelineCard {
+  background-color: #212529;
+  color: white;
   border: thin #6b6b6b solid;
   border-radius: 5px;
   min-height: 400px;
