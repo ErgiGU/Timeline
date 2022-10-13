@@ -1,10 +1,10 @@
 <template>
   <div class="container">
-    <div class="row needs-validation"  id="rowContainer">
+    <div class="row needs-validation" id="rowContainer">
       <div class="col-md-4" id="parentContainer">
         <form id="registrationForm" v-on:submit="function1">
-          <h2 class="text-center text-white mb-3"  style="top: 100px; ">Create an account</h2>
-          <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px" >
+          <h2 class="text-center text-white mb-3" style="top: 100px; ">Create an account</h2>
+          <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px">
             Registration Successful!
           </b-alert>
 
@@ -19,13 +19,14 @@
           </div>
 
           <div class="form-floating mb-4">
-            <input type="email" class="form-control form-control-lg" id="email"  v-on:keyup="checkIfEmailExists" placeholder="exampleEmail"
-                   required  title="Please enter a valid email.">
+            <input type="email" class="form-control form-control-lg" id="email" v-on:keyup="checkIfEmailExists"
+                   placeholder="exampleEmail"
+                   required title="Please enter a valid email.">
             <label>Email</label>
           </div>
 
           <div class="form-floating mb-4">
-            <input type="password" class="form-control form-control-lg" id="pass"  title="
+            <input type="password" class="form-control form-control-lg" id="pass" title="
             Password must contain: Minimum 8 characters at least 1 alphabetic character and 1 number"
                    placeholder="b" required=""
                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$">
@@ -40,12 +41,14 @@
 
           <div class="form-check d-flex mb-2">
             <input class="form-check-input me-2" type="checkbox" v-on:change="checkBox()" value="" id="tosCheckbox"/>
-            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms of Service</u></a>
+            <label class="form-check-label text-white">I accept the <a href="#!" class="text-body "><u>Terms of
+              Service</u></a>
             </label>
           </div>
 
           <button class="btn btn-primary text-white sign-up disabled" id="btn1"
-                  style="width: 150px; height: 50px; align-self: center ">Sign Up</button>
+                  style="width: 150px; height: 50px; align-self: center ">Sign Up
+          </button>
 
           <p class="text-center mt-1 mb-2 text-white">Already have an account?
             <router-link to="/" style="color: black">Login here</router-link>
@@ -87,18 +90,20 @@ export default {
           "email": email.value
         }
 
-        Api.post("/userAccounts",userAccount).then(res =>{
+        Api.post("/userAccounts", userAccount).then(res => {
           let userPass = {
             "_id": res.data._id,
-              "password": pass.value
-        }
-          Api.post("/userPasswords",userPass);
+            "password": pass.value
+          }
+          Api.post("/userPasswords", userPass);
         });
 
-        this.showDismissibleAlert=true;
+        this.showDismissibleAlert = true;
         event.preventDefault();
 
-        setTimeout(() => { this.$router.push({name:'login'}); }, 3000);
+        setTimeout(() => {
+          this.$router.push({name: 'login'});
+        }, 3000);
 
       } else {
         event.preventDefault();
@@ -129,12 +134,11 @@ export default {
       let body = {
         'email': email.value
       }
-      Api.post('/checkEmail',body).then(result => {
+      email.setCustomValidity("");
+      Api.post('/checkEmail', body).then(result => {
         if (result.data === "Email already exists") {
           console.log(result.data);
           email.setCustomValidity("Email already exists");
-        }else{
-          email.setCustomValidity("");
         }
       });
     },
@@ -162,6 +166,7 @@ body {
     background-position: 0% 50%;
   }
 }
+
 html, body {
   height: 100vh;
   align-items: center;
@@ -187,11 +192,11 @@ html, body {
   padding: 50px;
   height: 700px;
   margin: auto;
-  background-color: rgba(255,255,255,0.13);
+  background-color: rgba(255, 255, 255, 0.13);
   border-radius: 10px;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255,255,255,0.1);
-  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 }
 
 

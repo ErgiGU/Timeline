@@ -1,6 +1,6 @@
 <template>
   <div id="imageSet">
-  <b-img id="imgActual" style="border-radius: 50%" :src="imageURL" fluid thumbnail></b-img>
+    <b-img id="imgActual" style="border-radius: 50%" :src="imageURL" fluid thumbnail></b-img>
     <p id="text" class="text">
       Change Image
     </p>
@@ -70,7 +70,7 @@ export default {
   transition: all 0.5s ease;
 }
 
-#imageSet:hover #text{
+#imageSet:hover #text {
   visibility: visible;
   opacity: 1;
 }

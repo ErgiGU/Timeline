@@ -16,7 +16,7 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDev
 const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, function(err) {
+mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
     if (err) {
         console.error(`Failed to connect to MongoDB with URI: ${mongoURI}`);
         console.error(err.stack);
@@ -29,7 +29,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, 
 // Create Express app
 let app = express();
 // Parse requests of content-type 'application/json'
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 // HTTP request logger
 app.use(morgan('dev'));
@@ -38,10 +38,10 @@ app.options('*', cors());
 app.use(cors());
 
 app.use(express.json({limit: '500mb'}));
-app.use(express.urlencoded({limit: '500mb',  parameterLimit: 100000000000, extended: true}));
+app.use(express.urlencoded({limit: '500mb', parameterLimit: 100000000000, extended: true}));
 
 // Import routes
-app.get('/api', function(req, res) {
+app.get('/api', function (req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
@@ -53,7 +53,7 @@ app.use(loginAuthController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
-    res.status(404).json({ 'message': 'Not Found' });
+    res.status(404).json({'message': 'Not Found'});
 });
 
 // Configuration for serving frontend in production mode
@@ -67,7 +67,7 @@ app.use(express.static(client));
 // Error handler (i.e., when exception is thrown) must be registered last
 let env = app.get('env');
 // eslint-disable-next-line no-unused-vars
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     console.error(err.stack);
     let err_res = {
         'message': err.message,
@@ -82,7 +82,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.listen(port, function(err) {
+app.listen(port, function (err) {
     if (err) throw err;
     console.log(`Express server listening on port ${port}, in ${env} mode`);
     console.log(`Backend: http://localhost:${port}/api/`);

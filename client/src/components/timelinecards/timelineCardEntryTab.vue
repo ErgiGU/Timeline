@@ -4,17 +4,17 @@
       <div class="row">
         <entry-image-carousel></entry-image-carousel>
       </div>
-      <div class="row g-0 justify-content-center" style="font-size: 24px"> {{ entry.dates.date.split('T')[0] }} </div>
-      <div class="border-bottom">Location: </div>
+      <div class="row g-0 justify-content-center" style="font-size: 24px"> {{ entry.date_date.split('T')[0] }}</div>
+      <div class="border-bottom">Location:</div>
       <div class="row">
         <google-maps :mapLocation="this.entry.location" :entryID="entry._id"/>
       </div>
       <div id="dateDisplay">
         <div class="row text-secondary g-0" style="font-size: 12px">
-          Created: {{ entry.dates.created.split('T')[0] }}
+          Created: {{ entry.created_date.split('T')[0] }}
         </div>
         <div class="row text-secondary g-0" style="font-size: 12px">
-          Last edited: {{ entry.dates.edited.split('T')[0] }}
+          Last edited: {{ entry.edited_date.split('T')[0] }}
         </div>
       </div>
     </div>

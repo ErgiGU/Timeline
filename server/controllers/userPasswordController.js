@@ -4,13 +4,13 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 
 //CREATE AN ENTRY
-router.post("/api/userPasswords",async function(req, res, next) {
+router.post("/api/userPasswords", async function (req, res, next) {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const userPassword = new userPasswordModel({
         _id: req.body._id,
         hashedPassword: hashedPassword
     });
-    userPassword.save(function (err,userPassword) {
+    userPassword.save(function (err, userPassword) {
         if (err) {
             return next(err);
         }
@@ -20,7 +20,7 @@ router.post("/api/userPasswords",async function(req, res, next) {
 
 // SEND BACK ALL ENTRIES
 router.get("/api/userPasswords", function (req, res, next) {
-    userPasswordModel.find(function(err, userPassword) {
+    userPasswordModel.find(function (err, userPassword) {
         if (err) {
             return next(err);
         }
@@ -28,9 +28,9 @@ router.get("/api/userPasswords", function (req, res, next) {
     })
 });
 
-router.get('/api/userPasswords/:id', function(req, res, next) {
+router.get('/api/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
-    userPasswordModel.findById(id, function(err, userPassword) {
+    userPasswordModel.findById(id, function (err, userPassword) {
         if (err) {
             return next(err);
         }
@@ -41,10 +41,10 @@ router.get('/api/userPasswords/:id', function(req, res, next) {
     });
 });
 
-router.put('/api/userPasswords/:id', function(req, res, next) {
+router.put('/api/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
-    userPasswordModel.findById(id, async function(err, userPassword) {
+    userPasswordModel.findById(id, async function (err, userPassword) {
         if (err) {
             return next(err);
         }
@@ -57,9 +57,9 @@ router.put('/api/userPasswords/:id', function(req, res, next) {
     });
 });
 
-router.patch('/api/userPasswords/:id', function(req, res, next) {
+router.patch('/api/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
-    userPasswordModel.findById(id, async function(err, userPassword) {
+    userPasswordModel.findById(id, async function (err, userPassword) {
         if (err) {
             return next(err);
         }
@@ -73,16 +73,18 @@ router.patch('/api/userPasswords/:id', function(req, res, next) {
     });
 });
 
-router.delete('/api/userPasswords', function(req, res, next) {
-    userPasswordModel.deleteMany(function(err, userPassword) {
-        if (err) { return next(err); }
-        res.json({'User-password': userPassword });
+router.delete('/api/userPasswords', function (req, res, next) {
+    userPasswordModel.deleteMany(function (err, userPassword) {
+        if (err) {
+            return next(err);
+        }
+        res.json({'User-password': userPassword});
     });
 });
 
-router.delete('/api/userPasswords/:id', function(req, res, next) {
+router.delete('/api/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
-    userPasswordModel.findOneAndDelete({_id: id}, function(err, userPassword) {
+    userPasswordModel.findOneAndDelete({_id: id}, function (err, userPassword) {
         if (err) {
             return next(err);
         }
@@ -92,7 +94,6 @@ router.delete('/api/userPasswords/:id', function(req, res, next) {
         res.json(userPassword);
     });
 });
-
 
 
 module.exports = router;

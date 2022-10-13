@@ -25,4 +25,4 @@ function parseJwt(token) {
 }
 
 
-module.exports = auth,parseJwt;
+module.exports = auth, parseJwt;

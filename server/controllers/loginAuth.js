@@ -5,15 +5,15 @@ const userAccountModel = require("../models/userAccountModel");
 const userPassword = require("../models/userPasswordModel");
 const auth = require("../middleware/auth");
 
-router.get("/api/getEmail", async function (req, res,next ){
+router.get("/api/getEmail", async function (req, res, next) {
     const email1 = req.body.email;
-    userAccountModel.findOne({ email: email1 }, function (err, userAccount){
-        if(err){
+    userAccountModel.findOne({email: email1}, function (err, userAccount) {
+        if (err) {
             return next(err)
         }
-        if(userAccount===null){
+        if (userAccount === null) {
             res.send("Email not found")
-        }else{
+        } else {
             res.send("Email already exists")
         }
 
@@ -21,44 +21,44 @@ router.get("/api/getEmail", async function (req, res,next ){
 })
 
 
-router.post('/api/login', auth, async (req, res,next) => {
+router.post('/api/login', auth, async (req, res, next) => {
     const email1 = req.body.email;
-    userAccountModel.findOne({ email: email1 }, function (err, userAccount){
+    userAccountModel.findOne({email: email1}, function (err, userAccount) {
         if (err) {
             return next(err);
         }
         if (userAccount === null) {
             return res.status(404).json({'message': 'User not found'});
-        } else{
+        } else {
             const id = userAccount._id;
-            userPassword.findOne({_id:id}, async function (err, userPassword){
+            userPassword.findOne({_id: id}, async function (err, userPassword) {
                 if (err) {
                     return next(err);
                 }
-                if(await bcrypt.compare(req.body.password,userPassword.hashedPassword)){
+                if (await bcrypt.compare(req.body.password, userPassword.hashedPassword)) {
                     const token = userAccount.generateToken();
                     return res.json({
                         message: "Success",
                         userAccount: userAccount,
                         token: token
                     });
-                } else{
+                } else {
                     return res.send('Invalid password');
                 }
-            } );
+            });
         }
     })
 });
 
-router.post('/api/checkEmail', async (req, res,next) => {
+router.post('/api/checkEmail', async (req, res, next) => {
     const email1 = req.body.email;
-    userAccountModel.findOne({ email: email1 }, function (err, userAccount){
+    userAccountModel.findOne({email: email1}, function (err, userAccount) {
         if (err) {
             return next(err);
         }
         if (userAccount === null) {
             return res.status(404).json({'message': 'Email not found'});
-        }else{
+        } else {
             return res.status(200).send("Email already exists");
         }
     })

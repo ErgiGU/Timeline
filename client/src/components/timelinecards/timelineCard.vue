@@ -3,7 +3,8 @@
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs">
         <li class="nav-item" role="presentation">
-          <button id="TimelineCardEntryTab" :aria-selected="{active:currentTab==='TimelineCardEntryTab'}" :class="{active:currentTab==='TimelineCardEntryTab'}"
+          <button id="TimelineCardEntryTab" :aria-selected="{active:currentTab==='TimelineCardEntryTab'}"
+                  :class="{active:currentTab==='TimelineCardEntryTab'}"
                   class="nav-link" role="tab" type="button"
                   @click="currentTab='TimelineCardEntryTab'">Entry
           </button>
@@ -16,7 +17,8 @@
         </li>
       </ul>
     </div>
-    <component :is="currentTab" :entry="entry" v-on:edited="(editedEntry) => updateEntry(editedEntry)" class="tab"></component>
+    <component :is="currentTab" :entry="entry" v-on:edited="(editedEntry) => updateEntry(editedEntry)"
+               class="tab"></component>
   </div>
 </template>
 

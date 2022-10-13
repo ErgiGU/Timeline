@@ -27,23 +27,15 @@ const userAccountSchema = new Schema({
         type: String,
         required: false
     },
-    profile_picture: {
+    entry_list: [{
         type: String,
-        required: false
-    },
-    profile_picture: {
-        type: String,
-        required: false
-    },
-    entry_list:[{
-        type : String,
-        ref : "entry"
+        ref: "entry"
     }],
-    links:[
+    links: [
         {
             _id: 0,
-            rel:String,
-            href:String
+            rel: String,
+            href: String
         }
     ]
 });

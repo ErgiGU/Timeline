@@ -1,8 +1,8 @@
 <template>
   <div class="menu-btn open">
-    <div class="hamburger-top" ></div>
-    <div class="hamburger-mid" ></div>
-    <div class="hamburger-bottom" ></div>
+    <div class="hamburger-top"></div>
+    <div class="hamburger-mid"></div>
+    <div class="hamburger-bottom"></div>
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
   margin-bottom: 3px;
   background: #fff;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(255,101,47,.2);
+  box-shadow: 0 2px 5px rgba(255, 101, 47, .2);
   transition: all .5s ease-in-out;
 }
 
@@ -47,7 +47,7 @@ export default {
   height: 3px;
   background: #fff;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(255,101,47,.2);
+  box-shadow: 0 2px 5px rgba(255, 101, 47, .2);
   transition: all .5s ease-in-out;
 }
 

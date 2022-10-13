@@ -34,7 +34,8 @@ npm ERR! A complete log of this run can be found in:
 npm ERR!     /Users/joe/.npm/_logs/2018-09-04T17_29_33_231Z-debug.log
 ```
 
-> **Solution:** You are most likely in the wrong directoy. Change into the template directory via `cd express-template` and try again.
+> **Solution:** You are most likely in the wrong directoy. Change into the template directory via `cd express-template`
+> and try again.
 
 ## Error: listen EADDRINUSE :::3000
 
@@ -80,7 +81,8 @@ npm ERR! A complete log of this run can be found in:
 npm ERR!     /Users/joe/.npm/_logs/2018-09-04T17_34_11_215Z-debug.log
 ```
 
-> **Solution:** You are most likely already running another instance of the server. Stop the other instance or application that uses port 3000 and try again.
+> **Solution:** You are most likely already running another instance of the server. Stop the other instance or
+> application that uses port 3000 and try again.
 
 ## MongoNetworkError: failed to connect to server [localhost:27017]
 
@@ -107,8 +109,8 @@ Express server listening on port 3000, in development mode
 (node:42678) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
 ```
 
-> **Solution:** Your MongoDB server is not up and running. Start `mongod` and try again. You can go back to the Data Managment course and check your [dit032-setup](https://github.com/joe4dev/dit032-setup).
-
+> **Solution:** Your MongoDB server is not up and running. Start `mongod` and try again. You can go back to the Data
+> Managment course and check your [dit032-setup](https://github.com/joe4dev/dit032-setup).
 
 ## GET http://localhost:3000/api [errored] connect ECONNREFUSED 127.0.0.1:3000
 

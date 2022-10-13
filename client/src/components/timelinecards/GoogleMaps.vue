@@ -23,9 +23,9 @@
 <script>
 export default {
   name: "GoogleMaps",
-  props:{
-    mapLocation:String,
-    entryID:String
+  props: {
+    mapLocation: String,
+    entryID: String
   },
   data() {
     return {
@@ -52,8 +52,9 @@ export default {
   position: relative;
   overflow: hidden;
 }
+
 #mapFrame {
-  border:0;
+  border: 0;
   position: absolute;
   top: 0;
   left: 0;

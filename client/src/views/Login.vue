@@ -37,8 +37,8 @@ import {Api} from '@/Api'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
-  methods:{
-    login(){
+  methods: {
+    login() {
       const email = document.getElementById("email").value;
       const pass = document.getElementById('pass').value;
       Api.post('/login', {
@@ -49,8 +49,8 @@ export default {
         const token = response.data
         localStorage.token = token
       }).catch((error) => {
-          console.log(error.response)
-        })
+        console.log(error.response)
+      })
     }
   }
 }
@@ -80,11 +80,11 @@ Html, body {
   padding: 50px;
   height: 400px;
   margin: auto;
-  background-color: rgba(255,255,255,0.13);
+  background-color: rgba(255, 255, 255, 0.13);
   border-radius: 10px;
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(255,255,255,0.1);
-  box-shadow: 0 0 40px rgba(8,7,16,0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
 }
 
 

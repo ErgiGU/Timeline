@@ -51,11 +51,9 @@
 <script>
 // @ is an alias to /src
 import {Api} from '@/Api'
-import SideBar from '@/components/sidebar/SideBar'
 import timelineCard from "@/components/timelinecards/timelineCard";
 
 import SideBar from '@/components/SideBar'
-import axios from "axios";
 
 export default {
   components: {
@@ -136,6 +134,7 @@ export default {
   padding: 0;
   margin: 0;
 }
+
 /* Entry container */
 #entryInputContainer {
   margin-bottom: 20px;

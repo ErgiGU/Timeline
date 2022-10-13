@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+import {BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -12,7 +12,7 @@ import 'marked'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
-Vue.prototype.$defaultUserAccount = 'db1dd7fa-5d4b-4cb2-98b1-a2510ee1c188'
+Vue.prototype.$defaultUserAccount = '6a1c3323-c1f7-4d13-b71b-f6d222c6b4e5'
 
 Vue.config.productionTip = false
 

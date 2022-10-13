@@ -1,34 +1,41 @@
 <template>
-  <div id = "sidebarActual">
-    <div style="min-height: 120px;transition-delay: 50ms;" class="collapse collapse-horizontal show" id="collapseWidthExample">
-      <b-card id = "container" class="border-0"></b-card>
+  <div id="sidebarActual">
+    <div style="min-height: 120px;transition-delay: 50ms;" class="collapse collapse-horizontal show"
+         id="collapseWidthExample">
+      <b-card id="container" class="border-0"></b-card>
       <nav id="sidebar" style="transition: linear">
-        <b-sidebar id="sidebar-1" style="transition: linear" title="Timeline" bg-variant="dark" text-variant="light" width="20%" no-header-close no-close-on-esc visible shadow>
+        <b-sidebar id="sidebar-1" style="transition: linear" title="Timeline" bg-variant="dark" text-variant="light"
+                   width="20%" no-header-close no-close-on-esc visible shadow>
           <template #footer>
             <div class="d-flex bg-light text-light px-3 py-2 w-100">
-              <div><b-button id="signOutButton" variant="primary">Sign Out</b-button></div>
+              <div>
+                <b-button id="signOutButton" variant="primary">Sign Out</b-button>
+              </div>
             </div>
           </template>
-          <div id = "sidebarComponents" class="px-3 py-2 w-100 h-100" >
+          <div id="sidebarComponents" class="px-3 py-2 w-100 h-100">
             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
               <user-image style="width: 70%;"></user-image>
-              <p>{{firstName}} {{surname}}</p>
+              <p>{{ firstName }} {{ surname }}</p>
             </div>
             <div style="font-size: 85%;text-align: left; font-weight: bold">
-              <p>Email: {{email}}</p>
-              <p>Date of Birth: {{dateBirth}}</p>
+              <p>Email: {{ email }}</p>
+              <p>Date of Birth: {{ dateBirth }}</p>
             </div>
             <div>
-              <div id="cardsStatistics" style="text-align: left; display:flex; flex-wrap: wrap; border-top: solid; border-bottom: solid; border-top-color: white">
-                <p class="statPart">Total Entries: {{totalEntries}}</p>
-                <p class="statPart">Average Word per Entry: {{averageWord}}</p>
-                <p class="statPart">Total Images: {{totalImages}}</p>
-                <p class="statPart">Total Size of Entries: {{totalSize}}</p>
+              <div id="cardsStatistics"
+                   style="text-align: left; display:flex; flex-wrap: wrap; border-top: solid; border-bottom: solid; border-top-color: white">
+                <p class="statPart">Total Entries: {{ totalEntries }}</p>
+                <p class="statPart">Average Word per Entry: {{ averageWord }}</p>
+                <p class="statPart">Total Images: {{ totalImages }}</p>
+                <p class="statPart">Total Size of Entries: {{ totalSize }}</p>
               </div>
             </div>
             <div>
-              <b-button id = "settings" v-b-toggle.settingsCollapse variant="light" class = "settings w-100" v-on:click="settingsButton()">
-                Settings &nbsp; <b-icon class="iconSettings" width="6px" rotate="180" icon="triangle-fill" aria-hidden="true"></b-icon>
+              <b-button id="settings" v-b-toggle.settingsCollapse variant="light" class="settings w-100"
+                        v-on:click="settingsButton()">
+                Settings &nbsp;
+                <b-icon class="iconSettings" width="6px" rotate="180" icon="triangle-fill" aria-hidden="true"></b-icon>
               </b-button>
               <b-collapse id="settingsCollapse">
                 <div id="cardSettings" class="py-2">
@@ -43,7 +50,9 @@
       </nav>
     </div>
     <p>
-      <button id="sidebarButton" style="display: flex;" class="btn btn-dark" data-bs-toggle="collapse" v-b-toggle.sidebar-1 data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" v-on:click="getUserInfo(); menuButton();">
+      <button id="sidebarButton" style="display: flex;" class="btn btn-dark" data-bs-toggle="collapse"
+              v-b-toggle.sidebar-1 data-bs-target="#collapseWidthExample" aria-expanded="false"
+              aria-controls="collapseWidthExample" v-on:click="getUserInfo(); menuButton();">
         <burger-button></burger-button>
       </button>
     </p>
@@ -52,7 +61,7 @@
 
 <script>
 import ChangeUserInfo from '@/components/ChangeUserInfo'
-import { Api } from '@/Api'
+import {Api} from '@/Api'
 import ChangePassword from '@/components/ChangePassword'
 import HamburgerIcon from '@/components/HamburgerIcon'
 import DeleteAccount from "@/components/DeleteAccount";
@@ -111,7 +120,7 @@ export default {
     getDimensions() {
       const container = document.getElementById('container')
       let changeWidth = document.getElementById('sidebar-1').clientWidth;
-      if (changeWidth!== 0){
+      if (changeWidth !== 0) {
         this.widthCollapse = document.getElementById('sidebar-1').clientWidth + 'px'
         container.style.width = this.widthCollapse
       }
@@ -179,13 +188,13 @@ export default {
 #cardSettings {
   display: flex;
   flex-wrap: nowrap;
-  flex-direction:  column;
+  flex-direction: column;
 }
 
 #sidebarComponents {
   display: flex;
   flex-wrap: nowrap;
-  flex-direction:  column;
+  flex-direction: column;
   justify-content: space-evenly;
 }
 
@@ -193,20 +202,20 @@ export default {
   font-size: 80%;
 }
 
-#signOutButton{
+#signOutButton {
   font-size: 80%;
 }
 
-#sidebarButton{
+#sidebarButton {
   font-size: 80%;
   z-index: +1;
 }
 
-#sidebarActual{
+#sidebarActual {
   display: flex;
 }
 
-#container{
+#container {
   outline: transparent;
   background-color: transparent;
   height: 1px;

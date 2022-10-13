@@ -12,21 +12,21 @@ const uploadedEntitiesSchema = new Schema({
     },
     entry: {
         type: String,
-        ref:"entry"
+        ref: "entry"
     },
-    metadata:[{
-        filename:{
+    metadata: [{
+        filename: {
             type: String,
         },
-        location:{
-            type:String,
+        location: {
+            type: String,
         }
     }],
-    links:[
+    links: [
         {
             _id: 0,
-            rel:String,
-            href:String
+            rel: String,
+            href: String
         }
     ]
 });
