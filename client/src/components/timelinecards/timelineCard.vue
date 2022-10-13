@@ -16,13 +16,13 @@
         </li>
       </ul>
     </div>
-    <component :is="currentTab" :entry="entry" class="tab"></component>
+    <component :is="currentTab" :entry="entry" v-on:edited="(editedEntry) => updateEntry(editedEntry)" class="tab"></component>
   </div>
 </template>
 
 <script>
-import TimelineCardEntryTab from "@/components/timelineCardEntryTab";
-import TimelineCardEntryEditorTab from "@/components/timelineCardEntryEditorTab";
+import TimelineCardEntryTab from "@/components/timelinecards/timelineCardEntryTab";
+import TimelineCardEntryEditorTab from "@/components/timelinecards/timelineCardEntryEditorTab";
 
 export default {
   components: {
@@ -35,7 +35,13 @@ export default {
       tabs: ['TimelineCardEntryTab', 'TimelineCardEntryEditorTab']
     }
   },
-  props: ['entry']
+  props: ['entry'],
+  methods: {
+    updateEntry(updatedEntry) {
+      // eslint-disable-next-line vue/no-mutating-props
+      this.entry = updatedEntry;
+    }
+  }
 }
 </script>
 
@@ -46,6 +52,7 @@ export default {
   border-radius: 5px;
   min-height: 400px;
   margin-bottom: 30px;
+  padding-bottom: 0;
 }
 
 </style>

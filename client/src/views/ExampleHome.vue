@@ -16,7 +16,7 @@
 <script>
 // @ is an alias to /src
 import {Api} from '@/Api'
-import SidebarExample from '@/components/SidebarExample'
+import SidebarExample from '@/components/sidebar/SidebarExample'
 
 export default {
   name: 'ExampleHome',

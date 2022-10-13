@@ -2,7 +2,7 @@
   <div class="row g-0">
     <div class="col-md-4">
       <div class="row">
-        <img alt="" class="img-fluid rounded-start" src="../assets/wallpaper1.jpg">
+        <img alt="" class="img-fluid rounded-start" src="../../assets/wallpaper1.jpg">
       </div>
       <div class="row">
         <div id="dateInfo">
@@ -32,14 +32,23 @@ export default {
   data() {
     return {
       markdownEntry: this.entry.text,
+      textarea: document.getElementById('entryTextEditor')
     }
   },
+
+  props: ['entry'],
+
   computed: {
     markdownToHTML() {
       return marked(this.markdownEntry)
     }
   },
   methods: {
+    resizeTextarea(event) {
+      event.target.style.height = "auto";
+      event.target.style.height = event.target.scrollHeight + "px";
+    },
+
     updateEntry() {
       let date = document.getElementById('entryDateEditor').value
       let created = this.entry.created_date
@@ -60,9 +69,28 @@ export default {
       Api.patch(url, entry).then(response => {
         console.log("Final response")
         console.log(response.data)
+        this.$emit('edited', response.data)
       })
     }
   },
-  props: ['entry']
+
+  mounted() {
+    this.$nextTick(() => {
+      // DOM updated
+      this.textarea.setAttribute(
+        "style",
+        "height:" + this.textarea.scrollHeight + "px;overflow-y:hidden;"
+      );
+      this.textarea.addEventListener("input", this.resizeTextarea);
+    });
+  },
+
+  beforeUnmount() {
+    this.$el.removeEventListener("input", this.resizeTextarea);
+  },
+
+  render() {
+    return this.$slots[0];
+  }
 }
 </script>

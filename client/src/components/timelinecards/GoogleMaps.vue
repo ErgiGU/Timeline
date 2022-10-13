@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      {{ mapLocation }}
+    </div>
     <b-button variant="success" v-b-modal='this.entryID'>
       <b-icon icon="geo-alt-fill"></b-icon>
     </b-button>

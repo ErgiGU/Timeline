@@ -51,12 +51,12 @@
 </template>
 
 <script>
-import ChangeUserInfo from '@/components/ChangeUserInfo'
+import ChangeUserInfo from '@/components/sidebar/ChangeUserInfo'
 import { Api } from '@/Api'
-import ChangePassword from '@/components/ChangePassword'
-import HamburgerIcon from '@/components/HamburgerIcon'
-import DeleteAccount from "@/components/DeleteAccount";
-import UserImage from "@/components/UserImage";
+import ChangePassword from '@/components/sidebar/ChangePassword'
+import HamburgerIcon from '@/components/sidebar/HamburgerIcon'
+import DeleteAccount from "@/components/sidebar/DeleteAccount";
+import UserImage from "@/components/sidebar/UserImage";
 
 export default {
   name: 'SideBar',
@@ -98,18 +98,18 @@ export default {
           this.message = error
         })
     },
-    getStatistics() {
-      Api.get('/statistics/' + this.$defaultUserAccount)
-        .then(response => {
-          this.totalEntries = response.data.totalEntries
-          this.averageWord = response.data.averageWord
-          this.totalImages = response.data.totalImages
-          this.totalSize = response.data.totalSize
-        })
-        .catch(error => {
-          this.message = error
-        })
-    },
+    // getStatistics() {
+    //   Api.get('/statistics/' + this.$defaultUserAccount)
+    //     .then(response => {
+    //       this.totalEntries = response.data.totalEntries
+    //       this.averageWord = response.data.averageWord
+    //       this.totalImages = response.data.totalImages
+    //       this.totalSize = response.data.totalSize
+    //     })
+    //     .catch(error => {
+    //       this.message = error
+    //     })
+    // },
     getDimensions() {
       const menuBtn = document.querySelector('.menu-btn')
       if(screen.width < 768) {
@@ -153,7 +153,7 @@ export default {
   mounted() {
     this.getUserInfo()
     this.getDimensions()
-    this.getStatistics()
+    // this.getStatistics()
     window.addEventListener('resize', this.getDimensions)
   },
   unmounted() {

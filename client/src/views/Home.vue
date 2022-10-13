@@ -1,5 +1,5 @@
 <template>
-  <div style=" display: flex;flex-wrap: nowrap">
+  <div style="display: flex;flex-wrap: nowrap">
     <div>
       <drop-down></drop-down>
     </div>
@@ -11,7 +11,7 @@
 
       <div id="entryInputContainer" class="container sticky-top">
         <div id="entryInput" class="row g-0 text-bg-dark">
-          <div class="col-4">
+          <div class="col-3">
             <div class="row g-0">
               <input id="entryDate" aria-label="Date" class="form-control text-bg-dark" placeholder="Date" type="date">
             </div>
@@ -23,16 +23,16 @@
               </div>
             </div>
           </div>
-          <div class="col-8">
-            <div class="input-group">
-              <div class="form-floating">
-                <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
-                          placeholder="Entry"></textarea>
-                <label for="entryText">Entry</label>
-              </div>
-              <button class="btn btn-outline-light btn-sm" @click="createEntry">Preview Entry</button>
-              <button class="btn btn-outline-light btn-sm" @click="createEntry">Create Entry</button>
+          <div class="col-6">
+            <div class="form-floating">
+              <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
+                        placeholder="Entry"></textarea>
+              <label for="entryText">Entry</label>
             </div>
+          </div>
+          <div class="d-grid gap-2 col-3">
+            <button class="btn btn-outline-light" @click="createEntry">Preview Entry</button>
+            <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
           </div>
         </div>
       </div>
@@ -51,8 +51,8 @@
 <script>
 // @ is an alias to /src
 import {Api} from '@/Api'
-import SideBar from '@/components/SideBar'
-import timelineCard from "@/components/timelineCard";
+import SideBar from '@/components/sidebar/SideBar'
+import timelineCard from "@/components/timelinecards/timelineCard";
 
 export default {
   components: {
@@ -129,6 +129,10 @@ export default {
 </script>
 
 <style>
+* {
+  padding: 0;
+  margin: 0;
+}
 /* Entry container */
 #entryInputContainer {
   margin-bottom: 20px;
