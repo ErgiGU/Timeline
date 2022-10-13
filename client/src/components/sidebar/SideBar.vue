@@ -11,7 +11,7 @@
           <template #footer>
             <div class="d-flex bg-light text-light px-3 py-2 w-100">
               <div>
-                <b-button id="signOutButton" variant="primary">Sign Out</b-button>
+                <b-button id="signOutButton" @click="logOut" variant="primary">Sign Out</b-button>
               </div>
             </div>
           </template>
@@ -98,6 +98,9 @@ export default {
     }
   },
   methods: {
+    logOut(){
+      this.$router.push({name: 'login'});
+    },
     getUserInfo() {
       Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id)
         .then(response => {

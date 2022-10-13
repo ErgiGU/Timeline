@@ -1,9 +1,11 @@
 <template>
-  <body>
-    <div class="row" id="rowContainer">
-      <div class="col-md-4" id="parentContainer">
-        <form id="loginForm">
-          <h2 class="text-center mb-4">Sign In</h2>
+  <div class="row" id="rowContainer">
+    <div class="col-md-4" id="parentContainer">
+      <form id="loginForm"  >
+        <h2 class="text-center mb-2 text-white" style="line-height: 2">Sign In</h2>
+        <b-alert v-model="showDismissibleAlert" variant="danger" style="line-height: 10px">
+          Invalid password/email
+        </b-alert>
 
           <div class="form-floating mb-4">
             <input type="email" class="form-control form-control-lg" id="email" placeholder="deeznuts@mail.com"
@@ -16,17 +18,16 @@
             <label>Password</label>
           </div>
 
-          <button type="submit" class="btn btn-primary" @click="login" style="width: 150px; height: 50px">Sign
+          <button type="submit" class="btn btn-primary align-self-center" @click="login" style="width: 150px; height: 50px">Sign
             In
           </button>
 
-          <p class="text-center mt-3 mb-2">Don't have an account?
-            <router-link to="/Registration" style="color: black">Register here</router-link>
-          </p>
-        </form>
-      </div>
+        <p class="text-center mt-2 mb-2 text-white">Don't have an account?
+          <router-link to="/Registration" style="color: black">Register here</router-link>
+        </p>
+      </form>
     </div>
-  </body>
+  </div>
 </template>
 
 <script>
@@ -37,23 +38,32 @@ import {Api} from '@/Api'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Login",
+  data() {
+    return {
+      showDismissibleAlert: false
+    }
+  },
+
   methods: {
     login(event) {
-      event.preventDefault()
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById('pass').value;
-
-      Api.post('/login', {
-        email: email,
-        password: pass
-      }).then((response) => {
-        this.$router.push('/Home');
-        localStorage.token = response.data.token
-        console.log(localStorage.token)
-        console.log(this.parseJwt(localStorage.token)._id)
-      }).catch((error) => {
-        console.log(error.response)
-      })
+      const email = document.getElementById("email");
+      const pass = document.getElementById('pass');
+      console.log(email.checkValidity());
+      if(email.checkValidity() && pass.checkValidity()) {
+        event.preventDefault()
+        Api.post('/login', {
+          email: email.value,
+          password: pass.value
+        }).then((response) => {
+          console.log(response.data.message);
+          if(response.data.message === "Success" ){
+            this.$router.push('/Home');
+            localStorage.token = response.data.token
+          }else{
+            this.showDismissibleAlert = true;
+          }
+        })
+        }
     },
   }
 }
@@ -67,7 +77,8 @@ export default {
 }
 
 #loginForm {
-  width: auto;
+  display: flex;
+  flex-direction: column;
   vertical-align: auto;
 }
 
@@ -80,7 +91,7 @@ Html, body {
   vertical-align: middle;
   display: table-cell;
   width: 600px;
-  padding: 50px;
+  padding: 10px 50px 50px;
   height: 400px;
   margin: auto;
   background-color: rgba(255, 255, 255, 0.13);

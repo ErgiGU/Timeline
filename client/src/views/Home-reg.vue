@@ -154,7 +154,7 @@ export default {
 <style>
 
 body {
-  background: linear-gradient(-45deg, #6b6b6b, #213FAF);
+  background: linear-gradient(-45deg, #6b6b6b, #213FAF, #C9CDDD);
   background-size: 400% 400%;
   animation: gradient 10s ease infinite;
 }
