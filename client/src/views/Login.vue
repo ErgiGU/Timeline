@@ -48,21 +48,20 @@ export default {
     login(event) {
       const email = document.getElementById("email");
       const pass = document.getElementById('pass');
-      console.log(email.checkValidity());
       if(email.checkValidity() && pass.checkValidity()) {
         event.preventDefault()
-        Api.post('/v1/login', {
+        let flag = true;
+        Api.post('/login', {
           email: email.value,
           password: pass.value
         }).then((response) => {
-          console.log(response.data.message);
           if(response.data.message === "Success" ){
+            flag = false;
             this.$router.push('/Home');
-            localStorage.token = response.data.token
-          }else{
-            this.showDismissibleAlert = true;
+            localStorage.token = response.data.token;
           }
         })
+        this.showDismissibleAlert = flag;
         }
     },
   }

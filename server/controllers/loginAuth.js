@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const userAccountModel = require("../models/userAccountModel");
 const userPassword = require("../models/userPasswordModel");
-const auth = require("../middleware/auth");
 
 router.get("/api/v1/getEmail", async function (req, res, next) {
     const email1 = req.body.email;
@@ -27,7 +26,7 @@ router.post('/api/v1/login', async (req, res, next) => {
             return next(err);
         }
         if (userAccount === null) {
-            return res.status(404).json({'message': 'User not found'});
+            return res.status(404).json({'message': "Invalid email"});
         } else {
             const id = userAccount._id;
             userPassword.findOne({_id: id}, async function (err, userPassword) {
@@ -42,7 +41,7 @@ router.post('/api/v1/login', async (req, res, next) => {
                         token: token
                     });
                 } else {
-                    return res.send('Invalid password');
+                    return res.status(404).json({'message': "Invalid password"});
                 }
             });
         }

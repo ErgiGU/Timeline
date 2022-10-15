@@ -105,7 +105,7 @@ router.post("/api/v1/uploadedEntities", function(req, res, next) {
     });
     uploadedEntity.save(function (err, uploadedEntity) {
         if (err) {
-            return next(err);
+            return res.status(400).send(err);
         }
         res.status(201).json(uploadedEntity);
     });
