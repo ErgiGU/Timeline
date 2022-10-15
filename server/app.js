@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
+const methodOverride = require('method-override');
 const history = require('connect-history-api-fallback');
 const entryController = require("./controllers/entryController");
 const uploadedEntitiesController = require("./controllers/uploadedEntitiesController");
@@ -38,7 +39,7 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
-
+app.use(methodOverride('_method'))
 
 // Import routes
 app.get('/api', function (req, res) {
