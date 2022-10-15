@@ -85,18 +85,18 @@ router.get('/api/entries/:id/uploaded_entities_list/:uploaded_entity', async (re
 });
 
 // Creates an uploaded entity in the DB when an image is uploaded
-router.post("/api/uploadedEntities", function (req, res, next) {
+router.post("/api/uploadedEntities", function(req, res, next) {
     //const entry = new entryModel(req.body);
-    let id = req.params.id;
+    let id = uuid.v4();
     const uploadedEntity = new uploadedEntitiesModel({
-        id: id,
-        file: "C://Users//Naruto//AppData//Roaming//Microsoft//Windows//Start Menu//Programs//Discord Inc",
+        _id: id,
+        file:req.body.file,
         entryID: "empty_for_now",
-        metadata: [{
-            filename: "Discord",
-            location: "Africa"
+        metadata:[{
+            filename:"Discord",
+            location:"Africa"
         }],
-        links: [
+        links:[
             {
                 rel: "entries",
                 href: "http://localhost:3000/api/uploadedEntities/"

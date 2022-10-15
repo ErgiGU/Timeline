@@ -1,11 +1,8 @@
 <template>
-  <div style="display: flex;flex-wrap: nowrap">
-    <div>
-      <drop-down></drop-down>
-    </div>
-
-    <div id="topContainer" class="row">
-      <b-jumbotron header="Timeline">
+  <div style="display: flex; justify-content: space-between">
+    <drop-down></drop-down>
+    <div id="topContainer" class="row" style="">
+      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline">
         <b-button class="btn_message" variant="primary" @click="getEntries()">Refresh entries</b-button>
       </b-jumbotron>
 
@@ -46,6 +43,7 @@
         />
       </div>
     </div>
+    <div></div>
   </div>
 </template>
 
@@ -165,13 +163,13 @@ export default {
 #entryInputContainer {
   margin-bottom: 20px;
   padding: 0;
-  margin-right: 100px;
   border-radius: 5px;
 }
 
 #topContainer {
-  margin-right: 100px;
-  margin-left: 100px;
+  display: flex;
+  margin-right: 20px;
+  margin-left: 20px
 }
 
 #entryDate {

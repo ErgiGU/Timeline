@@ -49,6 +49,23 @@ router.post('/api/login', async (req, res, next) => {
     })
 });
 
+router.get("/api/verifyPassword", async function (req, res, next) {
+    const id = req.body._id;
+    userPassword.findOne({_id: id}, async function (err, userPassword) {
+        if (err) {
+            return next(err)
+        }
+        if (userPassword === null) {
+            res.send("Password wrong")
+        } else {
+            if (await bcrypt.compare(req.body.password, userPassword.hashedPassword)) {
+                res.send("Password correct")
+            }
+        }
+
+    })
+})
+
 router.post('/api/checkEmail', async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {

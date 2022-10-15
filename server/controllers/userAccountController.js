@@ -158,7 +158,7 @@ router.get('/api/statistics/:id', function (req, res) {
             res.json({
                 'totalEntries': totalEntry,
                 'totalImages': totalImages,
-                'totalSize': 'NO DATA',
+                'totalSize': words.length,
                 'averageWord': averageWords
             });
         })

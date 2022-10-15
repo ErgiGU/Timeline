@@ -28,6 +28,8 @@ mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}, fu
 
 // Create Express app
 let app = express();
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());

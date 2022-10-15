@@ -31,7 +31,7 @@
                 <p class="statPart">Total Entries: {{ totalEntries }}</p>
                 <p class="statPart">Average Word per Entry: {{ averageWord }}</p>
                 <p class="statPart">Total Images: {{ totalImages }}</p>
-                <p class="statPart">Total Size of Entries: {{ totalSize }}</p>
+                <p class="statPart">Total Words: {{ totalSize }}</p>
               </div>
             </div>
             <div>
@@ -53,8 +53,8 @@
         </b-sidebar>
       </nav>
     </div>
-    <p>
-      <button id="sidebarButton" style="display: flex;" class="btn btn-dark" data-bs-toggle="collapse"
+    <p style="width: 0;">
+      <button id="sidebarButton" style="padding: 0" class="btn" data-bs-toggle="collapse"
               v-b-toggle.sidebar-1 data-bs-target="#collapseWidthExample" aria-expanded="false"
               aria-controls="collapseWidthExample" v-on:click="getUserInfo(); menuButton();">
         <burger-button></burger-button>
@@ -99,6 +99,7 @@ export default {
   },
   methods: {
     logOut(){
+      localStorage.clear()
       this.$router.push({name: 'login'});
     },
     getUserInfo() {
@@ -224,7 +225,6 @@ export default {
 }
 
 #sidebarButton {
-  font-size: 80%;
   z-index: +1;
 }
 

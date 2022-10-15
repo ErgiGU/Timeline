@@ -19,6 +19,7 @@
           </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="pass" placeholder="********"
+                   title="Password must contain: Minimum 8 characters at least 1 alphabetic character and 1 number"
                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
             <label>New Password</label>
           </div>
@@ -68,9 +69,7 @@ export default {
         this.showDismissibleAlert = true;
         event.preventDefault();
 
-        setTimeout(() => {
-          this.$router.push({name: 'Home'});
-        }, 3000);
+        setTimeout(() => { location.reload() }, 1000);
 
       } else {
         event.preventDefault();
@@ -86,6 +85,20 @@ export default {
       }
     }
 
+  },
+  checkPassword(event) {
+    const password = document.getElementById("pass").value()
+    let body = {
+      "password": password
+    }
+    event.preventDefault()
+    Api.post("/verifyPassword", body).then((response) =>  {
+      if(response.data === "Password correct"){
+        Api.patch("/userPasswords/" + "id", body)
+      }else{
+        password.setCustomValidity("Password is wrong");
+      }
+    })
   }
 }
 </script>
