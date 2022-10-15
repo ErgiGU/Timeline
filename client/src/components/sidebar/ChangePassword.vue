@@ -57,12 +57,12 @@ export default {
 
       if (pass.checkValidity() && confPass.checkValidity()) {
 
-        Api.post("/userAccounts").then(res => {
+        Api.post("/v1/userAccounts").then(res => {
           let userPass = {
             "_id": res.data._id,
             "password": pass.value
           }
-          Api.post("/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
+          Api.post("/v1/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
           console
         });
 
@@ -92,9 +92,9 @@ export default {
       "password": password
     }
     event.preventDefault()
-    Api.post("/verifyPassword", body).then((response) =>  {
+    Api.post("/v1/verifyPassword", body).then((response) =>  {
       if(response.data === "Password correct"){
-        Api.patch("/userPasswords/" + "id", body)
+        Api.patch("/v1/userPasswords/" + "id", body)
       }else{
         password.setCustomValidity("Password is wrong");
       }

@@ -51,7 +51,7 @@ export default {
       console.log(email.checkValidity());
       if(email.checkValidity() && pass.checkValidity()) {
         event.preventDefault()
-        Api.post('/login', {
+        Api.post('/v1/login', {
           email: email.value,
           password: pass.value
         }).then((response) => {

@@ -94,12 +94,12 @@ export default {
           "email": email.value
         }
 
-        Api.post("/userAccounts", userAccount).then(res => {
+        Api.post("/v1/userAccounts", userAccount).then(res => {
           let userPass = {
             "_id": res.data._id,
             "password": pass.value
           }
-          Api.post("/userPasswords", userPass);
+          Api.post("/v1/userPasswords", userPass);
         });
 
         this.showDismissibleAlert = true;
@@ -139,7 +139,7 @@ export default {
         'email': email.value
       }
       email.setCustomValidity("");
-      Api.post('/checkEmail', body).then(result => {
+      Api.post('/v1/checkEmail', body).then(result => {
         if (result.data === "Email already exists") {
           console.log(result.data);
           email.setCustomValidity("Email already exists");

@@ -96,15 +96,15 @@ export default {
       } else {
         let entry_list = []
 
-        Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id).then(result => {
+        Api.get('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id).then(result => {
           entry_list = result.data.entry_list
-          Api.post('/entries', entry).then(response => {
+          Api.post('/v1/entries', entry).then(response => {
             entry_list.push(response.data._id)
             let entries = {
               'entry_list': entry_list
             }
             this.entries = entry_list
-            Api.patch('/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
+            Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
             this.getEntries()
           })
         })
@@ -112,7 +112,7 @@ export default {
     },
 
     getEntries() {
-      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id + '/entry_list')
+      Api.get('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + '/entry_list')
         .then(response => {
           this.entries = response.data.sort(function (a, b) {
             return ((b.date_date) - (a.date_date));

@@ -5,7 +5,7 @@ const userAccountModel = require("../models/userAccountModel");
 const userPassword = require("../models/userPasswordModel");
 const auth = require("../middleware/auth");
 
-router.get("/api/getEmail", async function (req, res, next) {
+router.get("/api/v1/getEmail", async function (req, res, next) {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         if (err) {
@@ -20,7 +20,7 @@ router.get("/api/getEmail", async function (req, res, next) {
     })
 })
 
-router.post('/api/login', async (req, res, next) => {
+router.post('/api/v1/login', async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         if (err) {
@@ -49,7 +49,7 @@ router.post('/api/login', async (req, res, next) => {
     })
 });
 
-router.get("/api/verifyPassword", async function (req, res, next) {
+router.get("/api/v1/verifyPassword", async function (req, res, next) {
     const id = req.body._id;
     userPassword.findOne({_id: id}, async function (err, userPassword) {
         if (err) {
@@ -66,7 +66,7 @@ router.get("/api/verifyPassword", async function (req, res, next) {
     })
 })
 
-router.post('/api/checkEmail', async (req, res, next) => {
+router.post('/api/v1/checkEmail', async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         if (err) {

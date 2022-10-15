@@ -103,7 +103,7 @@ export default {
       this.$router.push({name: 'login'});
     },
     getUserInfo() {
-      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id)
+      Api.get('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id)
         .then(response => {
           this.firstName = response.data.first_name
           this.surname = response.data.surname
@@ -115,7 +115,7 @@ export default {
         })
     },
     getStatistics() {
-      Api.get('/statistics/' + this.parseJwt(localStorage.token)._id)
+      Api.get('/v1/statistics/' + this.parseJwt(localStorage.token)._id)
         .then(response => {
           this.totalEntries = response.data.totalEntries
           this.averageWord = response.data.averageWord
