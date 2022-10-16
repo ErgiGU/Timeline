@@ -34,7 +34,7 @@ router.post("/api/v1/entries/:id/uploaded_entities_list", async function (req, r
                 links: [
                     {
                         rel: "entries",
-                        href: "http://localhost:3000/api/uploadedEntities/"
+                        href: "http://localhost:3000/api/v1/uploadedEntities/"
                     }
                 ]
             })
@@ -85,7 +85,7 @@ router.get('/api/v1/entries/:id/uploaded_entities_list/:uploaded_entity', async 
 });
 
 // Creates an uploaded entity in the DB when an image is uploaded
-router.post("/api/v1/uploadedEntities", function(req, res, next) {
+router.post("/api/v1/uploadedEntities", function(req, res) {
     //const entry = new entryModel(req.body);
     let id = uuid.v4();
     const uploadedEntity = new uploadedEntitiesModel({
@@ -99,7 +99,7 @@ router.post("/api/v1/uploadedEntities", function(req, res, next) {
         links:[
             {
                 rel: "entries",
-                href: "http://localhost:3000/api/uploadedEntities/"
+                href: "http://localhost:3000/api/v1/uploadedEntities/"
             }
         ]
     });

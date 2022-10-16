@@ -15,6 +15,7 @@ const loginAuthController = require("./controllers/loginAuth");
 //const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 const port = process.env.PORT || 3000;
+const version = 'v1'
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
@@ -42,7 +43,7 @@ app.use(cors());
 app.use(methodOverride('_method'))
 
 // Import routes
-app.get('/api', function (req, res) {
+app.get('/api/' + version, function (req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
@@ -53,6 +54,10 @@ app.use(userPasswordController);
 app.use(loginAuthController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
+app.use('/api/' + version + '/*', function (req, res) {
+    res.status(404).json({'message': 'Not Found'});
+});
+
 app.use('/api/*', function (req, res) {
     res.status(404).json({'message': 'Not Found'});
 });
@@ -86,7 +91,7 @@ app.use(function (err, req, res, next) {
 app.listen(port, function (err) {
     if (err) throw err;
     console.log(`Express server listening on port ${port}, in ${env} mode`);
-    console.log(`Backend: http://localhost:${port}/api/`);
+    console.log(`Backend: http://localhost:${port}/api/` + version);
     console.log(`Frontend (production): http://localhost:${port}/`);
 });
 
