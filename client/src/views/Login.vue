@@ -50,18 +50,21 @@ export default {
       const pass = document.getElementById('pass');
       if(email.checkValidity() && pass.checkValidity()) {
         event.preventDefault()
-        let flag = true;
         Api.post('/v1/login', {
           email: email.value,
           password: pass.value
         }).then((response) => {
           if(response.data.message === "Success" ){
-            flag = false;
             this.$router.push ('/Home');
             localStorage.token = response.data.token;
+
+          }
+        },(failResponse) => {
+          console.log(failResponse.response.status);
+          if(failResponse.response.status === 404){
+            this.showDismissibleAlert = true;
           }
         })
-        this.showDismissibleAlert = flag;
         }
     },
   }
