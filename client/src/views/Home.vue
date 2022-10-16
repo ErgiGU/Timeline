@@ -105,10 +105,10 @@ export default {
             }
             this.entries = entry_list
             Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
-            this.getEntries()
           })
         })
       }
+      this.getEntries()
     },
 
     getEntries() {
