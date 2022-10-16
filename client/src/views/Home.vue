@@ -104,11 +104,10 @@ export default {
               'entry_list': entry_list
             }
             this.entries = entry_list
-            Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
+            Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, entries).finally(() => this.getEntries())
           })
         })
       }
-      this.getEntries()
     },
 
     getEntries() {
