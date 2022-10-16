@@ -62,7 +62,7 @@ export default {
       }
     },
     deleteAccount() {
-      Api.delete('userAccounts/' + this.parseJwt(localStorage.token)._id)
+      Api.post('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + '?_method=DELETE')
     }
   }
 }

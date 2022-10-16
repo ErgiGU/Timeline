@@ -7,7 +7,7 @@ const uuid = require('uuid');
 
 
 //Creates the user account in the DB
-router.post("/api/userAccounts", function (req, res, next) {
+router.post("/api/v1/userAccounts", function (req, res, next) {
     let id = uuid.v4();
     const userAccount = new userAccountModel({
         _id: id,
@@ -20,7 +20,7 @@ router.post("/api/userAccounts", function (req, res, next) {
         links: [
             {
                 rel: "self",
-                href: "http://localhost:3000/api/userAccounts/" + id
+                href: "http://localhost:3000/api/v1/userAccounts/" + id
             }
         ]
     })
@@ -39,7 +39,7 @@ router.post("/api/userAccounts", function (req, res, next) {
 });
 
 // Gets all the user accounts
-router.get("/api/userAccounts", function (req, res, next) {
+router.get("/api/v1/userAccounts", function (req, res, next) {
     userAccountModel.find(function (err, userAccount) {
         if (err) {
             return next(err);
@@ -49,7 +49,7 @@ router.get("/api/userAccounts", function (req, res, next) {
 });
 
 // Gets a user account
-router.get('/api/userAccounts/:id', function (req, res, next) {
+router.get('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function (err, userAccount) {
         if (err) {
@@ -64,7 +64,7 @@ router.get('/api/userAccounts/:id', function (req, res, next) {
 });
 
 //I don't think we should have this for the user account
-router.put('/api/userAccounts/:id', function (req, res, next) {
+router.put('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
     userAccountModel.findById(id, function (err, userAccount) {
@@ -84,7 +84,7 @@ router.put('/api/userAccounts/:id', function (req, res, next) {
 });
 
 //Replaces specific attributes of the user account
-router.patch('/api/userAccounts/:id', function (req, res, next) {
+router.patch('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function (err, userAccount) {
         if (err) {
@@ -110,7 +110,7 @@ router.patch('/api/userAccounts/:id', function (req, res, next) {
 });
 
 //Deletes all user accounts
-router.delete('/api/userAccounts', function (req, res, next) {
+router.delete('/api/v1/userAccounts', function (req, res, next) {
     userAccountModel.deleteMany(function (err, userAccount) {
         if (err) {
             return next(err);
@@ -120,7 +120,7 @@ router.delete('/api/userAccounts', function (req, res, next) {
 });
 
 //Deletes a user account
-router.delete('/api/userAccounts/:id', function (req, res, next) {
+router.delete('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
         if (err) {
@@ -133,7 +133,7 @@ router.delete('/api/userAccounts/:id', function (req, res, next) {
     });
 });
 
-router.get('/api/statistics/:id', function (req, res) {
+router.get('/api/v1/statistics/:id', function (req, res) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccounts) => {
@@ -158,7 +158,7 @@ router.get('/api/statistics/:id', function (req, res) {
             res.json({
                 'totalEntries': totalEntry,
                 'totalImages': totalImages,
-                'totalSize': 'NO DATA',
+                'totalSize': words.length,
                 'averageWord': averageWords
             });
         })

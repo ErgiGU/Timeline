@@ -67,8 +67,7 @@ export default {
           "email": email.value,
           "date_of_birth": date_of_birth.value
         }
-        console.log("HHUUUUUUHHH")
-        Api.patch("/userAccounts/" + this.parseJwt(localStorage.token)._id, userAccount)
+        Api.patch("/v1/userAccounts/" + this.parseJwt(localStorage.token)._id, userAccount)
 
         this.showDismissibleAlert = true;
         event.preventDefault();
@@ -82,20 +81,17 @@ export default {
         event.stopPropagation();
       }
     }, checkIfEmailExists() {
-      let userAccounts = [];
       const email = document.getElementById('email');
-      Api.get('/userAccounts').then(result => {
-        userAccounts = result.data.users;
-        const isFound = userAccounts.some(element => {
-          return element.email === email.value;
-        });
-        if (isFound) {
+      let body = {
+        'email': email.value
+      }
+      email.setCustomValidity("");
+      Api.post('/v1/checkEmail', body).then(result => {
+        if (result.data === "Email already exists") {
+          console.log(result.data);
           email.setCustomValidity("Email already exists");
-        } else {
-          email.setCustomValidity('');
         }
-
-      })
+      });
     },
   }
 }

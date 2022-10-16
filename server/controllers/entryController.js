@@ -5,7 +5,7 @@ const router = express.Router();
 const uuid = require('uuid');
 
 // Get user entries
-router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
+router.get("/api/v1/userAccounts/:id/entry_list", async function (req, res) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccount) => {
@@ -24,7 +24,7 @@ router.get("/api/userAccounts/:id/entry_list", async function (req, res) {
 });
 
 // Post new user entry list
-router.post("/api/userAccounts/:id/entry_list", async function (req, res, next) {
+router.post("/api/v1/userAccounts/:id/entry_list", async function (req, res, next) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec(function (err, userAccount) {
@@ -44,7 +44,7 @@ router.post("/api/userAccounts/:id/entry_list", async function (req, res, next) 
                 links: [
                     {
                         rel: "users",
-                        href: "http://localhost:3000/api/entries/" + id
+                        href: "http://localhost:3000/api/v1/entries/" + id
                     }
                 ]
             })
@@ -61,7 +61,7 @@ router.post("/api/userAccounts/:id/entry_list", async function (req, res, next) 
 });
 
 // Delete specific entry from user list
-router.delete('/api/userAccounts/:id/entry_list/:entry_id', async (req, res) => {
+router.delete('/api/v1/userAccounts/:id/entry_list/:entry_id', async (req, res) => {
     let entry_id = req.params.entry_id;
     let id = req.params.id;
     entryModel.findOneAndDelete({_id: entry_id}, function (err, entry) {
@@ -84,7 +84,7 @@ router.delete('/api/userAccounts/:id/entry_list/:entry_id', async (req, res) => 
 });
 
 // Get specific entry from user list
-router.get('/api/userAccounts/:id/entry_list/:entry_id', async (req, res, next) => {
+router.get('/api/v1/userAccounts/:id/entry_list/:entry_id', async (req, res, next) => {
     let id = req.params.entry_id;
     entryModel.findById(id, function (err, entry) {
         if (err) {
@@ -98,7 +98,7 @@ router.get('/api/userAccounts/:id/entry_list/:entry_id', async (req, res, next) 
 });
 
 //Creates an entry
-router.post("/api/entries", function (req, res, next) {
+router.post("/api/v1/entries", function (req, res, next) {
     let id = uuid.v4();
     const entry = new entryModel({
         _id: id,
@@ -111,7 +111,7 @@ router.post("/api/entries", function (req, res, next) {
         links: [
             {
                 rel: "users",
-                href: "http://localhost:3000/api/entries/" + id
+                href: "http://localhost:3000/api/v1/entries/" + id
             }
         ]
     })
@@ -124,7 +124,7 @@ router.post("/api/entries", function (req, res, next) {
 });
 
 //Get all entry or get all by filter if query
-router.get('/api/entries', function (req, res, next) {
+router.get('/api/v1/entries', function (req, res, next) {
     let filter = req.query.text;
     entryModel.find(function (err, entry) {
         if (filter) {
@@ -144,7 +144,7 @@ router.get('/api/entries', function (req, res, next) {
 });
 
 //Gets an entry
-router.get('/api/entries/:id', function (req, res, next) {
+router.get('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     entryModel.findById(id, function (err, entry) {
         if (err) {
@@ -158,7 +158,7 @@ router.get('/api/entries/:id', function (req, res, next) {
 });
 
 //Replaces an entry
-router.put('/api/entries/:id', function (req, res, next) {
+router.put('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
     entryModel.findById(id, function (err, entry) {
@@ -178,7 +178,7 @@ router.put('/api/entries/:id', function (req, res, next) {
 });
 
 //Replaces specific attributes of an entry(text, date etc.)
-router.patch('/api/entries/:id', function (req, res, next) {
+router.patch('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     entryModel.findById(id, function (err, entry) {
         if (err) {
@@ -203,7 +203,7 @@ router.patch('/api/entries/:id', function (req, res, next) {
 });
 
 //Deletes all entries
-router.delete('/api/entries', function (req, res, next) {
+router.delete('/api/v1/entries', function (req, res, next) {
     entryModel.deleteMany(function (err, entry) {
         if (err) {
             return next(err);
@@ -213,7 +213,7 @@ router.delete('/api/entries', function (req, res, next) {
 });
 
 //Deletes an entry
-router.delete('/api/entries/:id', function (req, res, next) {
+router.delete('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     entryModel.findOneAndDelete({_id: id}, function (err, entry) {
         if (err) {

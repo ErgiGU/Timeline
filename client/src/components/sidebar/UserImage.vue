@@ -31,13 +31,13 @@ export default {
         body = {
           "profile_picture": bodyPicture
         }
-        Api.patch('/userAccounts/' + this.parseJwt(localStorage.token)._id, body)
+        Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, body)
         this.imageURL = e.target.result
       }
       reader.readAsDataURL(file)
     },
     setInitialImage() {
-      Api.get('/userAccounts/' + this.parseJwt(localStorage.token)._id)
+      Api.get('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id)
         .then(response => {
           if (response.data.profile_picture !== null && response.data.profile_picture !== "random") {
             this.imageURL = response.data.profile_picture

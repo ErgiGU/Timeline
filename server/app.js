@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
+const methodOverride = require('method-override');
 const history = require('connect-history-api-fallback');
 const entryController = require("./controllers/entryController");
 const uploadedEntitiesController = require("./controllers/uploadedEntitiesController");
@@ -11,9 +12,10 @@ const userPasswordController = require("./controllers/userPasswordController");
 const loginAuthController = require("./controllers/loginAuth");
 
 // Variables
-//const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://user:uls54LlsldiEPiMT@cluster0.y6dnvxt.mongodb.net/?retryWrites=true&w=majority';
+//const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 const port = process.env.PORT || 3000;
+const version = 'v1'
 
 // Connect to MongoDB
 mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}, function (err) {
@@ -28,6 +30,8 @@ mongoose.connect(mongoURI, {useNewUrlParser: true, useUnifiedTopology: true}, fu
 
 // Create Express app
 let app = express();
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -36,12 +40,10 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
-
-app.use(express.json({limit: '500mb'}));
-app.use(express.urlencoded({limit: '500mb', parameterLimit: 100000000000, extended: true}));
+app.use(methodOverride('_method'))
 
 // Import routes
-app.get('/api', function (req, res) {
+app.get('/api/' + version, function (req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
@@ -52,6 +54,10 @@ app.use(userPasswordController);
 app.use(loginAuthController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
+app.use('/api/' + version + '/*', function (req, res) {
+    res.status(404).json({'message': 'Not Found'});
+});
+
 app.use('/api/*', function (req, res) {
     res.status(404).json({'message': 'Not Found'});
 });
@@ -85,7 +91,7 @@ app.use(function (err, req, res, next) {
 app.listen(port, function (err) {
     if (err) throw err;
     console.log(`Express server listening on port ${port}, in ${env} mode`);
-    console.log(`Backend: http://localhost:${port}/api/`);
+    console.log(`Backend: http://localhost:${port}/api/` + version);
     console.log(`Frontend (production): http://localhost:${port}/`);
 });
 

@@ -78,7 +78,7 @@ export default {
         text
       }
 
-      let url = '/entries/' + this.entry._id
+      let url = '/v1/entries/' + this.entry._id
 
       Api.patch(url, entry).then(response => {
         console.log("Final response")

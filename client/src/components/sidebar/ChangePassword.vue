@@ -19,6 +19,7 @@
           </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="pass" placeholder="********"
+                   title="Password must contain: Minimum 8 characters at least 1 alphabetic character and 1 number"
                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
             <label>New Password</label>
           </div>
@@ -56,21 +57,18 @@ export default {
 
       if (pass.checkValidity() && confPass.checkValidity()) {
 
-        Api.post("/userAccounts").then(res => {
+        Api.post("/v1/userAccounts").then(res => {
           let userPass = {
             "_id": res.data._id,
             "password": pass.value
           }
-          Api.post("/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
-          console
+          Api.post("/v1/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
         });
 
         this.showDismissibleAlert = true;
         event.preventDefault();
 
-        setTimeout(() => {
-          this.$router.push({name: 'Home'});
-        }, 3000);
+        setTimeout(() => { location.reload() }, 1000);
 
       } else {
         event.preventDefault();
@@ -86,6 +84,21 @@ export default {
       }
     }
 
+  },
+  checkPassword(event) {
+    const password = document.getElementById("pass").value()
+
+    let body = {
+      "password": password
+    }
+    event.preventDefault()
+    Api.post("/v1/verifyPassword", body).then((response) =>  {
+      if(response.data === "Password correct"){
+        Api.patch("/v1/userPasswords/" + "id", body)
+      }else{
+        password.setCustomValidity("Password is wrong");
+      }
+    })
   }
 }
 </script>
