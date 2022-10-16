@@ -29,8 +29,25 @@
             </div>
           </div>
           <div class="d-grid gap-2 col-3">
-            <button class="btn btn-outline-light" @click="createEntry">Preview Entry</button>
+            <button class="btn btn-outline-light" @click="previewEntry" data-bs-target="#previewModal" data-bs-toggle="modal">Preview Entry</button>
             <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="previewModalLabel">Entry preview</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div v-html="markdownToHTML" id="markdownEntryPreview"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
           </div>
         </div>
       </div>
@@ -52,11 +69,18 @@
 import {Api} from '@/Api'
 import timelineCard from "@/components/timelinecards/timelineCard";
 import SideBar from '@/components/sidebar/SideBar'
+import {marked} from "marked";
 
 export default {
   components: {
     timelineCard,
     'drop-down': SideBar
+  },
+
+  computed: {
+    markdownToHTML() {
+      return marked(this.markdownEntry)
+    }
   },
 
   name: 'Timeline-Home',
@@ -66,7 +90,7 @@ export default {
 
   data() {
     return {
-      visibleEntries: 0,
+      markdownEntry: "",
       entries: []
     }
   },
@@ -75,6 +99,10 @@ export default {
     resizeTextarea(event) {
       event.target.style.height = "auto";
       event.target.style.height = event.target.scrollHeight + "px";
+    },
+
+    previewEntry() {
+      this.markdownEntry = document.getElementById('entryText').value
     },
 
     createEntry() {
@@ -104,11 +132,10 @@ export default {
               'entry_list': entry_list
             }
             this.entries = entry_list
-            Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, entries)
+            Api.patch('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id, entries).finally(() => this.getEntries())
           })
         })
       }
-      this.getEntries()
     },
 
     getEntries() {
@@ -163,6 +190,10 @@ export default {
 #entryInputContainer {
   margin-bottom: 20px;
   padding: 0;
+  border-radius: 5px;
+}
+
+#entryInput {
   border-radius: 5px;
 }
 

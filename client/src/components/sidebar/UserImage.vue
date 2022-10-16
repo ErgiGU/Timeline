@@ -39,7 +39,7 @@ export default {
     setInitialImage() {
       Api.get('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id)
         .then(response => {
-          if (response.data.profile_picture !== null && response.data.profile_picture !== "random") {
+          if (response.data.profile_picture !== null && response.data.profile_picture !== "empty") {
             this.imageURL = response.data.profile_picture
           }
         })

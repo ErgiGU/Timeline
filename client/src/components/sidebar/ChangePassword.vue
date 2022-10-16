@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button id="settingsButtons" v-b-modal.rePassword variant="outline-light">Reset Password</b-button>
+    <b-button id="settingsButtons" v-b-modal.rePassword variant="outline-light">Change Password</b-button>
     <b-modal id="rePassword" centered title="Reset Password" hide-header-close hide-footer>
       <template #modal-header="{cancel}">
         <p style="font-size: 150%; margin-bottom: 0">Change Password</p>
@@ -14,7 +14,8 @@
         </b-alert>
         <div style="display: flex; flex-direction: column">
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="checkingPass" placeholder="********" required>
+            <input type="password" class="form-control" id="checkingPass" placeholder="********"
+                   v-on:keyup="checkPassword" required>
             <label>Password</label>
           </div>
           <div class="form-floating mb-3">
@@ -26,7 +27,7 @@
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="confPass" placeholder="********"
                    v-on:keyup="checkIfPassMatches" required>
-            <label>Re: New Password</label>
+            <label>Confirm New Password</label>
           </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; padding-top: 10px">
@@ -52,29 +53,23 @@ export default {
     function1(event) {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       //const forms = document.querySelectorAll('.needs-validation');
+      const checkPass = document.getElementById('checkingPass');
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
-
-      if (pass.checkValidity() && confPass.checkValidity()) {
-
-        Api.post("/v1/userAccounts").then(res => {
-          let userPass = {
-            "_id": res.data._id,
-            "password": pass.value
-          }
-          Api.post("/v1/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
-        });
-
+      if (pass.checkValidity() && confPass.checkValidity() && checkPass.checkValidity()) {
+        const user = this.parseJwt(localStorage.token);
+        Api.post("/v1/userPasswords/" + user._id + "?_method=PUT", {password: pass.value});
         this.showDismissibleAlert = true;
         event.preventDefault();
-
-        setTimeout(() => { location.reload() }, 1000);
-
+        setTimeout(() => {
+          location.reload()
+        }, 1000);
       } else {
         event.preventDefault();
         event.stopPropagation();
       }
-    }, checkIfPassMatches() {
+    },
+    checkIfPassMatches() {
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
       if (pass.value !== confPass.value) {
@@ -82,23 +77,18 @@ export default {
       } else {
         confPass.setCustomValidity('');
       }
-    }
-
-  },
-  checkPassword(event) {
-    const password = document.getElementById("pass").value()
-
-    let body = {
-      "password": password
-    }
-    event.preventDefault()
-    Api.post("/v1/verifyPassword", body).then((response) =>  {
-      if(response.data === "Password correct"){
-        Api.patch("/v1/userPasswords/" + "id", body)
-      }else{
-        password.setCustomValidity("Password is wrong");
-      }
-    })
+    },
+    checkPassword() {
+      const checkPass = document.getElementById("checkingPass")
+      const user = this.parseJwt(localStorage.token);
+      Api.post("/v1/verifyPassword", {_id: user._id, password: checkPass.value}).then((response) => {
+        if (response.data.message === "Correct password") {
+          checkPass.setCustomValidity("");
+        } else {
+          checkPass.setCustomValidity("Invalid password")
+        }
+      })
+    },
   }
 }
 </script>
