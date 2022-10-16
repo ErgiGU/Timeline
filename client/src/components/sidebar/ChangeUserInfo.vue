@@ -81,20 +81,17 @@ export default {
         event.stopPropagation();
       }
     }, checkIfEmailExists() {
-      let userAccounts = [];
       const email = document.getElementById('email');
-      Api.get('/v1/userAccounts').then(result => {
-        userAccounts = result.data.users;
-        const isFound = userAccounts.some(element => {
-          return element.email === email.value;
-        });
-        if (isFound) {
+      let body = {
+        'email': email.value
+      }
+      email.setCustomValidity("");
+      Api.post('/v1/checkEmail', body).then(result => {
+        if (result.data === "Email already exists") {
+          console.log(result.data);
           email.setCustomValidity("Email already exists");
-        } else {
-          email.setCustomValidity('');
         }
-
-      })
+      });
     },
   }
 }

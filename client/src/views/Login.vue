@@ -57,7 +57,7 @@ export default {
         }).then((response) => {
           if(response.data.message === "Success" ){
             flag = false;
-            this.$router.push('/Home');
+            this.$router.push ('/Home');
             localStorage.token = response.data.token;
           }
         })
