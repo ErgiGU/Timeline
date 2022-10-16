@@ -4,20 +4,6 @@ const router = express.Router();
 const userAccountModel = require("../models/userAccountModel");
 const userPassword = require("../models/userPasswordModel");
 
-router.get("/api/v1/getEmail", async function (req, res, next) {
-    const email1 = req.body.email;
-    userAccountModel.findOne({email: email1}, function (err, userAccount) {
-        if (err) {
-            return next(err)
-        }
-        if (userAccount === null) {
-            res.send("Email not found")
-        } else {
-            res.send("Email already exists")
-        }
-
-    })
-})
 
 router.post('/api/v1/login', async (req, res, next) => {
     const email1 = req.body.email;
@@ -48,21 +34,19 @@ router.post('/api/v1/login', async (req, res, next) => {
     })
 });
 
-router.get("/api/v1/verifyPassword", async function (req, res, next) {
+router.post("/api/v1/verifyPassword",  function (req, res, next) {
     const id = req.body._id;
     userPassword.findOne({_id: id}, async function (err, userPassword) {
         if (err) {
             return next(err)
         }
-        if (userPassword === null) {
-            res.send("Password wrong")
-        } else {
-            if (await bcrypt.compare(req.body.password, userPassword.hashedPassword)) {
-                res.send("Password correct")
-            }
+        if (await bcrypt.compare(req.body.password, userPassword.hashedPassword)) {
+            res.json({'message': "Correct password"})
+        }else{
+            res.json({'message': "Invalid password"})
         }
-
     })
+
 })
 
 router.post('/api/v1/checkEmail', async (req, res, next) => {
