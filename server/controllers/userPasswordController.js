@@ -11,87 +11,118 @@ router.post("/api/v1/userPasswords", async function (req, res, next) {
         hashedPassword: hashedPassword
     });
     userPassword.save(function (err, userPassword) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).json(userPassword);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.status(201).json(userPassword);
     });
 });
 
 // SEND BACK ALL ENTRIES
 router.get("/api/v1/userPasswords", function (req, res, next) {
     userPasswordModel.find(function (err, userPassword) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({"User Passwords": userPassword});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.json({"User Passwords": userPassword});
     })
 });
 
 router.get('/api/v1/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
-    userPasswordModel.findById(id, function (err, userPassword) {
-        if (err) {
-            return next(err);
-        }
-        if (userPassword === null) {
-            return res.status(404).json({'message': 'User-password not found!'});
-        }
-        res.json(userPassword);
-    });
+    try {
+        userPasswordModel.findById(id, function (err, userPassword) {
+            if (err) {
+                return next(err);
+            }
+            if (userPassword === null) {
+                return res.status(404).json({'message': 'User-password not found!'});
+            }
+            res.status(200).json(userPassword);
+        });
+    }catch(err) {
+        res.status(400).json({ message: err.message });
+    }
+
 });
 
 router.put('/api/v1/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
     userPasswordModel.findById(id, async function (err, userPassword) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (userPassword == null) {
+                return res.status(404).json({"message": "User-password not found"});
+            }
+            userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
+            userPassword.save();
+            res.status(201).json("User password updated.");
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (userPassword == null) {
-            return res.status(404).json({"message": "User-password not found"});
-        }
-        userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
-        userPassword.save();
-        res.status(201).json("User password updated.");
     });
 });
 
 router.patch('/api/v1/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
     userPasswordModel.findById(id, async function (err, userPassword) {
-        if (err) {
-            return next(err);
-        }
-        if (userPassword == null) {
-            return res.status(404).json({"message": "User-password not found"});
-        }
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (userPassword == null) {
+                return res.status(404).json({"message": "User-password not found"});
+            }
 
-        userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
-        userPassword.save();
-        res.json("password updated.");
+            userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
+            userPassword.save();
+            res.status(200).json("password updated.");
+        }catch(err) {
+            res.status(400).json({ message: err.message });
+        }
     });
 });
 
 router.delete('/api/v1/userPasswords', function (req, res, next) {
     userPasswordModel.deleteMany(function (err, userPassword) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({'User-password': userPassword});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.json({'User-password': userPassword});
+
     });
 });
 
 router.delete('/api/v1/userPasswords/:id', function (req, res, next) {
     let id = req.params.id;
     userPasswordModel.findOneAndDelete({_id: id}, function (err, userPassword) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (userPassword === null) {
+                return res.status(404).json({'message': 'User-password not found'});
+            }
+            res.status(200).json(userPassword);
+        }catch (err) {
+            res.status(400).json({ message: err.message });
         }
-        if (userPassword === null) {
-            return res.status(404).json({'message': 'User-password not found'});
-        }
-        res.json(userPassword);
+
     });
 });
 

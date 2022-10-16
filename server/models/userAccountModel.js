@@ -31,14 +31,7 @@ const userAccountSchema = new Schema({
         type: String,
         ref: "entry",
         required: true
-    }],
-    links: [
-        {
-            _id: 0,
-            rel: String,
-            href: String
-        }
-    ]
+    }]
 });
 
 userAccountSchema.methods.generateToken = function () {

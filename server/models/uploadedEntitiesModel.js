@@ -21,14 +21,7 @@ const uploadedEntitiesSchema = new Schema({
         location: {
             type: String,
         }
-    }],
-    links: [
-        {
-            _id: 0,
-            rel: String,
-            href: String
-        }
-    ]
+    }]
 });
 
 module.exports = mongoose.model('uploadedEntity', uploadedEntitiesSchema);

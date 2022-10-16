@@ -14,37 +14,34 @@ router.post("/api/v1/userAccounts", function (req, res, next) {
         first_name: req.body.first_name,
         surname: req.body.surname,
         email: req.body.email,
-        date_of_birth: new Date().toISOString().slice(0, 10),
-        profile_picture: "random",
-        entry_list: [],
-        links: [
-            {
-                rel: "self",
-                href: "http://localhost:3000/api/v1/userAccounts/" + id
-            }
-        ]
+        profile_picture: "empty",
+        entry_list: []
     })
 
-
     userAccount.save(function (err, userAccount) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(201).json(userAccount);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-
-        res.status(201).json(userAccount);
-
     });
-
-
 });
 
 // Gets all the user accounts
 router.get("/api/v1/userAccounts", function (req, res, next) {
     userAccountModel.find(function (err, userAccount) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({"users": userAccount});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.json({"users": userAccount});
     })
 });
 
@@ -52,14 +49,18 @@ router.get("/api/v1/userAccounts", function (req, res, next) {
 router.get('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function (err, userAccount) {
-        if (err) {
-            return next(err);
-        }
-        if (userAccount === null) {
-            return res.status(404).json({'message': 'User not found!'});
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (userAccount === null) {
+                return res.status(404).json({'message': 'User not found!'});
+            }
+            res.status(200).json(userAccount);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
 
-        res.json(userAccount);
     });
 });
 
@@ -68,18 +69,22 @@ router.put('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
     userAccountModel.findById(id, function (err, userAccount) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (userAccount == null) {
+                return res.status(404).json({"message": "User not found"});
+            }
+            userAccount.first_name = req.body.first_name;
+            userAccount.surname = req.body.surname;
+            userAccount.email = req.body.email;
+            userAccount.date_of_birth = req.body.date_of_birth;
+            userAccount.save();
+            res.status(201).json(userAccount);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (userAccount == null) {
-            return res.status(404).json({"message": "User not found"});
-        }
-        userAccount.first_name = req.body.first_name;
-        userAccount.surname = req.body.surname;
-        userAccount.email = req.body.email;
-        userAccount.date_of_birth = req.body.date_of_birth;
-        userAccount.save();
-        res.status(201).json(userAccount);
     });
 });
 
@@ -87,80 +92,101 @@ router.put('/api/v1/userAccounts/:id', function (req, res, next) {
 router.patch('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function (err, userAccount) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (userAccount == null) {
+                return res.status(404).json(
+                    {"message": "User not found"});
+            }
+            userAccount.first_name = (req.body.first_name || userAccount.first_name);
+            userAccount.surname = (req.body.surname || userAccount.surname);
+            userAccount.email = (req.body.email || userAccount.email);
+            userAccount.date_of_birth = (req.body.date_of_birth || userAccount.date_of_birth);
+            userAccount.profile_picture = (req.body.profile_picture || userAccount.profile_picture);
+            if (req.body.entry_list) {
+                userAccount.entry_list = req.body.entry_list
+                userAccount.populate("entry_list")
+            }
+            userAccount.find
+            userAccount.save();
+            res.status(200).json(userAccount);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (userAccount == null) {
-            return res.status(404).json(
-                {"message": "User not found"});
-        }
-        userAccount.first_name = (req.body.first_name || userAccount.first_name);
-        userAccount.surname = (req.body.surname || userAccount.surname);
-        userAccount.email = (req.body.email || userAccount.email);
-        userAccount.date_of_birth = (req.body.date_of_birth || userAccount.date_of_birth);
-        userAccount.profile_picture = (req.body.profile_picture || userAccount.profile_picture);
-        if (req.body.entry_list) {
-            userAccount.entry_list = req.body.entry_list
-            userAccount.populate("entry_list")
-        }
-        userAccount.find
-        userAccount.save();
-        res.json(userAccount);
     });
 });
 
 //Deletes all user accounts
 router.delete('/api/v1/userAccounts', function (req, res, next) {
     userAccountModel.deleteMany(function (err, userAccount) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({'userAccounts': userAccount});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.json({'userAccounts': userAccount});
     });
 });
 
 //Deletes a user account
 router.delete('/api/v1/userAccounts/:id', function (req, res, next) {
     let id = req.params.id;
-    userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
-        if (err) {
-            return next(err);
-        }
-        if (userAccount === null) {
-            return res.status(404).json({'message': 'user not found'});
-        }
-        res.json(userAccount);
-    });
+    try {
+        userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
+            if (err) {
+                return next(err);
+            }
+            if (userAccount === null) {
+                return res.status(404).json({'message': 'user not found'});
+            }
+            res.status(200).json(userAccount);
+        });
+    }catch(err) {
+        res.status(400).json({ message: err.message });
+    }
 });
 
-router.get('/api/v1/statistics/:id', function (req, res) {
+router.get('/api/v1/statistics/:id', function (req, res, next) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccounts) => {
+            if (userAccounts === null) {
+                return res.status(404).json({'message': 'user not found'});
+            }
             let totalEntry
             let totalImages = 0;
             let words = [];
             let averageWords = 0;
-
-            userAccounts.entry_list.forEach(entry => {
-                if (entry.uploaded_entities_list) {
-                    totalImages = totalImages + entry.uploaded_entities_list.length
+            try {
+                if (err) {
+                    return next(err);
                 }
-                let newWordsList = entry.text.split(" ")
-                words = words.concat(newWordsList)
-            })
-            totalEntry = userAccounts.entry_list.length
+                userAccounts.entry_list.forEach(entry => {
+                    if (entry.uploaded_entities_list) {
+                        totalImages = totalImages + entry.uploaded_entities_list.length
+                    }
+                    let newWordsList = entry.text.split(" ")
+                    words = words.concat(newWordsList)
+                })
+                totalEntry = userAccounts.entry_list.length
 
-            if (totalEntry) {
-                averageWords = (words.length / totalEntry)
+                if (totalEntry) {
+                    averageWords = (words.length / totalEntry)
+                }
+                averageWords = Math.round(averageWords * 100) / 100
+                res.status(200).json({
+                    'totalEntries': totalEntry,
+                    'totalImages': totalImages,
+                    'totalSize': words.length,
+                    'averageWord': averageWords
+                });
+            }catch(err) {
+                res.status(400).json({ message: err.message });
             }
-            averageWords = Math.round(averageWords * 100) / 100
-            res.json({
-                'totalEntries': totalEntry,
-                'totalImages': totalImages,
-                'totalSize': words.length,
-                'averageWord': averageWords
-            });
         })
 });
 

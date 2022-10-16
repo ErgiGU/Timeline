@@ -28,14 +28,7 @@ const entrySchema = new Schema({
     uploaded_entities_list: [{
         type: String,
         ref: "uploadedEntity"
-    }],
-    links: [
-        {
-            _id: 0,
-            rel: String,
-            href: String
-        }
-    ]
+    }]
 
 });
 

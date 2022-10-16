@@ -5,21 +5,25 @@ const router = express.Router();
 const uuid = require('uuid');
 
 // Get user entries
-router.get("/api/v1/userAccounts/:id/entry_list", async function (req, res) {
+router.get("/api/v1/userAccounts/:id/entry_list", async function (req, res, next) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccount) => {
-            if (err) {
-                return res.status(400).send(err);
+            try {
+                if (err) {
+                    return next(err);
+                }
+                if (userAccount.entry_list !== null) {
+                    userAccount.entry_list.sort(function (a, b) {
+                        return ((b.date_date) - (a.date_date));
+                    });
+                } else {
+                    console.log("no entries found")
+                }
+                return res.status(200).json(userAccount.entry_list);
+            }catch(err) {
+                res.status(400).json({ message: err.message });
             }
-            if (userAccount.entry_list !== null) {
-                userAccount.entry_list.sort(function (a, b) {
-                    return ((b.date_date) - (a.date_date));
-                });
-            } else {
-                console.log("no entries found")
-            }
-            return res.status(200).json(userAccount.entry_list);
         });
 });
 
@@ -29,7 +33,7 @@ router.post("/api/v1/userAccounts/:id/entry_list", async function (req, res, nex
         .populate("entry_list")
         .exec(function (err, userAccount) {
             if (err) {
-                return res.status(400).send(err);
+                return next(err);
             }
             let id = uuid.v4();
             const entry = new entryModel({
@@ -52,33 +56,48 @@ router.post("/api/v1/userAccounts/:id/entry_list", async function (req, res, nex
 
             userAccount.save();
             entry.save(function (err, entry) {
-                if (err) {
-                    return next(err);
+                try {
+                    if (err) {
+                        return next(err);
+                    }
+                    res.status(201).json(entry);
+                }catch(err) {
+                    res.status(400).json({ message: err.message });
                 }
-                res.status(201).json(entry);
             });
         });
 });
 
 // Delete specific entry from user list
-router.delete('/api/v1/userAccounts/:id/entry_list/:entry_id', async (req, res) => {
+router.delete('/api/v1/userAccounts/:id/entry_list/:entry_id', async (req, res, next) => {
     let entry_id = req.params.entry_id;
     let id = req.params.id;
     entryModel.findOneAndDelete({_id: entry_id}, function (err, entry) {
-        if (entry === null) {
-            return res.status(404).json({'message': 'Entry not found'});
+        try {
+            if(err) {
+                return next(err)
+            }
+            if (entry === null) {
+                return res.status(404).json({'message': 'Entry not found'});
+            }
+            res.status(200).json(entry)
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.status(200).json(entry)
     });
 
     userAccountModel.findById(id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccounts) => {
-            if (err) {
-                return res.status(400).send(err);
+            try {
+                if (err) {
+                    return res.status(400).send(err);
+                }
+                const index = userAccounts.entry_list.indexOf(entry_id)
+                userAccounts.entry_list.splice(index, 1)
+            }catch(err) {
+                res.status(400).json({ message: err.message });
             }
-            const index = userAccounts.entry_list.indexOf(entry_id)
-            userAccounts.entry_list.splice(index, 1)
         });
 
 });
@@ -87,13 +106,18 @@ router.delete('/api/v1/userAccounts/:id/entry_list/:entry_id', async (req, res) 
 router.get('/api/v1/userAccounts/:id/entry_list/:entry_id', async (req, res, next) => {
     let id = req.params.entry_id;
     entryModel.findById(id, function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (entry === null) {
+                return res.status(404).json({'message': 'Entry not found!'});
+            }
+            res.status(200).json(entry);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (entry === null) {
-            return res.status(404).json({'message': 'Entry not found!'});
-        }
-        res.json(entry);
+
     });
 });
 
@@ -116,10 +140,14 @@ router.post("/api/v1/entries", function (req, res, next) {
         ]
     })
     entry.save(function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).json(entry);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.status(201).json(entry);
     });
 });
 
@@ -127,18 +155,22 @@ router.post("/api/v1/entries", function (req, res, next) {
 router.get('/api/v1/entries', function (req, res, next) {
     let filter = req.query.text;
     entryModel.find(function (err, entry) {
-        if (filter) {
-            res.json(entry.filter(function (e) {
-                return filter === e.text;
-            }));
-        } else {
-            if (err) {
-                return next(err);
+        try {
+            if (filter) {
+                res.json(entry.filter(function (e) {
+                    return filter === e.text;
+                }));
+            } else {
+                if (err) {
+                    return next(err);
+                }
+                entry.sort(function (a, b) {
+                    return ((b.date_date) - (a.date_date));
+                });
+                res.status(200).json({"entries": entry});
             }
-            entry.sort(function (a, b) {
-                return ((b.date_date) - (a.date_date));
-            });
-            res.json({"entries": entry});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
     })
 });
@@ -147,13 +179,17 @@ router.get('/api/v1/entries', function (req, res, next) {
 router.get('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     entryModel.findById(id, function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (entry === null) {
+                return res.status(404).json({'message': 'Entry not found!'});
+            }
+            res.status(200).json(entry);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (entry === null) {
-            return res.status(404).json({'message': 'Entry not found!'});
-        }
-        res.json(entry);
     });
 });
 
@@ -162,18 +198,22 @@ router.put('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     console.log(id);
     entryModel.findById(id, function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (entry == null) {
+                return res.status(404).json({"message": "Entry not found"});
+            }
+            entry.text = req.body.text;
+            entry.location = req.body.location;
+            entry.edited_date = new Date().toISOString().slice(0, 10);
+            entry.date_date = new Date().toISOString().slice(0, 10);
+            entry.save();
+            return res.status(201).json(entry);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (entry == null) {
-            return res.status(404).json({"message": "Entry not found"});
-        }
-        entry.text = req.body.text;
-        entry.location = req.body.location;
-        entry.edited_date = new Date().toISOString().slice(0, 10);
-        entry.date_date = new Date().toISOString().slice(0, 10);
-        entry.save();
-        return res.status(201).json(entry);
     });
 });
 
@@ -181,34 +221,41 @@ router.put('/api/v1/entries/:id', function (req, res, next) {
 router.patch('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     entryModel.findById(id, function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (entry == null) {
+                return res.status(404).json(
+                    {"message": "Entry not found"});
+            }
+            entry.text = (req.body.text || entry.text);
+            entry.location = (req.body.location || entry.location);
+            entry.edited_date = new Date().toISOString().slice(0, 10);
+            entry.date_date = (req.body.date || entry.date_date);
+            entry.created_date = (req.body.created || entry.created_date);
+            if (req.body.uploaded_entity) {
+                entry.uploaded_entities_list.push(req.body.uploaded_entity);
+            }
+            entry.save();
+            res.status(200).json(entry);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (entry == null) {
-            return res.status(404).json(
-                {"message": "Entry not found"});
-        }
-        entry.text = (req.body.text || entry.text);
-        entry.location = (req.body.location || entry.location);
-        entry.edited_date = new Date().toISOString().slice(0, 10);
-        entry.date_date = (req.body.date || entry.date_date);
-        entry.created_date = (req.body.created || entry.created_date);
-        if (req.body.uploaded_entity) {
-            entry.uploaded_entities_list.push(req.body.uploaded_entity);
-        }
-
-        entry.save();
-        res.json(entry);
     });
 });
 
 //Deletes all entries
 router.delete('/api/v1/entries', function (req, res, next) {
     entryModel.deleteMany(function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({'entries': entry});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        res.json({'entries': entry});
     });
 });
 
@@ -216,13 +263,17 @@ router.delete('/api/v1/entries', function (req, res, next) {
 router.delete('/api/v1/entries/:id', function (req, res, next) {
     let id = req.params.id;
     entryModel.findOneAndDelete({_id: id}, function (err, entry) {
-        if (err) {
-            return next(err);
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (entry === null) {
+                return res.status(404).json({'message': 'Entry not found'});
+            }
+            res.status(200).json(entry);
+        }catch(err) {
+            res.status(400).json({ message: err.message });
         }
-        if (entry === null) {
-            return res.status(404).json({'message': 'Entry not found'});
-        }
-        res.json(entry);
     });
 });
 
