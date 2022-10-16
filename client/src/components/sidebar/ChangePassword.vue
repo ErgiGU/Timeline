@@ -63,7 +63,6 @@ export default {
             "password": pass.value
           }
           Api.post("/v1/userPasswords/" + this.parseJwt(localStorage.token)._id, userPass);
-          console
         });
 
         this.showDismissibleAlert = true;
@@ -88,6 +87,7 @@ export default {
   },
   checkPassword(event) {
     const password = document.getElementById("pass").value()
+
     let body = {
       "password": password
     }
