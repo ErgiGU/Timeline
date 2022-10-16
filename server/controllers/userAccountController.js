@@ -20,7 +20,7 @@ router.post("/api/v1/userAccounts", function (req, res, next) {
         links: [
             {
                 rel: "self",
-                href: "http://localhost:3000/api/userAccounts/" + id
+                href: "http://localhost:3000/api/v1/userAccounts/" + id
             }
         ]
     })

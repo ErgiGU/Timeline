@@ -44,7 +44,7 @@ router.post("/api/v1/userAccounts/:id/entry_list", async function (req, res, nex
                 links: [
                     {
                         rel: "users",
-                        href: "http://localhost:3000/api/entries/" + id
+                        href: "http://localhost:3000/api/v1/entries/" + id
                     }
                 ]
             })
@@ -111,7 +111,7 @@ router.post("/api/v1/entries", function (req, res, next) {
         links: [
             {
                 rel: "users",
-                href: "http://localhost:3000/api/entries/" + id
+                href: "http://localhost:3000/api/v1/entries/" + id
             }
         ]
     })
