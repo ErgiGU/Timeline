@@ -13,14 +13,8 @@ router.get("/api/v1/userAccounts/:id/entry_list", async function (req, res, next
                 if (err) {
                     return next(err);
                 }
-                if (userAccount.entry_list !== null) {
-                    userAccount.entry_list.sort(function (a, b) {
-                        return ((b.date_date) - (a.date_date));
-                    });
-                } else {
-                    console.log("no entries found")
-                }
-                return res.status(200).json(userAccount.entry_list);
+                return res.status(200).json({"entries": userAccount.entry_list})
+
             }catch(err) {
                 res.status(400).json({ message: err.message });
             }
@@ -164,9 +158,6 @@ router.get('/api/v1/entries', function (req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                entry.sort(function (a, b) {
-                    return ((b.date_date) - (a.date_date));
-                });
                 res.status(200).json({"entries": entry});
             }
         }catch(err) {

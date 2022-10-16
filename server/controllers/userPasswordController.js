@@ -74,26 +74,6 @@ router.put('/api/v1/userPasswords/:id', function (req, res, next) {
     });
 });
 
-router.patch('/api/v1/userPasswords/:id', function (req, res, next) {
-    let id = req.params.id;
-    userPasswordModel.findById(id, async function (err, userPassword) {
-        try {
-            if (err) {
-                return next(err);
-            }
-            if (userPassword == null) {
-                return res.status(404).json({"message": "User-password not found"});
-            }
-
-            userPassword.hashedPassword = await bcrypt.hash(req.body.password, 10);
-            userPassword.save();
-            res.status(200).json("password updated.");
-        }catch(err) {
-            res.status(400).json({ message: err.message });
-        }
-    });
-});
-
 router.delete('/api/v1/userPasswords', function (req, res, next) {
     userPasswordModel.deleteMany(function (err, userPassword) {
         try {
