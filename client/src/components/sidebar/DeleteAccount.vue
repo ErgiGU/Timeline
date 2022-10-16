@@ -14,11 +14,12 @@
             permanently
             deleted!</p>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingInput" placeholder="********" required>
+            <input type="password" class="form-control" id="pass" placeholder="********" required>
             <label>Password</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingInput" placeholder="********" required>
+            <input type="password" class="form-control" id="confPass" placeholder="********" v-on:keyup="checkIfPassMatches"
+                   required>
             <label>Password Repeat</label>
           </div>
           <b-form-checkbox class="checkbox" name="agreeCheck" v-on:change="checkBox()">
@@ -51,6 +52,27 @@ export default {
     }
   },
   methods: {
+    deleteAccount(event) {
+      const pass = document.getElementById("pass")
+      const confPass = document.getElementById("confPass")
+      const user = this.parseJwt(localStorage.token);
+      if(pass.checkValidity() && confPass.checkValidity()){
+        Api.post("/v1/verifyPassword", {_id: user._id, password: confPass.value}).then((response) => {
+          if (response.data.message === "Correct password") {
+            pass.setCustomValidity("");
+            Api.post('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + '?_method=DELETE')
+            this.$router.push ('/v1/login');
+          } else {
+            console.log("deez nuts")
+            event.preventDefault();
+            pass.setCustomValidity("Invalid password")
+          }
+        })
+      }else{
+        console.log("deez nuts");
+        event.preventDefault();
+      }
+    },
     checkBox() {
       const okButton = document.querySelector('.okButton')
       if (!this.checked) {
@@ -61,9 +83,15 @@ export default {
         this.checked = false
       }
     },
-    deleteAccount() {
-      Api.post('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + '?_method=DELETE')
-    }
+    checkIfPassMatches() {
+      const pass = document.getElementById('pass');
+      const confPass = document.getElementById('confPass');
+      if (pass.value !== confPass.value) {
+        confPass.setCustomValidity("Passwords don't match");
+      } else {
+        confPass.setCustomValidity('');
+      }
+    },
   }
 }
 </script>
