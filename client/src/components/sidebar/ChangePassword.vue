@@ -27,7 +27,7 @@
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="confPass" placeholder="********"
                    v-on:keyup="checkIfPassMatches" required>
-            <label>Re: New Password</label>
+            <label>Confirm New Password</label>
           </div>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; padding-top: 10px">
