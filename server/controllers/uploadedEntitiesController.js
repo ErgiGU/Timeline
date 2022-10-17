@@ -71,10 +71,9 @@ router.get("/api/v1/uploadedEntities/:id", function (req, res, next) {
     });
 });
 
-//Do we need put/patch for uploaded entities.
+//Do we need put/patch for uploaded entities
 router.put("/api/v1/uploadedEntities/:id", function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
     uploadedEntitiesModel.findById(id, function (err, uploadedEntity) {
         try {
             if (err) {
@@ -83,9 +82,10 @@ router.put("/api/v1/uploadedEntities/:id", function (req, res, next) {
             if (uploadedEntity == null) {
                 return res.status(404).json({"message": "Uploaded-entity not found"});
             }
+            uploadedEntity.file = req.body.file
             uploadedEntity.save();
             res.status(201).json(uploadedEntity);
-        }catch(err) {
+        } catch(err) {
             res.status(400).json({ message: err.message });
         }
     });

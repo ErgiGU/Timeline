@@ -66,7 +66,7 @@ router.post("/api/v1/checkEmail", async (req, res, next) => {
             if (userAccount === null) {
                 return res.status(404).json({'message': 'Email not found'});
             } else {
-                return res.status(200).send("Email already exists");
+                return res.status(200).send({'message': "Email already exists"});
             }
         }catch(err) {
             res.status(400).json({ message: err.message });

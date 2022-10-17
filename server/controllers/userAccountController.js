@@ -80,7 +80,6 @@ router.get("/api/v1/userAccounts/:id", function (req, res, next) {
 //I don't think we should have this for the user account
 router.put("/api/v1/userAccounts/:id", function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
     userAccountModel.findById(id, function (err, userAccount) {
         try {
             if (err) {

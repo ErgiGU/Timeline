@@ -93,7 +93,6 @@ router.get("/api/v1/entries/:id", function (req, res, next) {
 //Replaces an entry
 router.put("/api/v1/entries/:id", function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
     entryModel.findById(id, function (err, entry) {
         try {
             if (err) {
@@ -105,7 +104,7 @@ router.put("/api/v1/entries/:id", function (req, res, next) {
             entry.text = req.body.text;
             entry.location = req.body.location;
             entry.edited_date = new Date().toISOString().slice(0, 10);
-            entry.date_date = new Date().toISOString().slice(0, 10);
+            entry.date_date = req.body.date_date;
             entry.save();
             return res.status(201).json(entry);
         }catch(err) {
@@ -174,10 +173,10 @@ router.get("/api/v1/userAccounts/:id/entry_list", async function (req, res, next
                         return ((b.date_date) - (a.date_date));
                     });
                 } else {
-                    console.log("no entries found")
+                    res.status(400).json({ message: "No entries found" });
                 }
                 return res.status(200).json(userAccount.entry_list);
-            }catch(err) {
+            } catch(err) {
                 res.status(400).json({ message: err.message });
             }
         });

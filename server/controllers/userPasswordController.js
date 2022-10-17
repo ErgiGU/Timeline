@@ -74,7 +74,6 @@ router.get("/api/v1/userPasswords/:id", function (req, res, next) {
 //Update a users password
 router.put("/api/v1/userPasswords/:id", function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
     userPasswordModel.findById(id, async function (err, userPassword) {
         try {
             if (err) {
