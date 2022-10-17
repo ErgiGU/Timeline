@@ -4,7 +4,7 @@ const router = express.Router();
 const userAccountModel = require("../models/userAccountModel");
 const userPassword = require("../models/userPasswordModel");
 
-router.post('/api/v1/login', async (req, res, next) => {
+router.post("/api/v1/login", async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         try {
@@ -56,7 +56,7 @@ router.post("/api/v1/verifyPassword",  function (req, res, next) {
 
 })
 
-router.post('/api/v1/checkEmail', async (req, res, next) => {
+router.post("/api/v1/checkEmail", async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         try {
