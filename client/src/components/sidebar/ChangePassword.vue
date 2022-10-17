@@ -84,8 +84,13 @@ export default {
       Api.post("/v1/verifyPassword", {_id: user._id, password: checkPass.value}).then((response) => {
         if (response.data.message === "Correct password") {
           checkPass.setCustomValidity("");
-        } else {
+        }
+      },(failResponse) => {
+        console.log(failResponse.response.status);
+        if(failResponse.response.status === 404){
           checkPass.setCustomValidity("Invalid password")
+        }else {
+          checkPass.setCustomValidity("");
         }
       })
     },
