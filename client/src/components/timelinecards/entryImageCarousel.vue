@@ -36,19 +36,19 @@ export default {
   },
   methods: {
     printID() {
-      console.log(this.entryID)
+      console.log(this.uploadedEntities)
     },
-    getEntities() {
+    getEntries() {
       Api.get('/v1/entries/' + this.entryID + '/uploaded_entities_list')
         .then(response => {
-          this.uploadedEntities = response.data.sort(function (a, b) {
+          this.uploadedEntities = response.data.entities.sort(function (a, b) {
             return ((b.date_date) - (a.date_date));
           });
         })
     }
   },
   mounted() {
-    this.getEntities()
+    this.getEntries()
   }
 }
 </script>

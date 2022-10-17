@@ -32,7 +32,7 @@
           </b-form-checkbox>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; padding-top: 10px">
-          <button id="okButtons" class="okButton btn btn-primary disabled" v-on:click="deleteAccount"
+          <button id="okButtons" class="okButton btn btn-primary disabled"
                   style="display: flex;" type="submit">Delete
           </button>
         </div>

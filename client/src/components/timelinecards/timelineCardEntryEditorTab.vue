@@ -71,7 +71,7 @@ export default {
       let entities = []
       Api.get('/v1/entries/' + this.entry._id + '/uploaded_entities_list')
         .then(response => {
-          entities = response.data
+          entities = response.data.entities
           entities.forEach((x) => Api.post('/v1/entries/' + this.entry._id + "/uploaded_entities_list/" + x._id + "?_method=DELETE"))
         })
     },
