@@ -3,7 +3,7 @@
     <div class="col-md-5 g-0" id="topLeftColumn">
       <div id="leftColumn">
         <div class="row">
-          <entry-image-carousel></entry-image-carousel>
+          <entry-image-carousel :entryID="entry._id"></entry-image-carousel>
         </div>
         <div class="row g-0 justify-content-center" style="font-size: 24px"> {{ entry.date_date.split('T')[0] }} </div>
         <div class="row">

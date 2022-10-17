@@ -118,7 +118,7 @@ router.get("/api/v1/entries/:id/uploaded_entities_list", async function (req, re
                 if (err) {
                     return next(err);
                 }
-                return res.status(200).json(entity.uploaded_entities_list);
+                return res.status(200).json({"entities": entity.uploaded_entities_list});
             }catch(err) {
                 res.status(400).json({ message: err.message });
             }
