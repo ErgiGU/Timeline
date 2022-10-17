@@ -141,7 +141,7 @@ export default {
     getEntries() {
       Api.get('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + '/entry_list')
         .then(response => {
-          this.entries = response.data.sort(function (a, b) {
+          this.entries = response.data.entries.sort(function (a, b) {
             return ((b.date_date) - (a.date_date));
           });
         })
