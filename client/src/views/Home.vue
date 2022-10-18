@@ -2,7 +2,7 @@
   <div style="display: flex; justify-content: space-between">
     <drop-down :average-word="averageWord" :total-entries="totalEntries" :total-images="totalImages" :total-size="totalSize"/>
     <div id="topContainer" class="row" style="">
-      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline"></b-jumbotron>
+      <b-jumbotron id="jumboTron" style="position:relative; color: white;" header="Timeline"></b-jumbotron>
 
       <div style="font-style: italic; font-size: 12px">
         This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
@@ -96,10 +96,10 @@ export default {
     return {
       markdownEntry: "",
       entries: [],
-      totalEntries: 'Empty',
-      averageWord: 'Empty',
-      totalImages: 'Empty',
-      totalSize: 'Empty'
+      totalEntries: 0,
+      averageWord: 0,
+      totalImages: 0,
+      totalSize: 0
     }
   },
 

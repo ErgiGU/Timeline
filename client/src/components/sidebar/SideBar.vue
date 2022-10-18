@@ -74,10 +74,10 @@ import UserImage from "@/components/sidebar/UserImage";
 export default {
   name: 'SideBar',
   props : {
-    totalEntries: String,
-    averageWord: String,
-    totalImages: String,
-    totalSize: String
+    totalEntries: Number,
+    averageWord: Number,
+    totalImages: Number,
+    totalSize: Number
   },
   components: {
     'change-info': ChangeUserInfo,
