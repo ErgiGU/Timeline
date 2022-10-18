@@ -82,7 +82,6 @@ export default {
       email.setCustomValidity("");
       Api.post('/v1/checkEmail', {email:email.value}).then(result => {
         if (result.data.message === "Email already exists") {
-          console.log(result.data);
           email.setCustomValidity("Email already exists");
         }
       });

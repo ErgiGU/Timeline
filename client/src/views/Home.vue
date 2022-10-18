@@ -2,9 +2,7 @@
   <div style="display: flex; justify-content: space-between">
     <drop-down></drop-down>
     <div id="topContainer" class="row" style="">
-      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline">
-        <b-button class="btn_message" variant="primary" @click="getEntries()">Refresh entries</b-button>
-      </b-jumbotron>
+      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline"></b-jumbotron>
 
       <div style="font-style: italic; color: #000000; font-size: 12px">
         This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
@@ -25,7 +23,7 @@
               </div>
             </div>
           </div>
-          <div class="col-6 g-0">
+          <div class="col-6 g-0 h-100">
               <div class="form-floating">
                 <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
                         placeholder="Entry"></textarea>
@@ -245,18 +243,5 @@ export default {
   padding: 0;
 }
 
-/* Scrollbar test */
-#entryText::-webkit-scrollbar {
-  width: 12px;
-  background-color: #b4b4b4;
-}
 
-#entryText::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);
-}
-
-#entryText::-webkit-scrollbar-thumb {
-  background-color: lightblue;
-  border-radius: 5px;
-}
 </style>
