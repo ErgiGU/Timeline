@@ -8,13 +8,13 @@
           x
         </b-button>
       </template>
-      <form>
+      <form v-on:submit="deleteUser">
         <div style="display: flex; flex-direction: column">
           <p>Warning! This action is not revertable. Your account with all it's entries and images will be
             permanently
             deleted!</p>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="pass" placeholder="********" required>
+            <input type="password" class="form-control" id="pass" placeholder="********" v-on:keyup="this.checkPassword" required>
             <label>Password</label>
           </div>
           <div class="form-floating mb-3">
@@ -32,7 +32,7 @@
           </b-form-checkbox>
         </div>
         <div style="width: 100%; display: flex; justify-content: center; padding-top: 10px">
-          <button id="okButtons" class="okButton btn btn-primary disabled" v-on:click="deleteAccount"
+          <button id="okButtons" class="okButton btn btn-primary disabled"
                   style="display: flex;" type="submit">Delete
           </button>
         </div>
@@ -52,27 +52,6 @@ export default {
     }
   },
   methods: {
-    deleteAccount(event) {
-      const pass = document.getElementById("pass")
-      const confPass = document.getElementById("confPass")
-      const user = this.parseJwt(localStorage.token);
-      if(pass.checkValidity() && confPass.checkValidity()){
-        Api.post("/v1/verifyPassword", {_id: user._id, password: confPass.value}).then((response) => {
-          if (response.data.message === "Correct password") {
-            pass.setCustomValidity("");
-            Api.post('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + '?_method=DELETE')
-            this.$router.push ('/v1/login');
-          } else {
-            console.log("deez nuts")
-            event.preventDefault();
-            pass.setCustomValidity("Invalid password")
-          }
-        })
-      }else{
-        console.log("deez nuts");
-        event.preventDefault();
-      }
-    },
     checkBox() {
       const okButton = document.querySelector('.okButton')
       if (!this.checked) {
@@ -83,6 +62,21 @@ export default {
         this.checked = false
       }
     },
+    deleteUser(event) {
+      const pass = document.getElementById('pass');
+      const confPass = document.getElementById('confPass');
+      if (pass.checkValidity() && confPass.checkValidity()) {
+        const user = this.parseJwt(localStorage.token);
+        Api.post("/v1/userAccounts/" + user._id + "?_method=DELETE");
+        Api.post("/v1/userPasswords/" + user._id + "?_method=DELETE");
+        event.preventDefault();
+        this.$router.push({name: 'login'});
+        location.reload()
+      } else {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    },
     checkIfPassMatches() {
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
@@ -91,6 +85,22 @@ export default {
       } else {
         confPass.setCustomValidity('');
       }
+    },
+    checkPassword() {
+      const checkPass = document.getElementById("pass")
+      const user = this.parseJwt(localStorage.token);
+      Api.post("/v1/verifyPassword", {_id: user._id, password: checkPass.value}).then((response) => {
+        if (response.data.message === "Correct password") {
+          checkPass.setCustomValidity("");
+        }
+      },(failResponse) => {
+          if(failResponse.response.status === 404){
+            checkPass.setCustomValidity("Invalid password")
+          }else {
+            checkPass.setCustomValidity("");
+          }
+        }
+      )
     },
   }
 }

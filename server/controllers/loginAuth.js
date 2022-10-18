@@ -4,7 +4,7 @@ const router = express.Router();
 const userAccountModel = require("../models/userAccountModel");
 const userPassword = require("../models/userPasswordModel");
 
-router.post('/api/v1/login', async (req, res, next) => {
+router.post("/api/v1/login", async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         try {
@@ -56,7 +56,7 @@ router.post("/api/v1/verifyPassword",  function (req, res, next) {
 
 })
 
-router.post('/api/v1/checkEmail', async (req, res, next) => {
+router.post("/api/v1/checkEmail", async (req, res, next) => {
     const email1 = req.body.email;
     userAccountModel.findOne({email: email1}, function (err, userAccount) {
         try {
@@ -64,9 +64,9 @@ router.post('/api/v1/checkEmail', async (req, res, next) => {
                 return next(err);
             }
             if (userAccount === null) {
-                return res.status(404).json({'message': 'Email not found'});
+                return res.status(204).json({'message': 'Email not found'});
             } else {
-                return res.status(200).send("Email already exists");
+                return res.status(200).send({'message': "Email already exists"});
             }
         }catch(err) {
             res.status(400).json({ message: err.message });

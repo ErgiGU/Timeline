@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ExampleHome from './views/ExampleHome.vue'
 import Registration from './views/Home-reg.vue'
 import Login from './views/Login.vue'
 import Home from "@/views/Home";
@@ -32,11 +31,6 @@ export default new Router({
       path: '/Login',
       name: 'login',
       component: Login,
-    },
-    {
-      path: '/ExampleHome',
-      name: 'ExampleHome',
-      component: ExampleHome
     },
   ]
 })

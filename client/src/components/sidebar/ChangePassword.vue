@@ -8,7 +8,7 @@
           x
         </b-button>
       </template>
-      <form v-on:submit="function1">
+      <form v-on:submit="changePassword">
         <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px">
           Change Successful!
         </b-alert>
@@ -16,7 +16,7 @@
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="checkingPass" placeholder="********"
                    v-on:keyup="checkPassword" required>
-            <label>Password</label>
+            <label>Current Password</label>
           </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="pass" placeholder="********"
@@ -50,9 +50,7 @@ export default {
     }
   },
   methods: {
-    function1(event) {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      //const forms = document.querySelectorAll('.needs-validation');
+    changePassword(event) {
       const checkPass = document.getElementById('checkingPass');
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
@@ -84,8 +82,12 @@ export default {
       Api.post("/v1/verifyPassword", {_id: user._id, password: checkPass.value}).then((response) => {
         if (response.data.message === "Correct password") {
           checkPass.setCustomValidity("");
-        } else {
+        }
+      },(failResponse) => {
+        if(failResponse.response.status === 404){
           checkPass.setCustomValidity("Invalid password")
+        }else {
+          checkPass.setCustomValidity("");
         }
       })
     },

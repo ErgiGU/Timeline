@@ -7,124 +7,8 @@
 	},
 	"item": [
 		{
-			"name": "SETUP",
+			"name": "SETUP/POST",
 			"item": [
-				{
-					"name": "POST /entries",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const jsonData = pm.response.json();\r",
-									"pm.collectionVariables.set(\"entry_1\", jsonData._id);\r",
-									"\r",
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"location\": \"Norway\",\r\n    \"text\": \"Traveled for work\",\r\n    \"date_date\": \"2020-02-02\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/entries",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"entries"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "POST /entries 2",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"const jsonData = pm.response.json();\r",
-									"pm.collectionVariables.set(\"entry_2\", jsonData._id);\r",
-									"\r",
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 201\", function() {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"location\": \"Lindholmen\",\r\n    \"text\": \"Attended university lecture\",\r\n    \"date_date\": \"2020-01-01\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/entries",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"entries"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "POST /userAccounts",
 					"event": [
@@ -143,6 +27,7 @@
 								"exec": [
 									"const jsonData = pm.response.json();\r",
 									"pm.collectionVariables.set(\"test_user\", jsonData._id);\r",
+									"pm.collectionVariables.set(\"test_user_email\", jsonData.email)\r",
 									"\r",
 									"//Expected status code response\r",
 									"pm.test(\"Status code is 201\", function() {\r",
@@ -184,6 +69,303 @@
 					"response": []
 				},
 				{
+					"name": "POST /userAccounts 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"test_user_2\", jsonData._id);\r",
+									"pm.collectionVariables.set(\"test_user_2_email\", jsonData.email)\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Penny\",\r\n    \"surname\": \"Peterwhacker\",\r\n    \"email\": \"pennypeter@yahoo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/userAccounts",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /userAccounts/:id/entry_list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"test_user_entry\", jsonData._id);\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lindholmen\",\r\n    \"text\": \"Attended university lecture\",\r\n    \"date_date\": \"2020-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/userAccounts/{{test_user}}/entry_list",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts",
+								"{{test_user}}",
+								"entry_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /entries",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"lone_entry\", jsonData._id);\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Norway\",\r\n    \"text\": \"Traveled for work\",\r\n    \"date_date\": \"2020-02-02\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /entries/:id/uploaded_entities_list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"test_user_entry_uploaded_entity\", jsonData._id)\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"file\": \"exampleFile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries/{{test_user_entry}}/uploaded_entities_list",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{test_user_entry}}",
+								"uploaded_entities_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /entries/:id/uploaded_entities_list 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.collectionVariables.set(\"test_user_entry_uploaded_entity\", jsonData._id)\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"file\": \"exampleFile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries/{{test_user_entry}}/uploaded_entities_list",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{test_user_entry}}",
+								"uploaded_entities_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST /uploadedEntities",
 					"event": [
 						{
@@ -191,7 +373,7 @@
 							"script": {
 								"exec": [
 									"const jsonData = pm.response.json();\r",
-									"pm.collectionVariables.set(\"uploaded_entity\", jsonData._id);\r",
+									"pm.collectionVariables.set(\"lone_uploaded_entity\", jsonData._id);\r",
 									"\r",
 									"//Expected status code response\r",
 									"pm.test(\"Status code is 201\", function() {\r",
@@ -227,6 +409,48 @@
 					"response": []
 				},
 				{
+					"name": "POST /checkEmail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{test_user_email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/checkEmail",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"checkEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "POST /userPasswords",
 					"event": [
 						{
@@ -246,7 +470,6 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
-									"\r",
 									""
 								],
 								"type": "text/javascript"
@@ -258,7 +481,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"_id\": \"{{test_user}}\",\r\n    \"password\": \"lettuce\"\r\n}",
+							"raw": "{\r\n    \"_id\": \"{{test_user}}\",\r\n    \"password\": \"Lettuce123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -272,6 +495,106 @@
 							],
 							"path": [
 								"userPasswords"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{test_user_email}}\",\r\n    \"password\": \"Lettuce123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /verifyPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"_id\": \"{{test_user}}\",\r\n    \"password\": \"Lettuce123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/verifyPassword",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"verifyPassword"
 							]
 						}
 					},
@@ -313,6 +636,9 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -322,6 +648,10 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "{{host}}",
 							"host": [
@@ -396,6 +726,204 @@
 					"response": []
 				},
 				{
+					"name": "GET /entries/:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries/{{test_user_entry}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{test_user_entry}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /entries/:id/uploaded_entities_list",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData.entities).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries/{{test_user_entry}}/uploaded_entities_list",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{test_user_entry}}",
+								"uploaded_entities_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /entries/:id/uploaded_entities_list/:uploaded_entity",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries/{{test_user_entry}}/uploaded_entities_list/{{test_user_entry_uploaded_entity}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{test_user_entry}}",
+								"uploaded_entities_list",
+								"{{test_user_entry_uploaded_entity}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET /userAccounts",
 					"event": [
 						{
@@ -427,6 +955,161 @@
 							],
 							"path": [
 								"userAccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /userAccounts/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userAccounts/{{test_user}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts",
+								"{{test_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /userAccounts/:id/entry_list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"array\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userAccounts/{{test_user}}/entry_list",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts",
+								"{{test_user}}",
+								"entry_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /userAccounts/:id/entry_list/:entry_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userAccounts/{{test_user}}/entry_list/{{test_user_entry}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts",
+								"{{test_user}}",
+								"entry_list",
+								"{{test_user_entry}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /statistics/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/statistics/{{test_user}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"statistics",
+								"{{test_user}}"
 							]
 						}
 					},
@@ -470,6 +1153,44 @@
 					"response": []
 				},
 				{
+					"name": "GET /userPasswords/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userPasswords/{{test_user}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userPasswords",
+								"{{test_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET /uploadedEntities",
 					"event": [
 						{
@@ -505,6 +1226,44 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GET /uploadedEntities/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//Expected response format\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Test data types and format of the response\", function() {\r",
+									"    pm.expect(jsonData).to.be.an(\"object\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/uploadedEntities/{{test_user_entry_uploaded_entity}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"uploadedEntities",
+								"{{test_user_entry_uploaded_entity}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -512,7 +1271,7 @@
 			"name": "PATCH",
 			"item": [
 				{
-					"name": "PATCH /entries",
+					"name": "PATCH /entries/:id",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -560,20 +1319,20 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/entries/{{entry_1}}",
+							"raw": "{{host}}/entries/{{test_user_entry}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"entries",
-								"{{entry_1}}"
+								"{{test_user_entry}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "PATCH /userAccounts",
+					"name": "PATCH /userAccounts/:id",
 					"event": [
 						{
 							"listen": "test",
@@ -617,52 +1376,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "PATCH /userPasswords",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"//Expected status code response\r",
-									"pm.test(\"Status code is 200\", function() {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"const jsonData = pm.response.json();\r",
-									"pm.test(\"Password patched\", function() {\r",
-									"    pm.expect(jsonData).to.be.equal(\"password updated.\");\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"inserttexthere\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/userPasswords/{{test_user}}",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"userPasswords",
-								"{{test_user}}"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -670,7 +1383,7 @@
 			"name": "PUT",
 			"item": [
 				{
-					"name": "PUT /entries",
+					"name": "PUT /entries/:id",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -694,6 +1407,7 @@
 									"pm.test(\"Entry updated\", function() {\r",
 									"    pm.expect(jsonData.text).to.be.equal(\"Traveled for vacation.\");\r",
 									"    pm.expect(jsonData.location).to.be.equal(\"Korea\");\r",
+									"    pm.expect(jsonData.date_date).to.be.equal(\"2022-10-10T00:00:00.000Z\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -711,7 +1425,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"text\": \"Traveled for vacation.\",\r\n    \"location\": \"Korea\"\r\n}",
+							"raw": "{\r\n    \"text\": \"Traveled for vacation.\",\r\n    \"location\": \"Korea\",\r\n    \"date_date\": \"2022-10-10\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -719,20 +1433,81 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/entries/{{entry_2}}",
+							"raw": "{{host}}/entries/{{lone_entry}}",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"entries",
-								"{{entry_2}}"
+								"{{lone_entry}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "PUT /userAccounts",
+					"name": "PUT /uploadedEntities/:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 201\", function() {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Entry updated\", function() {\r",
+									"    pm.expect(jsonData.file).to.be.equal(\"newfile\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"file\": \"newfile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/uploadedEntities/{{lone_uploaded_entity}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"uploadedEntities",
+								"{{lone_uploaded_entity}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /userAccounts/:id",
 					"event": [
 						{
 							"listen": "test",
@@ -780,7 +1555,7 @@
 					"response": []
 				},
 				{
-					"name": "PUT /userPasswords",
+					"name": "PUT /userPasswords/:id",
 					"event": [
 						{
 							"listen": "test",
@@ -789,11 +1564,6 @@
 									"//Expected status code response\r",
 									"pm.test(\"Status code is 201\", function() {\r",
 									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"\r",
-									"const jsonData = pm.response.json();\r",
-									"pm.test(\"User password updated\", function() {\r",
-									"    pm.expect(jsonData).to.be.equal(\"User password updated.\");\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -805,7 +1575,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"inserttexthere\"\r\n}",
+							"raw": "{\r\n    \"id\": \"{{test_user}}\",\r\n    \"password\": \"Carrot123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -830,6 +1600,130 @@
 		{
 			"name": "DELETE",
 			"item": [
+				{
+					"name": "DELETE /entries/:id/uploaded_entities_list/:uploaded_entity",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/entries/{{test_user_entry}}/uploaded_entities_list/{{test_user_entry_uploaded_entity}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{test_user_entry}}",
+								"uploaded_entities_list",
+								"{{test_user_entry_uploaded_entity}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /userAccounts/:id/entry_list/:entry_id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userAccounts/{{test_user}}/entry_list/{{test_user_entry}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts",
+								"{{test_user}}",
+								"entry_list",
+								"{{test_user_entry}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /entries/:id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/entries/{{lone_entry}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"entries",
+								"{{lone_entry}}"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "DELETE /entries",
 					"event": [
@@ -886,6 +1780,38 @@
 					"response": []
 				},
 				{
+					"name": "DELETE /userAccounts/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userAccounts/{{test_user_2}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userAccounts",
+								"{{test_user_2}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETE /userAccounts",
 					"event": [
 						{
@@ -917,6 +1843,38 @@
 					"response": []
 				},
 				{
+					"name": "DELETE /userPasswords/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/userPasswords/{{test_user}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"userPasswords",
+								"{{test_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "DELETE /userPasswords",
 					"event": [
 						{
@@ -942,6 +1900,38 @@
 							],
 							"path": [
 								"userPasswords"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /uploadedEntities/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//Expected status code response\r",
+									"pm.test(\"Status code is 200\", function() {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/uploadedEntities/{{lone_uploaded_entity}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"uploadedEntities",
+								"{{lone_uploaded_entity}}"
 							]
 						}
 					},
@@ -1015,16 +2005,36 @@
 			"type": "string"
 		},
 		{
-			"key": "entry_1",
+			"key": "test_user_email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "test_user_entry",
 			"value": ""
 		},
 		{
-			"key": "entry_2",
+			"key": "test_user_entry_uploaded_entity",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "lone_entry",
 			"value": ""
 		},
 		{
-			"key": "uploaded_entity",
+			"key": "lone_uploaded_entity",
 			"value": ""
+		},
+		{
+			"key": "test_user_2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "test_user_2_email",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

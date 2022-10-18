@@ -6,6 +6,10 @@
 </template>
 
 <style>
+* {
+  font-family: "Calibri", serif;
+}
+
 #app {
   height: 100vh;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

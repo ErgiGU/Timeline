@@ -2,11 +2,13 @@
   <div style="display: flex; justify-content: space-between">
     <drop-down></drop-down>
     <div id="topContainer" class="row" style="">
-      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline">
-        <b-button class="btn_message" variant="primary" @click="getEntries()">Refresh entries</b-button>
-      </b-jumbotron>
+      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline"></b-jumbotron>
 
-      <div id="entryInputContainer" class="container sticky-top">
+      <div style="font-style: italic; font-size: 12px">
+        This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
+      </div>
+
+      <div id="entryInputContainer" class="container-fluid sticky-top">
         <div id="entryInput" class="row g-0 text-bg-dark">
           <div class="col-3">
             <div class="row g-0">
@@ -21,19 +23,20 @@
               </div>
             </div>
           </div>
-          <div class="col-6">
-            <div class="form-floating">
-              <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
+          <div class="col-6 g-0 h-100">
+              <div class="form-floating">
+                <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
                         placeholder="Entry"></textarea>
-              <label for="entryText">Entry</label>
-            </div>
+                <label for="entryText">Entry</label>
+              </div>
           </div>
           <div class="d-grid gap-2 col-3">
-            <button class="btn btn-outline-light" @click="previewEntry" data-bs-target="#previewModal" data-bs-toggle="modal">Preview Entry</button>
-            <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
+            <button class="btn btn-outline-light" id="entryButton" @click="previewEntry" data-bs-target="#previewModal" data-bs-toggle="modal">Preview Entry</button>
+            <button class="btn btn-outline-light" id="entryButton" @click="createEntry">Create Entry</button>
           </div>
         </div>
       </div>
+
 
       <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -70,6 +73,7 @@ import {Api} from '@/Api'
 import timelineCard from "@/components/timelinecards/timelineCard";
 import SideBar from '@/components/sidebar/SideBar'
 import {marked} from "marked";
+import DOMPurify from "dompurify"
 
 export default {
   components: {
@@ -79,7 +83,7 @@ export default {
 
   computed: {
     markdownToHTML() {
-      return marked(this.markdownEntry)
+      return DOMPurify.sanitize(marked(this.markdownEntry))
     }
   },
 
@@ -151,7 +155,6 @@ export default {
       window.onscroll = () => {
         let bottomOfWindow = document.documentElement.scrollHeight - document.documentElement.scrollTop === document.documentElement.clientHeight;
         if (bottomOfWindow) {
-          console.log("bottom of window reached")
           this.getEntries()
         }
       }
@@ -206,20 +209,27 @@ export default {
 #entryDate {
   margin: 0;
   border-radius: 5px 0 0 0;
-  height: 60px;
+  min-height: 74px;
+  height: 100%;
 }
 
 #entryLocation {
   margin: 0;
   border-radius: 0 0 0 5px;
-  min-height: 60px;
+  min-height: 74px;
+  height: 100%;
   resize: none;
 }
 
 #entryText {
   margin: 0;
-  border-radius: 0 0 0 0;
-  min-height: 120px;
+  min-height: 140px;
+  height: 100%;
+}
+
+#entryButton {
+  width: 100%;
+  max-width: 100%;
 }
 
 .btn_message {
@@ -233,18 +243,5 @@ export default {
   padding: 0;
 }
 
-/* Scrollbar test */
-#entryText::-webkit-scrollbar {
-  width: 12px;
-  background-color: #b4b4b4;
-}
 
-#entryText::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 2px rgba(104, 140, 240, 0.3);
-}
-
-#entryText::-webkit-scrollbar-thumb {
-  background-color: lightblue;
-  border-radius: 5px;
-}
 </style>

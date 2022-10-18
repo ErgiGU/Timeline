@@ -8,7 +8,7 @@
           x
         </b-button>
       </template>
-      <form v-on:submit="function1">
+      <form v-on:submit="changeInfo">
         <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px">
           Change Successful!
         </b-alert>
@@ -29,7 +29,7 @@
         </div>
         <div>
           <label for="dateOfBirth">Date of Birth</label>
-          <input type="date" class="form-control" id="dateOfBirth">
+          <input type="date" class="form-control" id="dateOfBirth" style="line-height: 46px" >
         </div>
         <div style="width: 100%; display: flex; justify-content: center; padding-top: 10px">
           <button class="btn btn-primary" style="display: flex;" type="submit">Change</button>
@@ -51,10 +51,7 @@ export default {
     }
   },
   methods: {
-    function1(event) {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      //const forms = document.querySelectorAll('.needs-validation');
-      console.log("Do I even get here?")
+    changeInfo(event) {
       const fName = document.getElementById('fName');
       const lName = document.getElementById('lName');
       const email = document.getElementById('email');
@@ -82,13 +79,9 @@ export default {
       }
     }, checkIfEmailExists() {
       const email = document.getElementById('email');
-      let body = {
-        'email': email.value
-      }
       email.setCustomValidity("");
-      Api.post('/v1/checkEmail', body).then(result => {
-        if (result.data === "Email already exists") {
-          console.log(result.data);
+      Api.post('/v1/checkEmail', {email:email.value}).then(result => {
+        if (result.data.message === "Email already exists") {
           email.setCustomValidity("Email already exists");
         }
       });

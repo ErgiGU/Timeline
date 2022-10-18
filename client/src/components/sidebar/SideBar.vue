@@ -180,10 +180,6 @@ export default {
 
 <style scoped>
 
-* {
-  font-family: "Times New Roman", serif;
-}
-
 .statPart {
   margin-bottom: 0;
   margin-top: 0;

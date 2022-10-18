@@ -3,8 +3,23 @@ const userAccountModel = require("../models/userAccountModel");
 //const userPassword = require("../models/userPasswordModel");
 const router = express.Router();
 const uuid = require('uuid');
+const entryModel = require("../models/entryModel");
+const uploadedEntitiesModel = require("../models/uploadedEntitiesModel");
 //const bcrypt = require("bcrypt");
 
+// Gets all the user accounts
+router.get("/api/v1/userAccounts", function (req, res, next) {
+    userAccountModel.find(function (err, userAccount) {
+        try {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({"users": userAccount});
+        }catch(err) {
+            res.status(400).json({ message: err.message });
+        }
+    })
+});
 
 //Creates the user account in the DB
 router.post("/api/v1/userAccounts", function (req, res, next) {
@@ -31,22 +46,22 @@ router.post("/api/v1/userAccounts", function (req, res, next) {
     });
 });
 
-// Gets all the user accounts
-router.get("/api/v1/userAccounts", function (req, res, next) {
-    userAccountModel.find(function (err, userAccount) {
+//Deletes all user accounts
+router.delete("/api/v1/userAccounts", function (req, res, next) {
+    userAccountModel.deleteMany(function (err, userAccount) {
         try {
             if (err) {
                 return next(err);
             }
-            res.status(200).json({"users": userAccount});
+            res.status(200).json({'userAccounts': userAccount});
         }catch(err) {
             res.status(400).json({ message: err.message });
         }
-    })
+    });
 });
 
 // Gets a user account
-router.get('/api/v1/userAccounts/:id', function (req, res, next) {
+router.get("/api/v1/userAccounts/:id", function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function (err, userAccount) {
         try {
@@ -65,9 +80,8 @@ router.get('/api/v1/userAccounts/:id', function (req, res, next) {
 });
 
 //I don't think we should have this for the user account
-router.put('/api/v1/userAccounts/:id', function (req, res, next) {
+router.put("/api/v1/userAccounts/:id", function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
     userAccountModel.findById(id, function (err, userAccount) {
         try {
             if (err) {
@@ -89,7 +103,7 @@ router.put('/api/v1/userAccounts/:id', function (req, res, next) {
 });
 
 //Replaces specific attributes of the user account
-router.patch('/api/v1/userAccounts/:id', function (req, res, next) {
+router.patch("/api/v1/userAccounts/:id", function (req, res, next) {
     let id = req.params.id;
     userAccountModel.findById(id, function (err, userAccount) {
         try {
@@ -118,24 +132,48 @@ router.patch('/api/v1/userAccounts/:id', function (req, res, next) {
     });
 });
 
-//Deletes all user accounts
-router.delete('/api/v1/userAccounts', function (req, res, next) {
-    userAccountModel.deleteMany(function (err, userAccount) {
-        try {
+//Deletes a user account
+router.delete("/api/v1/userAccounts/:id", function (req, res, next) {
+    let id = req.params.id;
+    try {
+        userAccountModel.findById(id, function (err, userAccount) {
             if (err) {
                 return next(err);
             }
-            res.status(200).json({'userAccounts': userAccount});
-        }catch(err) {
-            res.status(400).json({ message: err.message });
-        }
-    });
-});
-
-//Deletes a user account
-router.delete('/api/v1/userAccounts/:id', function (req, res, next) {
-    let id = req.params.id;
-    try {
+            if (userAccount.entry_list) {
+                userAccount.entry_list.forEach(element => {
+                    entryModel.findById(element, function (err, entry) {
+                        try {
+                            if (err) {
+                                return next(err);
+                            }
+                            if (entry.uploaded_entities_list) {
+                                entry.uploaded_entities_list.forEach(uploadedElement =>
+                                    uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement},function (err, entity) {
+                                        if (err) {
+                                            return next(err);
+                                        }
+                                        if (entity === null) {
+                                            return next(err)
+                                        }
+                                    })
+                                )
+                            }
+                        }catch(err) {
+                            console.log("error")
+                        }
+                    })
+                    entryModel.findOneAndDelete({_id: element},function (err, entry) {
+                        if (err) {
+                            return next(err);
+                        }
+                        if (entry === null) {
+                            return next(err)
+                        }
+                    });
+                });
+            }
+        });
         userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
             if (err) {
                 return next(err);
@@ -150,7 +188,8 @@ router.delete('/api/v1/userAccounts/:id', function (req, res, next) {
     }
 });
 
-router.get('/api/v1/statistics/:id', function (req, res, next) {
+//Gets statistics for an account
+router.get("/api/v1/statistics/:id", function (req, res, next) {
     userAccountModel.findById(req.params.id, {entries: 1})
         .populate("entry_list")
         .exec((err, userAccounts) => {
