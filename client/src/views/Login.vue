@@ -60,7 +60,6 @@ export default {
 
           }
         },(failResponse) => {
-          console.log(failResponse.response.status);
           if(failResponse.response.status === 404){
             this.showDismissibleAlert = true;
           }
