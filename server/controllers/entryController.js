@@ -150,10 +150,17 @@ router.delete("/api/v1/entries/:id", function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            entry.uploaded_entities_list.forEach(uploadedElement =>{
-                console.log(uploadedElement)
-                uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement})
-            })
+            if (entry.uploaded_entities_list) {
+                entry.uploaded_entities_list.forEach(uploadedElement =>
+                    uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement},function (err, entity) {
+                        if (err) {
+                            return next(err);
+                        }
+                        if (entity === null) {
+                            return next(err)
+                        }
+                    }))
+            }
         }catch(err) {
             res.status(400).json({ message: err.message });
         }
@@ -241,6 +248,27 @@ router.post("/api/v1/userAccounts/:id/entry_list", async function (req, res, nex
 router.delete("/api/v1/userAccounts/:id/entry_list/:entry_id", async (req, res, next) => {
     let entry_id = req.params.entry_id;
     let id = req.params.id;
+    entryModel.findById(entry_id, function (err, entry) {
+        try {
+            if (err) {
+                return next(err);
+            }
+            if (entry.uploaded_entities_list) {
+                entry.uploaded_entities_list.forEach(uploadedElement =>
+                    uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement},function (err, entity) {
+                        if (err) {
+                            return next(err);
+                        }
+                        if (entity === null) {
+                            return next(err)
+                        }
+                    })
+                )
+            }
+        }catch(err) {
+            return next(err)
+        }
+    })
     entryModel.findOneAndDelete({_id: entry_id}, function (err, entry) {
         try {
             if(err) {

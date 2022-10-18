@@ -140,21 +140,39 @@ router.delete("/api/v1/userAccounts/:id", function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            userAccount.entry_list.forEach(element => {
-                entryModel.findById(element, function (err, entry) {
-                    try {
+            if (userAccount.entry_list) {
+                userAccount.entry_list.forEach(element => {
+                    entryModel.findById(element, function (err, entry) {
+                        try {
+                            if (err) {
+                                return next(err);
+                            }
+                            if (entry.uploaded_entities_list) {
+                                entry.uploaded_entities_list.forEach(uploadedElement =>
+                                    uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement},function (err, entity) {
+                                        if (err) {
+                                            return next(err);
+                                        }
+                                        if (entity === null) {
+                                            return next(err)
+                                        }
+                                    })
+                                )
+                            }
+                        }catch(err) {
+                            console.log("error")
+                        }
+                    })
+                    entryModel.findOneAndDelete({_id: element},function (err, entry) {
                         if (err) {
                             return next(err);
                         }
-                        entry.uploaded_entities_list.forEach(uploadedElement =>
-                            uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement})
-                        )
-                    }catch(err) {
-                        res.status(400).json({ message: err.message });
-                    }
-                })
-                entryModel.findOneAndDelete({_id: element});
-            });
+                        if (entry === null) {
+                            return next(err)
+                        }
+                    });
+                });
+            }
         });
         userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
             if (err) {
