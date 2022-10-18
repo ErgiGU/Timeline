@@ -50,6 +50,7 @@ import {Api} from "@/Api";
 import GoogleMaps from "@/components/timelinecards/GoogleMaps";
 import {marked} from "marked";
 import EntryImageCarousel from "@/components/timelinecards/entryImageCarousel";
+import DOMPurify from "dompurify";
 
 export default {
   components: {GoogleMaps, EntryImageCarousel},
@@ -63,9 +64,10 @@ export default {
 
   computed: {
     markdownToHTML() {
-      return marked(this.markdownEntry)
+      return DOMPurify.sanitize(marked(this.markdownEntry))
     }
   },
+
   methods: {
     deleteAllImages() {
       let entities = []
@@ -75,6 +77,7 @@ export default {
           entities.forEach((x) => Api.post('/v1/entries/' + this.entry._id + "/uploaded_entities_list/" + x._id + "?_method=DELETE"))
         })
     },
+
     imageFile(ev) {
       const file = ev.target.files[0];
       const reader = new FileReader();
@@ -90,10 +93,12 @@ export default {
       }
       reader.readAsDataURL(file)
     },
+
     resizeTextarea(event) {
       event.target.style.height = "auto";
       event.target.style.height = event.target.scrollHeight + "px";
     },
+    
     updateEntry() {
       let date_date = document.getElementById('entryDateEditor').value
       let created_date = this.entry.created_date

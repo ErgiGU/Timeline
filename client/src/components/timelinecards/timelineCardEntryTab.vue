@@ -29,6 +29,7 @@
 import GoogleMaps from "@/components/timelinecards/GoogleMaps";
 import {marked} from "marked";
 import EntryImageCarousel from "@/components/timelinecards/entryImageCarousel";
+import DOMPurify from "dompurify";
 
 export default {
   data() {
@@ -38,7 +39,7 @@ export default {
   },
   computed: {
     markdownToHTML() {
-      return marked(this.markdownEntry)
+      return DOMPurify.sanitize(marked(this.markdownEntry))
     }
   },
   props: ['entry'],
