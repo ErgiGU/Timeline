@@ -41,7 +41,7 @@
         <p>Live preview:</p>
         <div v-html="markdownToHTML" id="markdownPreview"></div>
       </div>
-      <input type="submit" class="btn btn-primary" @click="updateEntry">
+      <input type="submit" class="btn btn-primary mt-4" @click="updateEntry">
       <div>
         <b-button variant="outline-danger" v-on:click="this.deleteEntry" style="margin-top: 25px">Delete this entry</b-button>
       </div>
