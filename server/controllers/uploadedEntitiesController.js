@@ -20,7 +20,6 @@ router.get("/api/v1/uploadedEntities", function (req, res, next) {
 
 // Creates an uploaded entity in the DB when an image is uploaded
 router.post("/api/v1/uploadedEntities", function(req, res, next) {
-    //const entry = new entryModel(req.body);
     let id = uuid.v4();
     const uploadedEntity = new uploadedEntitiesModel({
         _id: id,
