@@ -30,6 +30,7 @@
         </div>
       </div>
     </div>
+
     <div class="col-md-7">
       <div class="form-floating">
         <textarea id="entryTextEditor" v-model="markdownEntry" aria-label="Entry" class="form-control text-bg-dark"
@@ -41,8 +42,11 @@
         <div v-html="markdownToHTML" id="markdownPreview"></div>
       </div>
       <input type="submit" class="btn btn-primary" @click="updateEntry">
-      <b-button variant="outline-danger" v-on:click="this.deleteEntry">Delete this entry</b-button>
+      <div>
+        <b-button variant="outline-danger" v-on:click="this.deleteEntry" style="margin-top: 25px">Delete this entry</b-button>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -122,6 +126,7 @@ export default {
     },
     deleteEntry() {
       Api.post('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + "/entry_list/" + this.entry._id + "?_method=DELETE")
+      location.reload()
     }
   },
 

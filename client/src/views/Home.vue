@@ -9,7 +9,7 @@
       <div style="font-style: italic; color: #000000; font-size: 12px">
         This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
       </div>
-      
+
       <div id="entryInputContainer" class="container-fluid sticky-top">
         <div id="entryInput" class="row g-0 text-bg-dark">
           <div class="col-3">
