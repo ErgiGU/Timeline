@@ -98,7 +98,7 @@ export default {
       event.target.style.height = "auto";
       event.target.style.height = event.target.scrollHeight + "px";
     },
-    
+
     updateEntry() {
       let date_date = document.getElementById('entryDateEditor').value
       let created_date = this.entry.created_date

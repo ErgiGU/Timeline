@@ -22,19 +22,19 @@
             </div>
           </div>
           <div class="col-6 g-0">
-              <div class="form-floating">
+              <div class="form-floating" id="entryText">
                 <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
                         placeholder="Entry"></textarea>
                 <label for="entryText">Entry</label>
               </div>
           </div>
           <div class="d-grid gap-2 col-3">
-            <button class="btn btn-outline-light" @click="previewEntry" data-bs-target="#previewModal" data-bs-toggle="modal">Preview Entry</button>
-            <button class="btn btn-outline-light" @click="createEntry">Create Entry</button>
+            <button class="btn btn-outline-light" id="entryButton" @click="previewEntry" data-bs-target="#previewModal" data-bs-toggle="modal">Preview Entry</button>
+            <button class="btn btn-outline-light" id="entryButton" @click="createEntry">Create Entry</button>
           </div>
         </div>
-        <div style="font-style: italic; color: #383838">
-          This website supports markdown!
+        <div style="font-style: italic; color: #8c8a8a; font-size: 12px">
+          This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
         </div>
       </div>
 
@@ -210,22 +210,27 @@ export default {
 #entryDate {
   margin: 0;
   border-radius: 5px 0 0 0;
-  min-height: 60px;
+  min-height: 74px;
   height: 100%;
 }
 
 #entryLocation {
   margin: 0;
   border-radius: 0 0 0 5px;
-  min-height: 60px;
+  min-height: 74px;
   height: 100%;
   resize: none;
 }
 
 #entryText {
   margin: 0;
-  min-height: 120px;
+  min-height: 140px;
   height: 100%;
+}
+
+#entryButton {
+  width: 100%;
+  max-width: 100%;
 }
 
 .btn_message {
