@@ -73,6 +73,12 @@ import UserImage from "@/components/sidebar/UserImage";
 
 export default {
   name: 'SideBar',
+  props : {
+    totalEntries: String,
+    averageWord: String,
+    totalImages: String,
+    totalSize: String
+  },
   components: {
     'change-info': ChangeUserInfo,
     'change-password': ChangePassword,
@@ -82,10 +88,6 @@ export default {
   },
   data() {
     return {
-      totalEntries: 'NaN',
-      averageWord: 'NaN',
-      totalImages: 'NaN',
-      totalSize: 'NaN',
       firstName: 'First-Name',
       surname: 'Surname',
       dateBirth: 'Date-of-Birth',
@@ -109,18 +111,6 @@ export default {
           this.surname = response.data.surname
           this.dateBirth = response.data.date_of_birth
           this.email = response.data.email
-        })
-        .catch(error => {
-          this.message = error
-        })
-    },
-    getStatistics() {
-      Api.get('/v1/statistics/' + this.parseJwt(localStorage.token)._id)
-        .then(response => {
-          this.totalEntries = response.data.totalEntries
-          this.averageWord = response.data.averageWord
-          this.totalImages = response.data.totalImages
-          this.totalSize = response.data.totalSize
         })
         .catch(error => {
           this.message = error
@@ -169,7 +159,6 @@ export default {
   mounted() {
     this.getUserInfo()
     this.getDimensions()
-    this.getStatistics()
     window.addEventListener('resize', this.getDimensions)
   },
   unmounted() {
