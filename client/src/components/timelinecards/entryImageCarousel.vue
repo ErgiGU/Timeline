@@ -1,5 +1,5 @@
 <template>
-  <div :id="'a'+this.entryID" class="carousel carousel-dark slide" data-bs-ride="carousel">
+  <div :id="'a'+this.entryID" class="carousel carousel-dark slide" data-bs-interval="false">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <video v-if="this.entityURL.includes('video')" :src="this.entityURL" class="d-block w-100" controls/>
