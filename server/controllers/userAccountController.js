@@ -3,6 +3,8 @@ const userAccountModel = require("../models/userAccountModel");
 //const userPassword = require("../models/userPasswordModel");
 const router = express.Router();
 const uuid = require('uuid');
+const entryModel = require("../models/entryModel");
+const uploadedEntitiesModel = require("../models/uploadedEntitiesModel");
 //const bcrypt = require("bcrypt");
 
 // Gets all the user accounts
@@ -134,6 +136,26 @@ router.patch("/api/v1/userAccounts/:id", function (req, res, next) {
 router.delete("/api/v1/userAccounts/:id", function (req, res, next) {
     let id = req.params.id;
     try {
+        userAccountModel.findById(id, function (err, userAccount) {
+            if (err) {
+                return next(err);
+            }
+            userAccount.entry_list.forEach(element => {
+                entryModel.findById(element, function (err, entry) {
+                    try {
+                        if (err) {
+                            return next(err);
+                        }
+                        entry.uploaded_entities_list.forEach(uploadedElement =>
+                            uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement})
+                        )
+                    }catch(err) {
+                        res.status(400).json({ message: err.message });
+                    }
+                })
+                entryModel.findOneAndDelete({_id: element});
+            });
+        });
         userAccountModel.findOneAndDelete({_id: id}, function (err, userAccount) {
             if (err) {
                 return next(err);

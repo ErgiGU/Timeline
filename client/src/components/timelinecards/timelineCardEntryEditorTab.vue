@@ -41,6 +41,7 @@
         <div v-html="markdownToHTML" id="markdownPreview"></div>
       </div>
       <input type="submit" class="btn btn-primary" @click="updateEntry">
+      <b-button variant="outline-danger" v-on:click="this.deleteEntry">Delete this entry</b-button>
     </div>
   </div>
 </template>
@@ -118,6 +119,9 @@ export default {
         console.log(response.data)
         this.$emit('edited', response.data)
       })
+    },
+    deleteEntry() {
+      Api.post('/v1/userAccounts/' + this.parseJwt(localStorage.token)._id + "/entry_list/" + this.entry._id + "?_method=DELETE")
     }
   },
 

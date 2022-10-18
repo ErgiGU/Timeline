@@ -3,6 +3,7 @@ const userAccountModel = require("../models/userAccountModel");
 const entryModel = require("../models/entryModel");
 const router = express.Router();
 const uuid = require('uuid');
+const uploadedEntitiesModel = require("../models/uploadedEntitiesModel");
 
 //Get all entry or get all by filter if query
 router.get("/api/v1/entries", function (req, res, next) {
@@ -144,6 +145,19 @@ router.patch("/api/v1/entries/:id", function (req, res, next) {
 //Deletes an entry
 router.delete("/api/v1/entries/:id", function (req, res, next) {
     let id = req.params.id;
+    entryModel.findById(id, function (err, entry) {
+        try {
+            if (err) {
+                return next(err);
+            }
+            entry.uploaded_entities_list.forEach(uploadedElement =>{
+                console.log(uploadedElement)
+                uploadedEntitiesModel.findOneAndDelete({_id: uploadedElement})
+            })
+        }catch(err) {
+            res.status(400).json({ message: err.message });
+        }
+    })
     entryModel.findOneAndDelete({_id: id}, function (err, entry) {
         try {
             if (err) {
