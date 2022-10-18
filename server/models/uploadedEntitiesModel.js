@@ -13,15 +13,7 @@ const uploadedEntitiesSchema = new Schema({
     entry: {
         type: String,
         ref: "entry"
-    },
-    metadata: [{
-        filename: {
-            type: String,
-        },
-        location: {
-            type: String,
-        }
-    }]
+    }
 });
 
 module.exports = mongoose.model('uploadedEntity', uploadedEntitiesSchema);
