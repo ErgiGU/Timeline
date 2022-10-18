@@ -1,8 +1,8 @@
 <template>
   <div style="display: flex; justify-content: space-between">
-    <drop-down></drop-down>
+    <drop-down :average-word="averageWord" :total-entries="totalEntries" :total-images="totalImages" :total-size="totalSize"/>
     <div id="topContainer" class="row" style="">
-      <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline"></b-jumbotron>
+      <b-jumbotron id="jumboTron" style="position:relative; color: white;" header="Timeline"></b-jumbotron>
 
       <div style="font-style: italic; font-size: 12px">
         This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
@@ -36,7 +36,6 @@
           </div>
         </div>
       </div>
-
 
       <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -95,7 +94,11 @@ export default {
   data() {
     return {
       markdownEntry: "",
-      entries: []
+      entries: [],
+      totalEntries: 0,
+      averageWord: 0,
+      totalImages: 0,
+      totalSize: 0
     }
   },
 
@@ -103,6 +106,18 @@ export default {
     resizeTextarea(event) {
       event.target.style.height = "auto";
       event.target.style.height = event.target.scrollHeight + "px";
+    },
+    getStatistics() {
+      Api.get('/v1/statistics/' + this.parseJwt(localStorage.token)._id)
+        .then(response => {
+          this.totalEntries = response.data.totalEntries
+          this.averageWord = response.data.averageWord
+          this.totalImages = response.data.totalImages
+          this.totalSize = response.data.totalSize
+        })
+        .catch(error => {
+          this.message = error
+        })
     },
 
     previewEntry() {
@@ -140,6 +155,7 @@ export default {
           })
         })
       }
+      this.getStatistics()
     },
 
     getEntries() {
@@ -148,6 +164,7 @@ export default {
           this.entries = response.data.sort(function (a, b) {
             return ((b.date_date) - (a.date_date));
           });
+          this.getStatistics()
         })
     },
 
@@ -162,6 +179,7 @@ export default {
   },
 
   mounted() {
+    this.getStatistics()
     this.$nextTick(() => {
       // DOM updated
       document.getElementById('entryText').setAttribute(
