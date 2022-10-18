@@ -119,8 +119,6 @@ export default {
       let url = '/v1/entries/' + this.entry._id
 
       Api.patch(url, entry).then(response => {
-        console.log("Final response")
-        console.log(response.data)
         this.$emit('edited', response.data)
       })
     },

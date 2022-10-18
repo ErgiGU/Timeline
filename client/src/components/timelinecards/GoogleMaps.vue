@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     mapsLocation() {
-      console.log(this.urlSource)
       this.urlSource = this.urlSource + this.mapLocation
     }
   },
