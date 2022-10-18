@@ -8,7 +8,7 @@
           x
         </b-button>
       </template>
-      <form v-on:submit="function1">
+      <form v-on:submit="deleteUser">
         <div style="display: flex; flex-direction: column">
           <p>Warning! This action is not revertable. Your account with all it's entries and images will be
             permanently
@@ -62,9 +62,7 @@ export default {
         this.checked = false
       }
     },
-    function1(event) {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      //const forms = document.querySelectorAll('.needs-validation');
+    deleteUser(event) {
       const pass = document.getElementById('pass');
       const confPass = document.getElementById('confPass');
       if (pass.checkValidity() && confPass.checkValidity()) {
@@ -94,14 +92,10 @@ export default {
       Api.post("/v1/verifyPassword", {_id: user._id, password: checkPass.value}).then((response) => {
         if (response.data.message === "Correct password") {
           checkPass.setCustomValidity("");
-        } else {
-          checkPass.setCustomValidity("Invalid password")
         }
       },(failResponse) => {
-          console.log(failResponse.response.status);
           if(failResponse.response.status === 404){
             checkPass.setCustomValidity("Invalid password")
-            console.log("wowingggg")
           }else {
             checkPass.setCustomValidity("");
           }

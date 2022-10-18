@@ -2,7 +2,7 @@
   <div class="container vh-100">
     <div class="row needs-validation justify-content-center" id="rowContainer">
       <div class="col-md-4" id="parentContainer">
-        <form id="registrationForm" v-on:submit="function1">
+        <form id="registrationForm" v-on:submit="register">
           <h2 class="text-center text-white mb-3" style="top: 100px; ">Create an account</h2>
           <b-alert v-model="showDismissibleAlert" variant="success" style="line-height: 10px">
             Registration Successful!
@@ -77,9 +77,8 @@ export default {
     }
   },
   methods: {
-    function1(event) {
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      //const forms = document.querySelectorAll('.needs-validation');
+    register(event) {
+
       const fName = document.getElementById('fName');
       const lName = document.getElementById('lName');
       const email = document.getElementById('email');
@@ -135,13 +134,9 @@ export default {
     },
     checkIfEmailExists() {
       const email = document.getElementById('email');
-      let body = {
-        'email': email.value
-      }
       email.setCustomValidity("");
-      Api.post('/v1/checkEmail', body).then(result => {
-        if (result.data === "Email already exists") {
-          console.log(result.data);
+      Api.post('/v1/checkEmail', {email:email.value}).then(result => {
+        if (result.data.message === "Email already exists") {
           email.setCustomValidity("Email already exists");
         }
       });
