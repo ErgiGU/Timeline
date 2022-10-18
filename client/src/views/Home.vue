@@ -37,7 +37,6 @@
         </div>
       </div>
 
-
       <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
