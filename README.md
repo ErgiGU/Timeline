@@ -73,5 +73,6 @@ A personal page where users can easily create diary-like entries arranged in a t
 
 ![ER Diagram](./images/ERdiagram3.0.png)
 
-## Teaser (MS3)
+## Timeline Teaser (MS3)
 
+![Timeline Teaser](./images/Timeline Demo.png)
