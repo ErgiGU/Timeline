@@ -4,7 +4,7 @@
     <div id="topContainer" class="row" style="">
       <b-jumbotron id="jumboTron" style="position:relative;" header="Timeline"></b-jumbotron>
 
-      <div style="font-style: italic; color: #000000; font-size: 12px">
+      <div style="font-style: italic; font-size: 12px">
         This website supports <a href="https://commonmark.org/help/" target=”_blank”>markdown</a>!
       </div>
 
