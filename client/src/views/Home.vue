@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="col-6 g-0">
-              <div class="form-floating" id="entryText">
+              <div class="form-floating">
                 <textarea id="entryText" aria-label="Entry" class="form-control text-bg-dark"
                         placeholder="Entry"></textarea>
                 <label for="entryText">Entry</label>
