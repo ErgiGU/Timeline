@@ -75,4 +75,4 @@ A personal page where users can easily create diary-like entries arranged in a t
 
 ## Timeline Teaser (MS3)
 
-![Timeline Teaser](./images/Timeline Demo.png)
+![Timeline Teaser](./images/Timeline%20Demo.png)
